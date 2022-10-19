@@ -20,7 +20,6 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
-using InternManager.Business.Concrate;
 
 namespace InternManager.WebUI.Controllers
 {
@@ -238,35 +237,33 @@ namespace InternManager.WebUI.Controllers
             var students = _studentManager.GetById(myId);
             return View(students);
         }
-
-        [HttpGet]
+        [HttpPost]
         public IActionResult Intern1Main()
         {
+            var student = _studentManager.GetById(myId);
+            var person = _personManager.Get(student.PersonId.ToString());
+            string myPath = BossModel.ByteArrayToImageAsync(person.Image);
+            ViewData["path"] = myPath;
+            ViewData["Name"] = person.NameSurname;
+            myId = student.StudentNumber;
 
-            return View();
+            return View(student);
         }
-        [HttpPost]
-        public IActionResult Intern1Main(Teacher teacher)
+
+        [HttpGet]
+        public IActionResult Intern1Main(int id)
         {
+            var student = _studentManager.GetById(myId);
+            var person = _personManager.Get(student.PersonId.ToString());
+            string myPath = BossModel.ByteArrayToImageAsync(person.Image);
+            ViewData["path"] = myPath;
+            ViewData["Name"] = person.NameSurname;
+            myId = student.StudentNumber;
 
-            MD5 md5 = new MD5CryptoServiceProvider();
-            md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(teacher.TeacherPassword));
-            byte[] result = md5.Hash;
-            StringBuilder strBuilder = new StringBuilder();
-            for (int i = 0; i < result.Length; i++)
-            {
-                strBuilder.Append(result[i].ToString("x2"));
-            }
-            if (_teacherManager.GetTeacher(teacher.TeacherNumber, strBuilder.ToString()) != null)
-            {
-                return RedirectToAction("Index", "Teacher", _teacherManager.GetById(teacher.TeacherNumber));
-            }
-            else
-            {
-                TempData["LoginError"] = "Hatali Bir Giriş Yaptiniz !.";
-                return View();
-            }
+            return View(student);
+
         }
+
 
     }
 }
