@@ -190,6 +190,19 @@ namespace InternManager.WebUI.Controllers
 
             return View();
         }
+        [HttpGet]
+        public IActionResult ListStudents()
+        {
+            TeacherModel model = new TeacherModel();
+            var student = _studentManager.GetAll();
+            var teacher = _teacherManager.GetById(myId);
+            ViewData["path"] = myPath;
+            ViewData["Name"] = _person.NameSurname;
+            model.StudentList = student;
+            model.Teacher = teacher;
+            return View(model);
+        }
+
 
     }
 }
