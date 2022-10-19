@@ -178,12 +178,6 @@ namespace InternManager.Controllers
                 return View();
             }
         }
-        [HttpGet]
-        public IActionResult Inter1Page(int id)
-        {
-            ViewData["Message"] = "Your contact page.";
-            return View();
-        }
 
     }
 }
