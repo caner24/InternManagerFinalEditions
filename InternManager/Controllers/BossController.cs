@@ -204,5 +204,20 @@ namespace InternManager.WebUI.Controllers
             _internManager.Update(intern);
             return View();
         }
+
+        [HttpGet]
+        public IActionResult ListTeachers()
+        {
+            BossModel model = new BossModel();
+            var personList = _personManager.GetAll();
+            foreach (var item in personList)
+            {
+                item.Civilization = BossModel.ByteArrayToImageAsync(item.Image);
+            }
+            model.PersonList = personList;
+
+            return View(model);
+        }
+
     }
 }
