@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternManager.Entities", "I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternManager.Tests", "InternManager.Tests\InternManager.Tests.csproj", "{46C5C54F-5967-4A17-A51D-E729DA00C122}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternManager.Business.Tests", "InternManager.Business.Tests\InternManager.Business.Tests.csproj", "{40A15B1C-AB41-4B57-AF4C-520E67CCF0E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{46C5C54F-5967-4A17-A51D-E729DA00C122}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46C5C54F-5967-4A17-A51D-E729DA00C122}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46C5C54F-5967-4A17-A51D-E729DA00C122}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40A15B1C-AB41-4B57-AF4C-520E67CCF0E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40A15B1C-AB41-4B57-AF4C-520E67CCF0E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40A15B1C-AB41-4B57-AF4C-520E67CCF0E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40A15B1C-AB41-4B57-AF4C-520E67CCF0E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
