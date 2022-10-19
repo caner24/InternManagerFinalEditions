@@ -1,0 +1,25 @@
+﻿@model BossModel
+
+@section pages{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">AdSoyad</th>
+                <th scope="col">OgretmenNumarası</th>
+                <th scope="col">OgrenmenMaili</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (var item in Model.TeacherList)
+            {
+                <tr>
+                    <th scope="row">1</th>
+                    <td>@item.TeacherNumber</td>
+                    <td>@item.TeacherMail</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
