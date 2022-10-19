@@ -1,0 +1,65 @@
+﻿@model Intern
+@{
+    Layout = "_Layout";
+}
+@section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="https://i1.rgstatic.net/ii/profile.image/932039775760384-1599227007023_Q512/Serdar-Solak-2.jpg"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>Serdar Solak</h6>
+        <p><span class="online_animation"></span>Yönetici</p>
+    </div>
+}
+    @section menus{
+    <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        <i class="fa fa-dashboard yellow_color"></i> <span>İşlemler</span>
+    </a>
+    <ul class="collapse list-unstyled" id="dashboard">
+        <li>
+            <a asp-controller="Boss" asp-action="CreateTeacher"> <span>Komisyon İşlemleri</span></a>
+        </li>
+        <li>
+            <a href="#apps" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-object-group blue2_color"></i> <span>Staj İşlemleri</span></a>
+            <ul class="collapse list-unstyled" id="apps">
+                <li><a asp-action="Intern1Page" asp-controller="Student"><span>Staj-1</span></a></li>
+                <li><a asp-action="Intern2Page" asp-controller="Student"><span>Staj-2</span></a></li>
+                <li><a asp-action="ISE" asp-controller="Student"><span>ISE</span></a></li>
+            </ul>
+        </li>
+    </ul>
+}
+    @section pages{
+
+    <form asp-controller="Boss" asp-action="IseDet" method="post">
+        <div class="form-group">
+            <label asp-for="Id"></label>
+            <input type="text" asp-for="Id" />
+        </div>
+        <div class="form-group">
+            <label asp-for="RecStart"></label>
+            <input type="date" asp-for="RecStart" />
+        </div>
+        <div class="form-group">
+            <label asp-for="RecEnd"></label>
+            <input type="date" asp-for="RecEnd" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="RecStart2"></label>
+            <input type="date" asp-for="RecStart2" />
+        </div>
+        <div class="form-group">
+            <label asp-for="RecEnd2"></label>
+            <input type="date" asp-for="RecEnd2" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Type"></label>
+            <input type="text" asp-for="Type" value="ISE" />
+        </div>
+        <button type="submit" class="btn btn-primary">Staj Tarihi Güncelle</button>
+    </form>
+
+}

@@ -1,0 +1,55 @@
+﻿@model RegisterModel
+@{
+    Layout = "";
+}
+<html>
+
+<head>
+    <link rel="stylesheet" href="~/css/Login.css" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+            async defer>
+    </script>
+</head>
+<body>
+    <div class="login">
+
+        <div class="login-header">
+
+            <div class="img-content"> <img class="logos" src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"></div>
+
+            <form asp-controller="Student" asp-action="RegisterPanel" method="post">
+
+                <div class="form-group">
+                    <label asp-for="Persons.NameSurname"></label>
+                    <input type="text" asp-for="Persons.NameSurname" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Persons.Image"></label>
+                    <input type="file" asp-for="Persons.Image" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Students.StudentNumber"></label>
+                    <input type="text" asp-for="Students.StudentNumber" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Students.StudentPassword"></label>
+                    <input  type="password" asp-for="Students.StudentPassword" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save Blog</button>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        function enableBtn() {
+            document.getElementById("login-1").disabled = false;
+        }
+    </script>
+</body>
+</html>
+

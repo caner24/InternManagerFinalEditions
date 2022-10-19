@@ -1,0 +1,106 @@
+﻿@model TeacherModel
+@{
+    Layout = "_Layout";
+}
+@if (Model.Teacher.IsFirstPassword == true)
+{
+    @section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="@ViewData["Path"]"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>@ViewData["Name"]</h6>
+        <p><span class="online_animation"></span>Komisyon</p>
+    </div>
+}
+    @section pages{
+    <h4>@Model.Teacher.TeacherNumber</h4>
+    <div class="row column1">
+        <div class="col-md-6">
+            <div class="full counter_section margin_bottom_30">
+                <div class="couter_icon">
+                    <div>
+                        <i class="fa fa-user yellow_color"></i>
+                    </div>
+                </div>
+                <a asp-action="add" asp-controller="Boss" class="counter_no">
+                    <div>
+                        <p class="total_no">2500</p>
+                        <p class="head_couter">Komisyon</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="full counter_section margin_bottom_30">
+                <div class="couter_icon">
+                    <div>
+                        <i class="fa fa-clock-o blue1_color"></i>
+                    </div>
+                </div>
+                <div class="counter_no">
+                    <div>
+                        <p class="total_no">123.50</p>
+                        <p class="head_couter">Dilekçesi Onaylanan Öğrenciler </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @section menus{
+    <li>
+        <a href="#apps" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-object-group blue2_color"></i> <span>Staj İşlemleri</span></a>
+        <ul class="collapse list-unstyled" id="apps">
+            <li><a asp-action="Intern1Main" asp-controller="Student" ><span>Staj-1</span></a></li>
+            <li><a asp-action="Intern2Page" asp-controller="Student"><span>Staj-2</span></a></li>
+            <li><a asp-action="ISE" asp-controller="Student"><span>ISE</span></a></li>
+        </ul>
+    </li>
+
+    <li>
+          <a href="#apps2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-object-group blue2_color"></i> <span>Ogrenci İslemleri</span></a>
+        <ul class="collapse list-unstyled" id="apps2">
+            <a asp-action="ListStudents" asp-controller="Teacher"><span>Öğrencileri Listele</span></a>
+            <a asp-action="OgrenciAktar" asp-controller="Teacher"><span>Öğrencileri Aktar</span></a>
+        </ul>
+        
+    </li>
+
+    }
+}
+
+@if (Model.Teacher.IsFirstPassword == false)
+{
+    @section pages{
+
+    <div class="card">
+        <div class="login">
+
+            <div class="login-header">
+
+                <div class="img-content"> <img class="logos" src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"></div>
+                <h3>Lütfen ilk giriş için şifrenizi değiştiriniz !. ve Fotoğraf Ekleyiniz</h3>
+                <form asp-controller="Teacher" asp-action="Index" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="number">Ogrenci Numarasi</label>
+                        <input hidden name="number" id="number" type="text" placeholder="@Model.Teacher.TeacherNumber" value="@Model.Teacher.TeacherNumber" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Şifreniz : </label>
+                        <input required type="text" name="password" id="password" class="btn btn-primary" />
+                    </div>
+                    <div class="form-group">
+                        <label for="@Model.Persons.Image"></label>
+                        <input required type="file" class="btn btn-primary" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Blog</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+        }
+}

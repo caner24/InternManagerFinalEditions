@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - InternManager</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><i class="fa-solid fa-bars"></i></li>
+            <li class="center-footer"><h3>Bilgi Yönetim Sistemleri</h3></li>
+        </ul>
+    </nav>
+
+    <article>
+
+        <section>
+                <a asp-action="BossLogin" asp-controller="Home" class="btn-link"><i class="fas fa-user-graduate"></i>Yönetici Giriş</a>
+                <a class="btn-link" asp-action="TeacherLogin" asp-controller="Home"><i class="fas fa-users"></i>Akademik Giriş</a>
+                <a asp-action="StudentLogin" asp-controller="Home" class="btn-link"><i class="fas fa-user-graduate"></i>Öğrenci Giriş</a>
+        </section>
+    </article>
+
+    <script src="https://kit.fontawesome.com/4f14ff03c0.js" crossorigin="anonymous"></script>
+    @RenderBody()
+</body>
+</html>

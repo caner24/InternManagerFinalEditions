@@ -1,0 +1,19 @@
+﻿*{
+    margin:0px;
+    padding:0px;
+    box-sizing:content-box;
+}
+main-header{
+    display:flex;
+    height:100vh;
+    justify-content:center;
+    align-content:center;
+}
+main-body{
+    border:1px solid black;
+    display:flex;
+    flex-direction:column;
+}
+h3{
+    color:antiquewhite;
+}

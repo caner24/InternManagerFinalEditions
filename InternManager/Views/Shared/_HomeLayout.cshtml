@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="~/css/login.css" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+            async defer>
+    </script>
+</head>
+<body>
+
+    <div class="login">
+        <div class="login-header">
+
+            <div class="img-content"> <img class="logos" src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"></div>
+            @RenderSection("who",false)
+            @if (@TempData["LoginError"] != null)
+            {
+                <div class="errorLogin"><h3>Hatali Bir Giriş Yaptiniz !.</h3></div>
+            }
+              @RenderSection("forms",false)
+        
+            <a id="login-2" disabled="disabled" asp-action="ResetPassword" asp-controller="Home" class="left">Şifremi Unuttum</a>
+        </div>
+    </div>
+     <script type="text/javascript">
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        //var onloadCallback = function () {
+        //    alert("Sisteme giriş yapamk için re-chapta geçmeniz gerekmektedir.");
+        //};
+        function enableBtn() {
+            document.getElementById("login-1").disabled = false;
+            document.getElementById("login-1").classList.add("button-1");
+            document.getElementById("login-2").disabled = false;
+            document.getElementById("login-2").classList.add("button-1");
+        }
+    </script>
+</body>
+</html>

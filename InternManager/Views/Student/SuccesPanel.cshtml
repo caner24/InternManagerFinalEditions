@@ -1,0 +1,14 @@
+﻿@model Student
+
+@{
+    Layout = "_StudentLayout";
+}
+
+<div class="main-header">
+   <div class="main-body">
+       <form method="post" asp-action="Index" asp-controller="StudentController">
+        <h3>Bilgileri Başarili Bir Şekilde Gönderdiz.! Sayin @Model.StudentNumber</h3>
+            <input type="submit" value="Devam" />
+        </form>
+</div>
+</div>

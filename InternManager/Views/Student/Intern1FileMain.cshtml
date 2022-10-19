@@ -1,0 +1,50 @@
+﻿@model StudentModel
+@{
+    Layout = "_Layout";
+}
+
+@section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="@ViewData["Path"]"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>
+            @ViewData["Name"]
+        </h6>
+        <p><span class="online_animation"></span>Öğrenci</p>
+    </div>
+}
+    @section menus{
+    <li>
+        <a href="#apps" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-object-group blue2_color"></i> <span>Staj İşlemleri</span></a>
+        <ul class="collapse list-unstyled" id="apps">
+            <li><a asp-action="Intern1Main" asp-controller="Student"><span>Staj-1</span></a></li>
+            <li><a asp-action="Intern2Page" asp-controller="Student"><span>Staj-2</span></a></li>
+            <li><a asp-action="ISE" asp-controller="Student"><span>ISE</span></a></li>
+        </ul>
+    </li>
+}
+    @section pages{
+    <div class="d-flex">
+        <div class="col-md-12 justify-content-center ">
+            <div class="full counter_section margin_bottom_30">
+                <div class="couter_icon">
+                    <div>
+                        <i class="fa-regular fa-pen-to-square yellow_color"></i>
+                    </div>
+                </div>
+              
+                    <div>
+                        <p>Staj Evraki Yüklemek İçin Dosya Seçin</p>
+                    <form enctype="multipart/form-data" asp-action="Intern1FileMain" asp-controller="Student">
+
+                        <input name="file" id="file" type="file" asp-for="Intern1s.DetailDocument" />
+
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </div>
+}

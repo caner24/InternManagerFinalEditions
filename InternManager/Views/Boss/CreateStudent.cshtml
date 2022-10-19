@@ -1,0 +1,65 @@
+﻿@model RegisterModel
+@{
+    Layout = "_Layout";
+}
+
+@section pages{
+    <div class="login">
+
+        <div class="login-header">
+
+            <div class="img-content"> <img class="logos" src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"></div>
+
+            <form asp-controller="Boss" asp-action="CreateStudent" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label asp-for="Persons.IdentyNumber"></label>
+                    <input type="text" asp-for="Persons.IdentyNumber" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Persons.NameSurname"></label>
+                    <input type="text" asp-for="Persons.NameSurname" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Persons.Gender"></label>
+                    <input type="text" asp-for="Persons.Gender" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Persons.Civilization"></label>
+                    <input name="file" id="file" type="text" asp-for="Persons.Civilization" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Persons.Image"></label>
+                    <input name="file" id="file" type="file" asp-for="Persons.Image" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Persons.PhoneNumber"></label>
+                    <input type="text" asp-for="Persons.PhoneNumber" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Students.StudentNumber"></label>
+                    <input type="text" asp-for="Students.StudentNumber" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Students.StudentMail"></label>
+                    <input type="text" asp-for="Students.StudentMail" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Fakülte.Id"></label>
+                    <select class="form-control" asp-for="Fakülte.Id" asp-items="ViewBag.Categories">
+                        <option disabled selected value="">Fakülte Seçimi</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Blog</button>
+            </form>
+        </div>
+    </div>
+}
+
+

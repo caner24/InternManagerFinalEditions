@@ -1,0 +1,18 @@
+﻿@model Teacher
+@{
+    Layout = "_HomeLayout";
+}
+@section who{
+    <h3>ÖĞRENCİ BİLGİ SİSTEMİ / KOMİSYON</h3>
+}
+@section forms{
+    <form method="post" asp-action="TeacherLogin" asp-controller="Home">
+
+        <input required type="text" asp-for="TeacherNumber" placeholder="Komisyon Numara">
+        <input required asp-for="TeacherPassword" type="password" placeholder="ÖBS Şifreniz">
+        <div class="g-recaptcha" data-sitekey="6LeaATUiAAAAAMzyY4We68btgAjg4NrKtFbSzLaK" data-callback="enableBtn"></div>
+        <div class="login-footer">
+            <button disabled="disabled" id="login-1" type="submit">Giriş Yap</button>
+        </div>
+    </form>
+}

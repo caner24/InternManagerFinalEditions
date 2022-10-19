@@ -1,0 +1,64 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: content-box;
+}
+
+body {
+    background-color: #ffcccc;
+    display: flex;
+    flex-direction: column;
+}
+
+.myNavbar {
+    padding: 5px;
+    flex: 0 0 100%;
+    background-color: yellow;
+    color: black;
+}
+
+article {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+section {
+    flex: 0 0 30%;
+    margin-top: 50px;
+}
+
+.card {
+    padding:1%;
+    flex: 0 0 25%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 10px;
+    border: 2px solid black;
+}
+
+.card-header {
+    background-color: black;
+    color: white;
+}
+
+.card-body {
+    margin-top:1%;
+    flex: 0 0 25%;
+    justify-content:center;
+    display: flex;
+}
+
+.card-footer {
+    margin-top: 1%;
+    background-color: black;
+}
+
+img {
+   width:500px;
+   height:250px;
+    object-fit: fill;
+}
+mouse:hover{
+    cursor:pointer;
+}

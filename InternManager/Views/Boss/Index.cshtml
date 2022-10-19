@@ -1,0 +1,167 @@
+﻿@model BossModel
+@{
+    Layout = "_Layout";
+}
+@section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="https://i1.rgstatic.net/ii/profile.image/932039775760384-1599227007023_Q512/Serdar-Solak-2.jpg"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>Serdar Solak</h6>
+        <p><span class="online_animation"></span>Yönetici</p>
+    </div>
+}
+    @section menus{
+    <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        <i class="fa fa-dashboard yellow_color"></i> <span>İşlemler</span>
+    </a>
+    <ul class="collapse list-unstyled" id="dashboard">
+        <li>
+            <a href="dashboard.html">> <span>Komisyon İşlemleri</span></a>
+        </li>
+        <li>
+            <a href="dashboard_2.html">> <span>Öğrenci İşlemleri</span></a>
+        </li>
+    </ul>
+}
+    @section pages{
+    <div class="d-flex">
+        <div class="col-md-5 justify-content-center ">
+            <div class="full counter_section margin_bottom_30">
+                <div class="couter_icon">
+                    <div>
+                        <i class="fa fa-user yellow_color"></i>
+                    </div>
+                </div>
+                <a asp-action="CreateTeacher" asp-controller="Boss" class="counter_no">
+                    <div>
+
+                        <p class="head_couter">Komisyon</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="me-5 col-md-5">
+            <div class="full counter_section margin_bottom_30">
+                <div class="couter_icon">
+                    <div>
+                        <i class="fa fa-clock-o blue1_color"></i>
+                    </div>
+                </div>
+                <div class="counter_no">
+                    <div>
+                        <p class="total_no">@ViewData["OnaylıDilekçeler"]</p>
+                        <p class="head_couter">Dilekçesi Onaylanan Öğrenciler </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row column3">
+
+        <div class=" col-md-11">
+            <div class="dark_bg full margin_bottom_30">
+                <div class="full graph_head">
+                    <div class="heading1 margin_0">
+                        <h2>Komisyon Hocalari</h2>
+                    </div>
+                </div>
+                <div class="full graph_revenue">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="content testimonial">
+                                <div id="testimonial_slider" class="carousel slide" data-ride="carousel">
+
+                                    <div class="carousel-inner">
+                                        <div class="item carousel-item active">
+                                            <div class="img-box">
+                                                <img src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"
+                                                 alt="">
+                                            </div>
+                                            <p class="testimonial">Komisyon</p>
+                                            <p class="overview">Komisyon Listesi<b>®</b></p>
+                                        </div>
+                                        @foreach (var item in Model.PersonList)
+                                        {
+                                            <div class="item carousel-item">
+                                                <div class="img-box">
+                                                    <img src="@item.Civilization"
+                                                 alt="">
+                                                </div>
+                                                <p class="testimonial">Komisyon</p>
+                                                <p class="overview">@item.NameSurname<b>®</b></p>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <a class="carousel-control left carousel-control-prev"
+                                   href="#testimonial_slider" data-slide="prev">
+                                        <i class="fa fa-angle-left"></i>
+                                    </a>
+                                    <a class="carousel-control right carousel-control-next"
+                                   href="#testimonial_slider" data-slide="next">
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row column4 graph">
+        <div class="col-md-11 margin_bottom_30">
+            <div class="dash_blog">
+                <div class="dash_blog_inner">
+                    <div class="dash_head">
+                        <h3><span><i class="fa fa-calendar"></i>&nbsp 11.10.2022</span></h3>
+                    </div>
+                    <div class="list_cont">
+                        <p>Staj Yönetimi</p>
+                    </div>
+                    <div class="task_list_main">
+                        <ul class="task_list">
+                            <li>
+                                <a asp-controller="Boss" asp-action="InternDet" asp-route-type="@ViewData["Staj1Type"]">Staj-1</a><br><strong>
+                                    @ViewData["Staj1Tarih"] /  @ViewData["Staj1Tarih2"]
+                                    Or
+                                    @ViewData["Staj1TarihV1"] /  @ViewData["Staj1TarihV2"]
+                                </strong>
+                            </li>
+                            <li>
+                                <a asp-controller="Boss" asp-action="Intern2Det" asp-route-type="@ViewData["Staj2Type"]">Staj-2</a><br><strong>
+                                     @ViewData["Staj2Tarih"] /  @ViewData["Staj2Tarih2"]
+                                    Or
+                                    @ViewData["Staj2TarihV1"] /  @ViewData["Staj2TarihV2"]
+                                </strong>
+                            </li>
+                            <li>
+                                <a asp-controller="Boss" asp-action="ISEDet" asp-route-type="@ViewData["IseType"]">İşyerinde Mesleki Eğitim</a><br><strong>
+                                    @ViewData["ISE"] /  @ViewData["ISE2"]
+                                    Or
+                                    @ViewData["ISEV1"] /  @ViewData["ISEV2"]
+                                </strong>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="footer">
+                <p>
+                    Kocaeli Universitesi Öğrencileri Tarafindan Yapilmistir<br><br>
+                    Distributed By:Caner Ay Celep , Eyup Ayaz , İsa Oguz , Mehmet Yusuf Alpay<a href="https://themewagon.com/">®</a>
+                </p>
+            </div>
+        </div>
+    </div>
+}
