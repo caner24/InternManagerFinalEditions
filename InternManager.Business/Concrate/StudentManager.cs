@@ -24,6 +24,11 @@ namespace InternManager.Business.Concrate
             _studentManager.Delete(entity);
         }
 
+        public Student Get(string number)
+        {
+           return _studentManager.Get(i=>i.Id==Convert.ToInt32(number));
+        }
+
         public List<Student> GetAll()
         {
             return _studentManager.GetAll();
@@ -32,6 +37,11 @@ namespace InternManager.Business.Concrate
         public Student GetById(string number)
         {
             return _studentManager.GetById(i => i.StudentNumber == number);
+        }
+
+        public Student GetByPersonıd(string number)
+        {
+            return _studentManager.GetById(i => i.PersonId == Convert.ToInt32(number));
         }
 
         public Student getPerson(string number, string password)

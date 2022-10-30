@@ -21,7 +21,7 @@
             }
               @RenderSection("forms",false)
         
-            <a id="login-2" disabled="disabled" asp-action="ResetPassword" asp-controller="Home" class="left">Şifremi Unuttum</a>
+<a id="login-2" asp-action="ResetPassword" asp-controller="Home" aria-current="page">Şifremi Unuttum</a>
         </div>
     </div>
      <script type="text/javascript">
@@ -33,6 +33,7 @@
             document.getElementById("login-1").disabled = false;
             document.getElementById("login-1").classList.add("button-1");
             document.getElementById("login-2").disabled = false;
+            document.getElementById("login-2").removeAttribute("aria-current");
             document.getElementById("login-2").classList.add("button-1");
         }
     </script>

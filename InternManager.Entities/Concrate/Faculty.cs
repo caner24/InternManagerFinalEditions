@@ -15,8 +15,6 @@ namespace InternManager.Entities.Concrate
         public int? FacultyNumber { get; set; }
 
 
-        [Required(ErrorMessage = "Lütfen Fakülte Adi Giriniz")]
-
         public string FacultyName { get; set; }
     }
 }

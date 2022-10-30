@@ -2,14 +2,16 @@
 @{
     Layout = "_Layout";
 }
+@if (Model.Teacher.IsFirstPassword == true)
+{
 @section info{
     <div class="user_img">
         <img class="img-responsive"
-         src="https://i1.rgstatic.net/ii/profile.image/932039775760384-1599227007023_Q512/Serdar-Solak-2.jpg"
+         src="@ViewData["Path"]"
          alt="#" />
     </div>
     <div class="user_info">
-        <h6>Serdar Solak</h6>
+        <h6>@ViewData["Name"]</h6>
         <p><span class="online_animation"></span>Yönetici</p>
     </div>
 }
@@ -19,44 +21,59 @@
     </a>
     <ul class="collapse list-unstyled" id="dashboard">
         <li>
-            <a href="dashboard.html">> <span>Komisyon İşlemleri</span></a>
+            <a asp-action="ListStudent" asp-controller="Boss">> <span>Öğrenci Listele</span></a>
         </li>
         <li>
-            <a href="dashboard_2.html">> <span>Öğrenci İşlemleri</span></a>
+            <a asp-action="ListTeachers" asp-controller="Boss">> <span>Öğretmen Listele</span></a>
+        </li>
+        @if (ViewBag.isBoss)
+        {
+            <li>
+                    <a asp-action="ListBoss" asp-controller="Boss"> <span>>Yönetici Listele</span></a>
+            </li>
+        }
+        <li>
+            <a asp-action="CreateStudent" asp-controller="Boss">> <span>>Öğrenci Ekle</span></a>
+        </li>
+        <li>
+            <a asp-action="OgrenciAktar" asp-controller="Boss">> <span>>Öğrenci Aktar</span></a>
         </li>
     </ul>
 }
     @section pages{
-    <div class="d-flex">
-        <div class="col-md-5 justify-content-center ">
+    <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-around">
+        <div class="col-md-4">
             <div class="full counter_section margin_bottom_30">
                 <div class="couter_icon">
-                    <div>
-                        <i class="fa fa-user yellow_color"></i>
-                    </div>
-                </div>
-                <a asp-action="CreateTeacher" asp-controller="Boss" class="counter_no">
-                    <div>
-
-                        <p class="head_couter">Komisyon</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="me-5 col-md-5">
-            <div class="full counter_section margin_bottom_30">
-                <div class="couter_icon">
-                    <div>
-                        <i class="fa fa-clock-o blue1_color"></i>
+                    <div class="text-center">
+                        <i class="fas fa-user-graduate blue1_color"></i>
                     </div>
                 </div>
                 <div class="counter_no">
-                    <div>
-                        <p class="total_no">@ViewData["OnaylıDilekçeler"]</p>
-                        <p class="head_couter">Dilekçesi Onaylanan Öğrenciler </p>
+                    <div class="text-center">
+                        <h3>Sayılarla Komisyon</h3>
+                        <p class="head_couter">Öğretmen Sayisi : @ViewData["TeacherCount"] </p>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-4 ">
+            <div class="full counter_section margin_bottom_30">
+                <div class="couter_icon">
+                    <div class="text-center">
+                        <i class="fas fa-user-graduate blue1_color"></i>
+                    </div>
+                </div>
+                <div class="counter_no">
+                    <div class="text-center">
+                        <h3>Sayılarla Öğrenciler</h3>
+                        <p class="total_no">@ViewData["OnaylıDilekçeler"]</p>
+                        <p class="head_couter">Öğrenci Sayisi : @ViewData["StudentCount"] </p>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
 
@@ -67,7 +84,7 @@
             <div class="dark_bg full margin_bottom_30">
                 <div class="full graph_head">
                     <div class="heading1 margin_0">
-                        <h2>Komisyon Hocalari</h2>
+                        <h2>Yönetici Hocalar</h2>
                     </div>
                 </div>
                 <div class="full graph_revenue">
@@ -82,19 +99,22 @@
                                                 <img src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"
                                                  alt="">
                                             </div>
-                                            <p class="testimonial">Komisyon</p>
-                                            <p class="overview">Komisyon Listesi<b>®</b></p>
+                                            <p class="testimonial">Yönetici</p>
+                                            <p class="overview">Yönetici Listesi<b>®</b></p>
                                         </div>
-                                        @foreach (var item in Model.PersonList)
+                                        @if (Model.PersonList != null)
                                         {
-                                            <div class="item carousel-item">
-                                                <div class="img-box">
-                                                    <img src="@item.Civilization"
+                                            @foreach (var item in Model.PersonList)
+                                            {
+                                                <div class="item carousel-item">
+                                                    <div class="img-box">
+                                                        <img src="@item.Civilization"
                                                  alt="">
+                                                    </div>
+                                                        <p class="testimonial">Yönetici</p>
+                                                    <p class="overview">@item.NameSurname<b>®</b></p>
                                                 </div>
-                                                <p class="testimonial">Komisyon</p>
-                                                <p class="overview">@item.NameSurname<b>®</b></p>
-                                            </div>
+                                            }
                                         }
                                     </div>
 
@@ -121,7 +141,7 @@
             <div class="dash_blog">
                 <div class="dash_blog_inner">
                     <div class="dash_head">
-                        <h3><span><i class="fa fa-calendar"></i>&nbsp 11.10.2022</span></h3>
+                        <h3><span><i class="fa fa-calendar"></i>&nbsp @ViewData["gDate"]</span></h3>
                     </div>
                     <div class="list_cont">
                         <p>Staj Yönetimi</p>
@@ -129,21 +149,21 @@
                     <div class="task_list_main">
                         <ul class="task_list">
                             <li>
-                                <a asp-controller="Boss" asp-action="InternDet" asp-route-type="@ViewData["Staj1Type"]">Staj-1</a><br><strong>
+                                <a>Staj-1</a><br><strong>
                                     @ViewData["Staj1Tarih"] /  @ViewData["Staj1Tarih2"]
                                     Or
                                     @ViewData["Staj1TarihV1"] /  @ViewData["Staj1TarihV2"]
                                 </strong>
                             </li>
                             <li>
-                                <a asp-controller="Boss" asp-action="Intern2Det" asp-route-type="@ViewData["Staj2Type"]">Staj-2</a><br><strong>
-                                     @ViewData["Staj2Tarih"] /  @ViewData["Staj2Tarih2"]
+                                <a>Staj-2</a><br><strong>
+                                    @ViewData["Staj2Tarih"] /  @ViewData["Staj2Tarih2"]
                                     Or
                                     @ViewData["Staj2TarihV1"] /  @ViewData["Staj2TarihV2"]
                                 </strong>
                             </li>
                             <li>
-                                <a asp-controller="Boss" asp-action="ISEDet" asp-route-type="@ViewData["IseType"]">İşyerinde Mesleki Eğitim</a><br><strong>
+                                <a>İşyerinde Mesleki Eğitim</a><br><strong>
                                     @ViewData["ISE"] /  @ViewData["ISE2"]
                                     Or
                                     @ViewData["ISEV1"] /  @ViewData["ISEV2"]
@@ -164,4 +184,50 @@
             </div>
         </div>
     </div>
+}
+}
+else  {
+
+    @section pages{
+
+    <div class="card">
+        <div class="login">
+
+            <div class="login-header">
+
+                <div class="img-content"> <img class="logos" src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"></div>
+                <h3>Lütfen ilk giriş için şifrenizi değiştiriniz ve bir fotoğraf yükleyiniz !.</h3>
+
+                <form asp-controller="Student" asp-action="Index" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="number">Ogrenci Numarasi</label>
+                        <input hidden name="number" id="number" type="text" placeholder="@Model.Teacher.TeacherNumber" value="@Model.Teacher.TeacherNumber" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Şifreniz : </label>
+                        <input required type="password" name="password" id="password" class="btn btn-primary" />
+                    </div>
+                        @if (ViewData["path"] == null)
+                        {
+                            <div class="form-group">
+                                <label>Resim Seçin</label>
+                                <input required type="file" name="file" id="file" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label hidden>Resim Seçin</label>
+                                <input hidden type="file" name="file" id="file" />
+                            </div>
+                        }
+
+                        <button type="submit" class="btn btn-primary">Save Blog</button>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+        }
 }

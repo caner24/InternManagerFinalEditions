@@ -1,0 +1,220 @@
+﻿@model BossModel
+@{
+    Layout = "_Layout";
+}
+@if (Model.Teacher.IsFirstPassword == true)
+{
+    @section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="@ViewData["Path"]"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>@ViewData["Name"]</h6>
+        <p><span class="online_animation"></span>Komisyon</p>
+    </div>
+}
+    @section menus{
+    <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        <i class="fa fa-dashboard yellow_color"></i> <span>İşlemler</span>
+    </a>
+    <ul class="collapse list-unstyled" id="dashboard">
+        <li>
+            <a asp-action="ListTeachers" asp-controller="Komisyon">> <span>Öğretmen Listele</span></a>
+        </li>
+        <li>
+            <a asp-action="ListStudent" asp-controller="Komisyon">> <span>Öğrenci Listele</span></a>
+        </li>
+    </ul>
+}
+    @section pages{
+    <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-around">
+            <div class="col-md-4">
+                <div class="full counter_section margin_bottom_30">
+                    <div class="couter_icon">
+                        <div class="text-center">
+                            <i class="fas fa-user-graduate blue1_color"></i>
+                        </div>
+                    </div>
+                    <div class="counter_no">
+                        <div class="text-center">
+                            <h3>Sayılarla Öğretmen</h3>
+                            <p class="head_couter">Öğretmen Sayisi : @ViewData["TeacherCount"] </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 ">
+                <div class="full counter_section margin_bottom_30">
+                    <div class="couter_icon">
+                        <div class="text-center">
+                            <i class="fas fa-user-graduate blue1_color"></i>
+                        </div>
+                    </div>
+                    <div class="counter_no">
+                        <div class="text-center">
+                            <h3>Sayılarla Öğrenciler</h3>
+                            <p class="total_no">@ViewData["OnaylıDilekçeler"]</p>
+                            <p class="head_couter">Öğrenci Sayisi : @ViewData["StudentCount"] </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row column3">
+
+        <div class=" col-md-11">
+            <div class="dark_bg full margin_bottom_30">
+                <div class="full graph_head">
+                    <div class="heading1 margin_0">
+                        <h2>Komisyon Hocalari</h2>
+                    </div>
+                </div>
+                <div class="full graph_revenue">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="content testimonial">
+                                <div id="testimonial_slider" class="carousel slide" data-ride="carousel">
+
+                                    <div class="carousel-inner">
+                                        <div class="item carousel-item active">
+                                            <div class="img-box">
+                                                <img src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"
+                                                 alt="">
+                                            </div>
+                                            <p class="testimonial">Komisyon</p>
+                                            <p class="overview">Komisyon Listesi<b>®</b></p>
+                                        </div>
+                                            @if (Model.PersonList != null)
+                                            {
+                                                @foreach (var item in Model.PersonList)
+                                                {
+                                                    <div class="item carousel-item">
+                                                        <div class="img-box">
+                                                            <img src="@item.Civilization"
+                                                 alt="">
+                                                        </div>
+                                                        <p class="testimonial">Komisyon</p>
+                                                        <p class="overview">@item.NameSurname<b>®</b></p>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+
+                                        <a class="carousel-control left carousel-control-prev"
+                                   href="#testimonial_slider" data-slide="prev">
+                                            <i class="fa fa-angle-left"></i>
+                                        </a>
+                                        <a class="carousel-control right carousel-control-next"
+                                   href="#testimonial_slider" data-slide="next">
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row column4 graph">
+            <div class="col-md-11 margin_bottom_30">
+                <div class="dash_blog">
+                    <div class="dash_blog_inner">
+                        <div class="dash_head">
+                            <h3><span><i class="fa fa-calendar"></i>&nbsp @ViewData["gDate"]</span></h3>
+                        </div>
+                        <div class="list_cont">
+                            <p>Staj Yönetimi</p>
+                        </div>
+                        <div class="task_list_main">
+                            <ul class="task_list">
+                                <li>
+                                    <a asp-controller="Komisyon" asp-action="Staj1Date" asp-route-type="@ViewData["Staj1Type"]">Staj-1</a><br><strong>
+                                        @ViewData["Staj1Tarih"] /  @ViewData["Staj1Tarih2"]
+                                        Or
+                                        @ViewData["Staj1TarihV1"] /  @ViewData["Staj1TarihV2"]
+                                    </strong>
+                                </li>
+                                <li>
+                                    <a asp-controller="Komisyon" asp-action="Staj2Date" asp-route-type="@ViewData["Staj2Type"]">Staj-2</a><br><strong>
+                                        @ViewData["Staj2Tarih"] /  @ViewData["Staj2Tarih2"]
+                                        Or
+                                        @ViewData["Staj2TarihV1"] /  @ViewData["Staj2TarihV2"]
+                                    </strong>
+                                </li>
+                                <li>
+                                    <a asp-controller="Komisyon" asp-action="ISEDate" asp-route-type="@ViewData["IseType"]">İşyerinde Mesleki Eğitim</a><br><strong>
+                                        @ViewData["ISE"] /  @ViewData["ISE2"]
+                                        Or
+                                        @ViewData["ISEV1"] /  @ViewData["ISEV2"]
+                                    </strong>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="footer">
+                    <p>
+                        Kocaeli Universitesi Öğrencileri Tarafindan Yapilmistir<br><br>
+                        Distributed By:Caner Ay Celep , Eyup Ayaz , İsa Oguz , Mehmet Yusuf Alpay<a href="https://themewagon.com/">®</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+}
+}
+else
+{
+    @section pages{
+
+    <div class="card">
+        <div class="login">
+
+            <div class="login-header">
+
+                <div class="img-content"> <img class="logos" src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"></div>
+                <h3>Lütfen ilk giriş için şifrenizi değiştiriniz ve bir fotoğraf yükleyiniz !.</h3>
+
+                <form asp-controller="Komisyon" asp-action="Index" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="number">Ogrenci Numarasi</label>
+                        <input hidden name="number" id="number" type="text" placeholder="@Model.Teacher.TeacherNumber" value="@Model.Teacher.TeacherNumber" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Şifreniz : </label>
+                        <input required type="password" name="password" id="password" class="btn btn-primary" />
+                    </div>
+                        @if (ViewData["path"] == null)
+                        {
+                            <div class="form-group">
+                                <label>Resim Seçin</label>
+                                <input required type="file" name="file" id="file" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label hidden>Resim Seçin</label>
+                                <input hidden type="file" name="file" id="file" />
+                            </div>
+                        }
+
+                        <button type="submit" class="btn btn-primary">Save Blog</button>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+        }
+}

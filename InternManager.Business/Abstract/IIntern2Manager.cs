@@ -10,6 +10,7 @@ namespace InternManager.Business.Abstract
         List<Intern2> GetAll();
         Intern2 GetById(string id);
         void Add(Intern2 entity);
+        List<Intern2> Get(string id);
         void Delete(Intern2 entity);
         void Update(Intern2 entity);
     }

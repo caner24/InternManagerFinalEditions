@@ -2,8 +2,43 @@
 @{
     Layout = "_Layout";
 }
-
-@section pages{
+@section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="@ViewData["Path"]"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>@ViewData["Name"]</h6>
+        <p><span class="online_animation"></span>Yönetici</p>
+    </div>
+}
+    @section menus{
+    <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        <i class="fa fa-dashboard yellow_color"></i> <span>İşlemler</span>
+    </a>
+    <ul class="collapse list-unstyled" id="dashboard">
+        <li>
+            <a asp-action="ListStudent" asp-controller="Boss">> <span>Öğrenci Listele</span></a>
+        </li>
+        <li>
+            <a asp-action="ListTeachers" asp-controller="Boss">> <span>Öğretmen Listele</span></a>
+        </li>
+        @if (ViewBag.isBoss)
+        {
+            <li>
+                <a asp-action="ListTeachers" asp-controller="Boss"> <span>>Yönetici Listele</span></a>
+            </li>
+        }
+        <li>
+            <a asp-action="CreateStudent" asp-controller="Boss">> <span>>Öğrenci Ekle</span></a>
+        </li>
+        <li>
+            <a asp-action="OgrenciAktar" asp-controller="Boss">> <span>>Öğrenci Aktar</span></a>
+        </li>
+    </ul>
+}
+    @section pages{
     <div class="login">
 
         <div class="login-header">
@@ -12,47 +47,57 @@
 
             <form asp-controller="Boss" asp-action="CreateStudent" method="post" enctype="multipart/form-data">
 
+                <div><span class="text-danger" asp-validation-for="Persons.IdentyNumber"></span></div>
                 <div class="form-group">
                     <label asp-for="Persons.IdentyNumber"></label>
-                    <input type="text" asp-for="Persons.IdentyNumber" />
+                    <input required type="text" asp-for="Persons.IdentyNumber" />
                 </div>
+                <div><span class="text-danger" asp-validation-for="Persons.NameSurname"></span></div>
                 <div class="form-group">
                     <label asp-for="Persons.NameSurname"></label>
-                    <input type="text" asp-for="Persons.NameSurname" />
+                    <input required type="text" asp-for="Persons.NameSurname" />
                 </div>
-
+                <div><span class="text-danger" asp-validation-for="Persons.Gender"></span></div>
                 <div class="form-group">
                     <label asp-for="Persons.Gender"></label>
-                    <input type="text" asp-for="Persons.Gender" />
-                </div>
+                    <div class="d-flex">
+                        <input required type="radio" asp-for="Persons.Gender" value="E" >Erkek
+                        <input required type="radio" asp-for="Persons.Gender" value="K" >Kadın
+                    </div>
 
+                </div>
+                <div><span class="text-danger" asp-validation-for="Persons.Civilization"></span></div>
                 <div class="form-group">
                     <label asp-for="Persons.Civilization"></label>
-                    <input name="file" id="file" type="text" asp-for="Persons.Civilization" />
+                    <input required type="text" asp-for="Persons.Civilization" />
                 </div>
-
+                <div><span class="text-danger" asp-validation-for="Persons.Image"></span></div>
                 <div class="form-group">
+
                     <label asp-for="Persons.Image"></label>
-                    <input name="file" id="file" type="file" asp-for="Persons.Image" />
+                    <input required name="file" id="file" type="file" asp-for="Persons.Image" />
                 </div>
-
+                <div><span class="text-danger" asp-validation-for="Persons.PhoneNumber"></span></div>
                 <div class="form-group">
+
                     <label asp-for="Persons.PhoneNumber"></label>
-                    <input type="text" asp-for="Persons.PhoneNumber" />
+                    <input required type="text" asp-for="Persons.PhoneNumber" />
                 </div>
-
+                <div><span class="text-danger" asp-validation-for="Students.StudentNumber"></span></div>
                 <div class="form-group">
-                    <label asp-for="Students.StudentNumber"></label>
-                    <input type="text" asp-for="Students.StudentNumber" />
-                </div>
 
+                    <label asp-for="Students.StudentNumber"></label>
+                    <input required type="text" asp-for="Students.StudentNumber" />
+                </div>
+                <div><span class="text-danger" asp-validation-for="Students.StudentMail"></span></div>
                 <div class="form-group">
                     <label asp-for="Students.StudentMail"></label>
-                    <input type="text" asp-for="Students.StudentMail" />
+                    <input required type="text" asp-for="Students.StudentMail" />
                 </div>
+                <div><span class="text-danger" asp-validation-for="Fakülte.Id"></span></div>
                 <div class="form-group">
                     <label asp-for="Fakülte.Id"></label>
-                    <select class="form-control" asp-for="Fakülte.Id" asp-items="ViewBag.Categories">
+                    <select required class="form-control" asp-for="Fakülte.Id" asp-items="ViewBag.Categories">
                         <option disabled selected value="">Fakülte Seçimi</option>
                     </select>
                 </div>
@@ -61,5 +106,3 @@
         </div>
     </div>
 }
-
-

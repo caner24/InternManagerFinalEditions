@@ -1,8 +1,8 @@
-﻿@model TeacherModel
+﻿@model Teacher
 @{
     Layout = "_Layout";
 }
-@if (Model.Teacher.IsFirstPassword == true)
+@if (Model.IsFirstPassword == true)
 {
     @section info{
     <div class="user_img">
@@ -16,7 +16,7 @@
     </div>
 }
     @section pages{
-    <h4>@Model.Teacher.TeacherNumber</h4>
+    <h4>@Model.TeacherNumber</h4>
     <div class="row column1">
         <div class="col-md-6">
             <div class="full counter_section margin_bottom_30">
@@ -64,7 +64,7 @@
           <a href="#apps2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-object-group blue2_color"></i> <span>Ogrenci İslemleri</span></a>
         <ul class="collapse list-unstyled" id="apps2">
             <a asp-action="ListStudents" asp-controller="Teacher"><span>Öğrencileri Listele</span></a>
-            <a asp-action="OgrenciAktar" asp-controller="Teacher"><span>Öğrencileri Aktar</span></a>
+            <a asp-action="ExcellToDb" asp-controller="Teacher" asp-route-id="@Model.TeacherNumber"><span>Öğrencileri Aktar</span></a>
         </ul>
         
     </li>
@@ -72,7 +72,7 @@
     }
 }
 
-@if (Model.Teacher.IsFirstPassword == false)
+@if (Model.IsFirstPassword == false)
 {
     @section pages{
 
@@ -82,25 +82,38 @@
             <div class="login-header">
 
                 <div class="img-content"> <img class="logos" src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"></div>
-                <h3>Lütfen ilk giriş için şifrenizi değiştiriniz !. ve Fotoğraf Ekleyiniz</h3>
+                <h3>Lütfen ilk giriş için şifrenizi değiştiriniz ve bir fotoğraf yükleyiniz !.</h3>
+
                 <form asp-controller="Teacher" asp-action="Index" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="number">Ogrenci Numarasi</label>
-                        <input hidden name="number" id="number" type="text" placeholder="@Model.Teacher.TeacherNumber" value="@Model.Teacher.TeacherNumber" />
+                        <input hidden name="number" id="number" type="text" placeholder="@Model.TeacherNumber" value="@Model.TeacherNumber" />
                     </div>
                     <div class="form-group">
                         <label for="password">Şifreniz : </label>
-                        <input required type="text" name="password" id="password" class="btn btn-primary" />
+                        <input required type="password" name="password" id="password" class="btn btn-primary" />
                     </div>
-                    <div class="form-group">
-                        <label for="@Model.Persons.Image"></label>
-                        <input required type="file" class="btn btn-primary" />
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save Blog</button>
-                </form>
+                        @if (ViewData["path"] == null)
+                        {
+                            <div class="form-group">
+                                <label>Resim Seçin</label>
+                                <input required type="file" name="file" id="file" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label hidden>Resim Seçin</label>
+                                <input hidden type="file" name="file" id="file" />
+                            </div>
+                        }
 
+                        <button type="submit" class="btn btn-primary">Save Blog</button>
+                    </form>
+
+                </div>
             </div>
+
         </div>
-    </div>
         }
 }

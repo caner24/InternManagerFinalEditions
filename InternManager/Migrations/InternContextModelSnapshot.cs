@@ -42,8 +42,7 @@ namespace InternManager.WebUI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("FacultyName")
-                        .IsRequired();
+                    b.Property<string>("FacultyName");
 
                     b.Property<int?>("FacultyNumber")
                         .IsRequired();
@@ -59,13 +58,20 @@ namespace InternManager.WebUI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Dönem")
+                        .IsRequired();
+
                     b.Property<DateTime>("RecEnd");
 
-                    b.Property<DateTime>("RecEnd2");
+                    b.Property<DateTime>("RecFileEnd");
+
+                    b.Property<DateTime>("RecFileEnd2");
+
+                    b.Property<DateTime>("RecFileStart");
+
+                    b.Property<DateTime>("RecFileStart2");
 
                     b.Property<DateTime>("RecStart");
-
-                    b.Property<DateTime>("RecStart2");
 
                     b.Property<string>("Type");
 
@@ -80,35 +86,42 @@ namespace InternManager.WebUI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreateDate");
+                    b.Property<byte[]>("DetailDocument")
+                        .IsRequired();
 
-                    b.Property<byte[]>("DetailDocument");
+                    b.Property<byte[]>("DetailDocument2")
+                        .IsRequired();
 
-                    b.Property<DateTime>("EndDate");
-
-                    b.Property<string>("Info");
+                    b.Property<string>("Info")
+                        .IsRequired();
 
                     b.Property<int>("InternId");
 
                     b.Property<bool>("IsOk");
 
-                    b.Property<int>("KurumId");
+                    b.Property<bool>("IsOk2");
 
-                    b.Property<string>("Note");
+                    b.Property<string>("Note")
+                        .IsRequired();
 
-                    b.Property<string>("OkDays");
+                    b.Property<string>("OkDays")
+                        .IsRequired();
 
-                    b.Property<DateTime>("StartDate");
+                    b.Property<DateTime>("RecEnd");
+
+                    b.Property<DateTime>("RecFileEnd");
+
+                    b.Property<DateTime>("RecFileStart");
+
+                    b.Property<DateTime>("RecStart");
 
                     b.Property<int>("Student_Id");
 
-                    b.Property<int>("TotalDays");
+                    b.Property<int>("TeacherId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("InternId");
-
-                    b.HasIndex("KurumId");
 
                     b.HasIndex("Student_Id");
 
@@ -121,35 +134,42 @@ namespace InternManager.WebUI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreateDate");
+                    b.Property<byte[]>("DetailDocument")
+                        .IsRequired();
 
-                    b.Property<byte[]>("DetailDocument");
+                    b.Property<byte[]>("DetailDocument2")
+                        .IsRequired();
 
-                    b.Property<DateTime>("EndDate");
-
-                    b.Property<string>("Info");
+                    b.Property<string>("Info")
+                        .IsRequired();
 
                     b.Property<int>("InternId");
 
                     b.Property<bool>("IsOk");
 
-                    b.Property<int>("KurumId");
+                    b.Property<bool>("IsOk2");
 
-                    b.Property<string>("Note");
+                    b.Property<string>("Note")
+                        .IsRequired();
 
-                    b.Property<string>("OkDays");
+                    b.Property<string>("OkDays")
+                        .IsRequired();
 
-                    b.Property<DateTime>("StartDate");
+                    b.Property<DateTime>("RecEnd");
+
+                    b.Property<DateTime>("RecFileEnd");
+
+                    b.Property<DateTime>("RecFileStart");
+
+                    b.Property<DateTime>("RecStart");
 
                     b.Property<int>("Student_Id");
 
-                    b.Property<int>("TotalDays");
+                    b.Property<int>("TeacherId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("InternId");
-
-                    b.HasIndex("KurumId");
 
                     b.HasIndex("Student_Id");
 
@@ -162,86 +182,63 @@ namespace InternManager.WebUI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreateDate");
+                    b.Property<byte[]>("DetailDocument")
+                        .IsRequired();
 
-                    b.Property<byte[]>("DetailDocument");
+                    b.Property<byte[]>("DetailDocument2")
+                        .IsRequired();
 
-                    b.Property<DateTime>("EndDate");
-
-                    b.Property<string>("Info");
+                    b.Property<string>("Info")
+                        .IsRequired();
 
                     b.Property<int>("InternId");
 
                     b.Property<bool>("IsOk");
 
-                    b.Property<int>("KurumId");
+                    b.Property<bool>("IsOk2");
 
-                    b.Property<string>("Note");
+                    b.Property<string>("Note")
+                        .IsRequired();
 
-                    b.Property<string>("OkDays");
+                    b.Property<string>("OkDays")
+                        .IsRequired();
 
-                    b.Property<DateTime>("StartDate");
+                    b.Property<DateTime>("RecEnd");
+
+                    b.Property<DateTime>("RecFileEnd");
+
+                    b.Property<DateTime>("RecFileStart");
+
+                    b.Property<DateTime>("RecStart");
 
                     b.Property<int>("Student_Id");
 
-                    b.Property<int>("TotalDays");
+                    b.Property<int>("TeacherId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("InternId");
-
-                    b.HasIndex("KurumId");
 
                     b.HasIndex("Student_Id");
 
                     b.ToTable("Ises");
                 });
 
-            modelBuilder.Entity("InternManager.Entities.Concrate.Kurum", b =>
+            modelBuilder.Entity("InternManager.Entities.Concrate.Komisyon", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Adress")
-                        .IsRequired();
+                    b.Property<bool>("IsSuper");
 
-                    b.Property<string>("City")
-                        .IsRequired();
-
-                    b.Property<bool>("DevletKatkisi");
-
-                    b.Property<string>("FaaliyetAlani")
-                        .IsRequired();
-
-                    b.Property<string>("Fax");
-
-                    b.Property<string>("FirmaYetkiliAdSoyad")
-                        .IsRequired();
-
-                    b.Property<string>("KurumMail");
-
-                    b.Property<string>("PostalCode")
-                        .IsRequired();
-
-                    b.Property<string>("ResmiAd")
-                        .IsRequired();
-
-                    b.Property<string>("StajSorumlusu")
-                        .IsRequired();
-
-                    b.Property<string>("TelNo");
-
-                    b.Property<string>("TelNo2");
-
-                    b.Property<string>("Town")
-                        .IsRequired();
-
-                    b.Property<bool>("Unvan");
+                    b.Property<int>("TeacherId");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Kurums");
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("Komisyons");
                 });
 
             modelBuilder.Entity("InternManager.Entities.Concrate.Person", b =>
@@ -250,19 +247,23 @@ namespace InternManager.WebUI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Civilization");
+                    b.Property<string>("Civilization")
+                        .IsRequired();
 
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 1)));
 
-                    b.Property<string>("IdentyNumber");
+                    b.Property<string>("IdentyNumber")
+                        .IsRequired();
 
                     b.Property<byte[]>("Image");
 
-                    b.Property<string>("NameSurname");
+                    b.Property<string>("NameSurname")
+                        .IsRequired();
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -275,25 +276,20 @@ namespace InternManager.WebUI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Adress");
-
-                    b.Property<string>("City");
-
                     b.Property<int>("FacultyId");
 
                     b.Property<bool>("IsFirstPassword");
 
                     b.Property<int>("PersonId");
 
-                    b.Property<string>("PostalCode");
+                    b.Property<string>("StudentMail")
+                        .IsRequired();
 
-                    b.Property<string>("StudentMail");
+                    b.Property<string>("StudentNumber")
+                        .IsRequired();
 
-                    b.Property<string>("StudentNumber");
-
-                    b.Property<string>("StudentPassword");
-
-                    b.Property<string>("Town");
+                    b.Property<string>("StudentPassword")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -312,17 +308,18 @@ namespace InternManager.WebUI.Migrations
 
                     b.Property<int>("FacultyNumber");
 
-                    b.Property<bool>("IsBoos");
-
                     b.Property<bool>("IsFirstPassword");
 
                     b.Property<int>("PersonId");
 
-                    b.Property<string>("TeacherMail");
+                    b.Property<string>("TeacherMail")
+                        .IsRequired();
 
-                    b.Property<string>("TeacherNumber");
+                    b.Property<string>("TeacherNumber")
+                        .IsRequired();
 
-                    b.Property<string>("TeacherPassword");
+                    b.Property<string>("TeacherPassword")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -348,11 +345,6 @@ namespace InternManager.WebUI.Migrations
                         .HasForeignKey("InternId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("InternManager.Entities.Concrate.Kurum", "KurumPk")
-                        .WithMany()
-                        .HasForeignKey("KurumId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("InternManager.Entities.Concrate.Student", "StudentPk")
                         .WithMany()
                         .HasForeignKey("Student_Id")
@@ -364,11 +356,6 @@ namespace InternManager.WebUI.Migrations
                     b.HasOne("InternManager.Entities.Concrate.Intern", "InternPk")
                         .WithMany()
                         .HasForeignKey("InternId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("InternManager.Entities.Concrate.Kurum", "KurumPk")
-                        .WithMany()
-                        .HasForeignKey("KurumId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("InternManager.Entities.Concrate.Student", "StudentPk")
@@ -384,14 +371,17 @@ namespace InternManager.WebUI.Migrations
                         .HasForeignKey("InternId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("InternManager.Entities.Concrate.Kurum", "KurumPk")
-                        .WithMany()
-                        .HasForeignKey("KurumId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("InternManager.Entities.Concrate.Student", "StudentPk")
                         .WithMany()
                         .HasForeignKey("Student_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("InternManager.Entities.Concrate.Komisyon", b =>
+                {
+                    b.HasOne("InternManager.Entities.Concrate.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

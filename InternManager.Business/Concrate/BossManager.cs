@@ -32,7 +32,7 @@ namespace InternManager.Business.Concrate
 
         public Boss GetById(string id)
         {
-           return _bossManager.GetById(i=>i.Id==Convert.ToInt32(id));
+           return _bossManager.GetById(i=>i.TeacherId==Convert.ToInt32(id));
         }
 
         public bool IsSuperBoss(int teacherId)

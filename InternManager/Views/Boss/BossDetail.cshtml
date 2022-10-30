@@ -1,0 +1,150 @@
+﻿@model BossModel
+@{
+    Layout = "_Layout";
+}
+@section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="@ViewData["StudentPath"]"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>@ViewData["Name"]</h6>
+        <p><span class="online_animation"></span>Yönetici</p>
+    </div>
+}
+    @section menus{
+    <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        <i class="fa fa-dashboard yellow_color"></i> <span>İşlemler</span>
+    </a>
+    <ul class="collapse list-unstyled" id="dashboard">
+        <li>
+            <a asp-action="ListStudent" asp-controller="Boss">> <span>Öğrenci Listele</span></a>
+        </li>
+        <li>
+            <a asp-action="ListTeachers" asp-controller="Boss">> <span>Öğretmen Listele</span></a>
+        </li>
+        @if (ViewBag.isBoss)
+        {
+            <li>
+                <a asp-action="ListTeachers" asp-controller="Boss"> <span>>Yönetici Listele</span></a>
+            </li>
+        }
+        <li>
+            <a asp-action="CreateStudent" asp-controller="Boss">> <span>>Öğrenci Ekle</span></a>
+        </li>
+        <li>
+            <a asp-action="OgrenciAktar" asp-controller="Boss">> <span>>Öğrenci Aktar</span></a>
+        </li>
+    </ul>
+}
+    @section pages{
+    <div class="login h-25">
+
+        <div class="login-header">
+            <div class="img-content"> <img class="logos" src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"></div>
+
+            <form asp-controller="Boss" asp-action="BossDetail" method="post" enctype="multipart/form-data">
+
+                <div><span class="text-danger" asp-validation-for="Persons.NameSurname"></span></div>
+                <div class="form-group">
+                    <label asp-for="Persons.NameSurname"></label>
+                    <input type="text" asp-for="Persons.NameSurname" value="@Model.Persons.NameSurname" />
+                </div>
+
+                <div><span class="text-danger" asp-validation-for="Persons.Image"></span></div>
+                <div class="form-group">
+                    <label asp-for="Persons.Image"></label>
+                    <img style="width:100px;height:100px;" class="logos"
+                     src="@ViewData["Path"]"
+                     alt="#" />
+                    <input type="file" id="file" name="file" asp-for="Persons.Image" />
+                </div>
+
+                <div><span class="text-danger" asp-validation-for="Persons.IdentyNumber"></span></div>
+                <div class="form-group">
+                    <label asp-for="Persons.IdentyNumber"></label>
+                    <input type="text" asp-for="Persons.IdentyNumber" value="@Model.Persons.IdentyNumber" />
+                </div>
+                <div><span class="text-danger" asp-validation-for="Persons.PhoneNumber"></span></div>
+                <div class="form-group">
+                    <label asp-for="Persons.PhoneNumber"></label>
+                    <input type="text" asp-for="Persons.PhoneNumber" value="@Model.Persons.PhoneNumber" />
+                </div>
+
+
+                <div><span class="text-danger" asp-validation-for="Persons.Civilization"></span></div>
+                <div class="form-group">
+                    <label asp-for="Persons.Civilization"></label>
+                    <input type="text" asp-for="Persons.Civilization" value="@Model.Persons.Civilization" />
+                </div>
+
+
+                <div><span class="text-danger" asp-validation-for="Persons.Gender"></span></div>
+                <div class="form-group">
+                    <label asp-for="Persons.Gender"></label>
+                    <input type="text" asp-for="Persons.Gender" value="@Model.Persons.Gender" />
+                </div>
+
+
+                <div><span class="text-danger" asp-validation-for="Teacher.TeacherMail"></span></div>
+                <div class="form-group">
+                    <label asp-for="Teacher.TeacherMail"></label>
+                    <input type="text" asp-for="Teacher.TeacherMail" value="@Model.Teacher.TeacherMail" />
+                </div>
+
+
+                <div><span class="text-danger" asp-validation-for="Teacher.TeacherNumber"></span></div>
+                <div class="form-group">
+                    <label asp-for="Teacher.TeacherNumber"></label>
+                    <input type="text" asp-for="Teacher.TeacherNumber" value="@Model.Teacher.TeacherNumber" />
+                </div>
+
+                <div><span class="text-danger" asp-validation-for="Teacher.TeacherPassword"></span></div>
+                <div class="form-group">
+                    <label hidden asp-for="Teacher.TeacherPassword"></label>
+                    <input hidden type="text" asp-for="Teacher.TeacherPassword" value="@Model.Teacher.TeacherPassword" />
+                </div>
+
+
+                <div><span class="text-danger" asp-validation-for="Teacher.IsFirstPassword"></span></div>
+                <div class="form-group">
+                    <label hidden asp-for="Teacher.IsFirstPassword"></label>
+                    <input hidden type="text" asp-for="Teacher.IsFirstPassword" value="@Model.Teacher.IsFirstPassword" />
+                </div>
+
+
+                <div><span class="text-danger" asp-validation-for="Faculty.Id"></span></div>
+                <div>
+                    <label asp-validation-for="Faculty.Id"></label>
+                    <label>Fakülte Seçimi</label>
+                    <select class="form-control" asp-for="Faculty.Id" asp-items="ViewBag.Categories">
+                        <option disabled selected value="">Fakülte Seçimi</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label asp-validation-for="TestModels.ChosenText"></label>
+                    <label>Rol Seçimi</label>
+                    <select class="form-control" id="cars" asp-for="TestModels.ChosenText">
+                        <option value="ögr">Öğrenci</option>
+                        <option value="kom">Komisyon</option>
+                        <option selected value="ögrtmn">Öğretmen</option>
+                        @if (ViewBag.isSuperBoss == true)
+                        {
+                            <option value="boss">Yönetici</option>
+                        }
+
+                    </select>
+                </div>
+                <div>
+                    <input hidden type="text" asp-for="Teacher.Id" value="@Model.Teacher.Id" />
+                </div>
+                <div>
+                    <input hidden type="text" asp-for="Persons.Id" value="@Model.Persons.Id" />
+                </div>
+                <button type="submit" class="btn btn-primary">Güncelle</button>
+            </form>
+        </div>
+    </div>
+}

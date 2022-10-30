@@ -20,9 +20,22 @@ namespace InternManager.WebUI.Models
         public Person Persons { get; set; }
         public Teacher Teacher { get; set; }
 
-        public Intern Interns { get; set; }
-        public List<Person> PersonList { get; set; }
+        public Student Student { get; set; }
 
+        public TestModel TestModels { get; set; } 
+
+        public Intern Interns { get; set; }
+
+        public Intern1 Staj1 { get; set; }
+
+        public Intern2 Staj2 { get; set; }
+
+
+        public ISE IME { get; set; }
+        public List<Person> PersonList { get; set; }
+        public List<Student> StudentList { get; set; }
+
+        public List<Boss> BossList { get; set; }
         public List<Teacher> TeacherList { get; set; }
         public Faculty Faculty { get; set; }
 
@@ -51,6 +64,25 @@ namespace InternManager.WebUI.Models
             message.From = new MailAddress("incibeyaz215@gmail.com");
             message.Subject = "Şifreniz H.K";
             message.Body = "Oluşturulan Şifreniz  : " + myPassword.ToString();
+            smtpClient.Send(message);
+            return myPassword;
+        }
+
+        public static string SendMail2(string mail,string content)
+        {
+            myPassword = "";
+            MailMessage message = new MailMessage();
+            SmtpClient smtpClient = new SmtpClient();
+
+            smtpClient.UseDefaultCredentials = true;
+            smtpClient.Credentials = new System.Net.NetworkCredential("koustajyonetim@gmail.com", "ilknuarpdakicwpg");
+            smtpClient.Port = 587;
+            smtpClient.Host = "smtp.gmail.com";
+            smtpClient.EnableSsl = true;
+            message.To.Add(mail);
+            message.From = new MailAddress("incibeyaz215@gmail.com");
+            message.Subject = "Şifreniz H.K";
+            message.Body = content;
             smtpClient.Send(message);
             return myPassword;
         }

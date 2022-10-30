@@ -1,0 +1,89 @@
+﻿@model BossModel
+@{
+    Layout = "_Layout";
+}
+@section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="@ViewData["StudentPath"]"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>@ViewData["Name"]</h6>
+        <p><span class="online_animation"></span>Yönetici</p>
+    </div>
+}
+    @section menus{
+    <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        <i class="fa fa-dashboard yellow_color"></i> <span>İşlemler</span>
+    </a>
+    <ul class="collapse list-unstyled" id="dashboard">
+        <li>
+            <a asp-action="ListStudent" asp-controller="Boss">> <span>Öğrenci Listele</span></a>
+        </li>
+        <li>
+            <a asp-action="ListTeachers" asp-controller="Boss">> <span>Öğretmen Listele</span></a>
+        </li>
+        @if (ViewBag.isBoss)
+        {
+            <li>
+                <a asp-action="ListTeachers" asp-controller="Boss"> <span>>Yönetici Listele</span></a>
+            </li>
+        }
+        <li>
+            <a asp-action="CreateStudent" asp-controller="Boss">> <span>>Öğrenci Ekle</span></a>
+        </li>
+        <li>
+            <a asp-action="OgrenciAktar" asp-controller="Boss">> <span>>Öğrenci Aktar</span></a>
+        </li>
+    </ul>
+}
+    @section pages{
+    <div class="login h-25">
+
+        <div class="login-header">
+            <div class="img-content"> <img class="logos" src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"></div>
+            @if (TempData["Eklendi"] != null)
+            {
+                <h3 class="bg-success text-primary">@TempData["Eklendi"]</h3>
+            }
+            <form asp-controller="Boss" asp-action="TeacherDetails" method="post" enctype="multipart/form-data">
+
+                <div><span class="text-danger" asp-validation-for="Persons.NameSurname"></span></div>
+                <div class="form-group">
+                    <label asp-for="Persons.NameSurname"></label>
+                    <input type="text" asp-for="Persons.NameSurname" value="@Model.Persons.NameSurname" />
+                </div>
+
+                <div><span class="text-danger" asp-validation-for="Persons.Image"></span></div>
+                <div class="form-group">
+                    <label asp-for="Persons.Image"></label>
+                    <img style="width:100px;height:100px;" class="logos"
+                     src="@ViewData["Path"]"
+                     alt="#" />
+                </div>
+                <div class="form-group">
+                    <label>Öğrenci Seç</label>
+                    <select class="form-control" asp-for="Faculty.Id" asp-items="ViewBag.Categories">
+                        <option disabled selected value="">Fakülte Seçimi</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Öğrenci Seç</label>
+                    <select class="form-control" asp-for="Student.Id" asp-items="ViewBag.Students">
+                        <option disabled selected value="">Öğrenci Seçimi</option>
+                    </select>
+                </div>
+
+                <div>
+                    <input hidden type="text" asp-for="Persons.Id" value="@Model.Persons.Id" />
+                </div>
+                <div>
+                    <input hidden type="text" asp-for="Teacher.Id" value="@Model.Teacher.Id" />
+                </div>
+                <button type="submit" class="btn btn-primary">Öğrenci Seçimi Yap</button>
+            </form>
+        </div>
+    </div>
+}

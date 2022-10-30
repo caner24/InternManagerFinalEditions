@@ -30,8 +30,10 @@ namespace InternManager.Entities.Concrate
 
         public DbSet<Intern> Interns { get; set; }
 
-        public DbSet<Kurum> Kurums { get; set; }
 
         public DbSet<Teacher> Teachers { get; set; }
+
+        public DbSet<Komisyon> Komisyons { get; set; }
+
     }
 }

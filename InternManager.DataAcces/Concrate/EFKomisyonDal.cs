@@ -9,45 +9,45 @@ using System.Text;
 
 namespace InternManager.DataAcces.Concrate
 {
-    public class EFKurumDal:IKurumDal
+    public class EFKomisyonDal : IKomisyonDal
     {
+
         private InternContext context;
 
-        public EFKurumDal(InternContext _context)
+        public EFKomisyonDal(InternContext _context)
         {
             context = _context;
         }
 
-        public void Add(Kurum entity)
+        public void Add(Komisyon entity)
         {
             var adedEntity = context.Entry(entity);
             adedEntity.State = EntityState.Added;
             context.SaveChanges();
         }
 
-        public void Delete(Kurum entity)
+        public void Delete(Komisyon entity)
         {
             var adedEntity = context.Entry(entity);
             adedEntity.State = EntityState.Deleted;
             context.SaveChanges();
         }
 
-        public List<Kurum> GetAll(Expression<Func<Kurum, bool>> filter = null)
+        public List<Komisyon> GetAll(Expression<Func<Komisyon, bool>> filter = null)
         {
-            return filter == null ? context.Set<Kurum>().ToList() : context.Set<Kurum>().Where(filter).ToList();
+            return filter == null ? context.Set<Komisyon>().ToList() : context.Set<Komisyon>().Where(filter).ToList();
         }
 
-        public Kurum GetById(Expression<Func<Kurum, bool>> filter)
+        public Komisyon GetById(Expression<Func<Komisyon, bool>> filter)
         {
-            return context.Set<Kurum>().FirstOrDefault(filter);
+            return context.Set<Komisyon>().FirstOrDefault(filter);
+        }
+        public Komisyon GetTeachId(Expression<Func<Komisyon, bool>> filter)
+        {
+            return context.Set<Komisyon>().FirstOrDefault(filter);
         }
 
-        public bool IsSuperBoss(int teacherId)
-        {
-            return context.Set<Boss>().FirstOrDefault(i => i.TeacherId == teacherId) == null ? false : true;
-        }
-
-        public void Update(Kurum entity)
+        public void Update(Komisyon entity)
         {
             var adedEntity = context.Entry(entity);
             adedEntity.State = EntityState.Modified;

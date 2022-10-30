@@ -9,7 +9,6 @@ namespace InternManager.WebUI.Models
         public Student Students { get; set; }
         public Intern1 Intern1s { get; set; }
         public Intern2 Intern2s { get; set; }
-        public Kurum Kurums { get; set; }
         public ISE Ises { get; set; }
         public Faculty Faculties { get; set; }
 

@@ -1,9 +1,6 @@
 ﻿@model TeacherModel
-@{
-    Layout = "_Layout";
-}
 
-    @section info{
+@section info{
     <div class="user_img">
         <img class="img-responsive"
          src="@ViewData["Path"]"
@@ -14,15 +11,13 @@
         <p><span class="online_animation"></span>Komisyon</p>
     </div>
 }
-
 @section pages{
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">AdSoyad</th>
-                <th scope="col">OgretmenNumarası</th>
-                <th scope="col">OgrenmenMaili</th>
+                <th scope="col">Öğrenci Numarasi</th>
+                <th scope="col">Ogrenci TelNo</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -31,28 +26,10 @@
                 <tr>
                     <th scope="row">1</th>
                     <td>@item.StudentNumber</td>
-                    <td>@item.StudentPassword</td>
+                    <td>@item.StudentMail</td>
+                    <td><a asp-action="PersonDetails" asp-controller="Boss" asp-route-id="@item.StudentNumber">Detay</a></td>
                 </tr>
             }
         </tbody>
     </table>
-}
-    @section menus{
-    <li>
-        <a href="#apps" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-object-group blue2_color"></i> <span>Staj İşlemleri</span></a>
-        <ul class="collapse list-unstyled" id="apps">
-            <li><a asp-action="Intern1Main" asp-controller="Student"><span>Staj-1</span></a></li>
-            <li><a asp-action="Intern2Page" asp-controller="Student"><span>Staj-2</span></a></li>
-            <li><a asp-action="ISE" asp-controller="Student"><span>ISE</span></a></li>
-        </ul>
-    </li>
-
-    <li>
-        <a href="#apps" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-object-group blue2_color"></i> <span>Öğrenci İşlemleri</span></a>
-        <ul class="collapse list-unstyled" id="apps">
-            <li><a asp-action="ListStudents" asp-controller="Teacher"><span>Öğrencileri Listele</span></a></li>
-        </ul>
-    </li>
-
-    }
 }

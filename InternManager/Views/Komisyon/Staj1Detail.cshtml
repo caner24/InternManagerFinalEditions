@@ -1,0 +1,78 @@
+﻿@model BossModel
+@{
+    Layout = "_Layout";
+}
+@section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="@ViewData["Path"]"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>@ViewData["Name"]</h6>
+        <p><span class="online_animation"></span>Komisyon</p>
+    </div>
+}
+    @section menus{
+    <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        <i class="fa fa-dashboard yellow_color"></i> <span>İşlemler</span>
+    </a>
+    <ul class="collapse list-unstyled" id="dashboard">
+        <li>
+            <a asp-action="ListTeacher" asp-controller="Komisyon">> <span>Öğretmen Listele</span></a>
+        </li>
+        <li>
+            <a asp-action="ListStudent" asp-controller="Komisyon">> <span>Öğrenci Listele</span></a>
+        </li>
+    </ul>
+}
+    @section pages{
+    <div class="login">
+
+        <div class="login-header">
+
+            @if (ViewBag.Staj1 != false)
+            {
+                if (ViewBag.Durum == false)
+                {
+                    @if (ViewBag.tarihOk==true)
+                    {
+                     <form enctype="multipart/form-data" asp-action="Intern1FileMain" asp-controller="Student" enctype="multipart/form-data">
+                        <input value="caner" hidden type="text" id="myFile" />
+                        <input value="studentId" value="@Model.Student.Id" hidden type="text" name="studentId" id="studentId" />
+                        <button type="submit">Staj-1 İndir</button>
+                    </form>
+
+                    <form enctype="multipart/form-data" asp-action="Intern1FileMain" asp-controller="Student" enctype="multipart/form-data">
+                        <input value="studentId" value="@Model.Student.Id" hidden type="text" name="studentId" id="studentId" />
+
+
+                        <label for="onay">Onay Durumları</label>
+                        <input type="radio" asp-for="@Model.Staj1.IsOk" value="1">Onayla
+                        <input type="radio" asp-for="@Model.Staj1.IsOk" value="0">Reddet
+
+                        <input type="text" asp-for="@Model.Staj1.Info" value="0">Reddet
+                        <button type="submit">Kaydet</button>
+                    </form>
+                      }
+                      else
+                    {
+                     <h3 class="text-danger">TARİH GECİKTİ !.</h3>
+                    }
+                }
+                   
+                }
+                else
+                {
+                    <h3 class="text-success">STAJ1 ONAYLANMIŞ</h3>
+                }
+            }
+            else
+            {
+                <h3 class="text-danger">HERHANGİ BİR BELGE YÜKLENMEMİŞ !.</h3>
+            }
+
+
+        </div>
+    </div>
+}

@@ -1,4 +1,4 @@
-﻿@model Student
+﻿@model StudentModel
 @{
     Layout = "_Layout";
 }
@@ -27,38 +27,117 @@
     </li>
 }
     @section pages{
-    <div class="d-flex">
-        <div class="col-md-5 justify-content-center ">
+
+
+    <div class="row column1 d-flex" style="display:flex;">
+        <div class="col-md-3" style="margin-left:2%">
             <div class="full counter_section margin_bottom_30">
                 <div class="couter_icon">
                     <div>
-                        <i class="fa-regular fa-pen-to-square yellow_color"></i>
-                    </div>
-                </div>
-                <a asp-action="Intern1Page" asp-controller="Student" class="counter_no">
-                    <div>
-                        <p class="head_couter">Staj Dosyası Doldur</p>
-                        <p class="head_couter bg-success text-light ">Durum: Onaylandı</p>
-                        <p class="mt-2 head_couter bg-secondary text-light ">Nedeni : Unvanı Mühendis Değil !.</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="me-5 col-md-5">
-            <div class="full counter_section margin_bottom_30">
-                <div class="couter_icon">
-                    <div>
-                        <i class="fa-regular fa-file-pdf yellow_color"></i>
+                        <i class="fa fa-clock-o blue1_color"></i>
                     </div>
                 </div>
                 <div class="counter_no">
                     <div>
-                        <p class="head_couter">Staj Dosyası Yükle</p>
-                        <p class="head_couter bg-success text-light ">Durum: Onaylandı</p>
-                        <p class="mt-2 head_couter bg-secondary text-light ">Nedeni : Unvanı Mühendis Değil !.</p>
+                        @if (ViewBag.isOk)
+                        {
+                            @if (ViewBag.documents == true)
+                            {
+                                if (ViewBag.Durum == false)
+                                {
+                                    <h3>İndir</h3>
+                                    <form enctype="multipart/form-data" asp-action="Intern1Main" asp-controller="Student" enctype="multipart/form-data">
+
+                                        <input value="caner" hidden type="text" id="myFile" />
+                                        <button type="submit">İndir</button>
+
+                                    </form>
+
+                                    <h3>Güncelle</h3>
+                                    <form>
+                                        <div class="form-group">
+                                            <label asp-for="@Model.Intern1s.DetailDocument"></label>
+                                            <input type="file" asp-for="Intern1s.DetailDocument" />
+                                            <button type="submit">Güncelle</button>
+                                        </div>
+                                    </form>
+
+                                    <h3 class="bg-danger">@ViewBag.info</h3>
+                                }
+                                else
+                                {
+                                    if (ViewBag.isOk2)
+                                    {
+                                        @if (ViewBag.documents2 == true)
+                                        {
+                                            if (ViewBag.Durum2 == false)
+                                            {
+                                                <h3>İndir</h3>
+                                                <form enctype="multipart/form-data" asp-action="Intern1Main" asp-controller="Student" enctype="multipart/form-data">
+
+                                                    <input value="caner" hidden type="text" id="myFile" />
+                                                    <button type="submit">İndir</button>
+
+                                                </form>
+
+                                                <h3>Güncelle</h3>
+                                                <form>
+                                                    <div class="form-group">
+                                                        <label asp-for="@Model.Intern1s.DetailDocument"></label>
+                                                        <input type="file" asp-for="Intern1s.DetailDocument" />
+                                                        <button type="submit">Güncelle</button>
+                                                    </div>
+                                                </form>
+
+                                                <h3 class="bg-danger">@ViewBag.info</h3>
+                                            }
+                                            else
+                                            {
+                                                <h3 class="bg-danger">Stajınız başarılı bir şekilde kabul edilmiştir:</h3>
+                                                <h3 class="bg-danger">Kabul edilen Günler Aşağıda Verilmiştir ; </h3>
+                                                <h3 class="bg-danger">@ViewBag.OkDays</h3>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <h3>Sisteme Dosya Yükle</h3>
+                                            <form>
+                                                <div class="form-group">
+                                                    <input hidden type="text" id="fakeNumber" name="fakeNumber" value="1" />
+                                                    <label asp-for="@Model.Intern1s.DetailDocument"></label>
+                                                    <input type="file" asp-for="Intern1s.DetailDocument" />
+                                                    <button type="submit">Gönder</button>
+                                                </div>
+                                            </form>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <h3 class="text-danger bg-info">STAJ DEFTERİ SİSTEME YÜKLENME SÜRESİ GEÇTİ !.</h3>
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                <h3>Sisteme Dosya Yükle</h3>
+                                <form>
+                                    <div class="form-group">
+                                        <input hidden type="text" id="fakeNumber" name="fakeNumber" value="1" />
+                                        <label asp-for="@Model.Intern1s.DetailDocument"></label>
+                                        <input type="file" asp-for="Intern1s.DetailDocument" />
+                                        <button type="submit">Gönder</button>
+                                    </div>
+                                </form>
+                            }
+                        }
+                        else
+                        {
+                            <h3 class="text-danger bg-info">STAJ BAŞVURU FORMU SİSTEME YÜKLENME SÜRESİ GEÇTİ !.</h3>
+                        }
                     </div>
                 </div>
             </div>
         </div>
     </div>
-}
+    }

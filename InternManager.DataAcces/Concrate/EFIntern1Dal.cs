@@ -32,6 +32,11 @@ namespace InternManager.DataAcces.Concrate
             context.SaveChanges();
         }
 
+        public List<Intern1> Get(Expression<Func<Intern1, bool>> filter = null)
+        {
+            return context.Set<Intern1>().Where(filter).ToList();
+        }
+
         public List<Intern1> GetAll(Expression<Func<Intern1, bool>> filter = null)
         {
             return filter == null ? context.Set<Intern1>().ToList() : context.Set<Intern1>().Where(filter).ToList();

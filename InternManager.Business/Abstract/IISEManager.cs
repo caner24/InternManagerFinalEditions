@@ -10,6 +10,7 @@ namespace InternManager.Business.Abstract
         List<ISE> GetAll();
         ISE GetById(string id);
         void Add(ISE entity);
+         List<ISE> Get(string id);
         void Delete(ISE entity);
         void Update(ISE entity);
     }

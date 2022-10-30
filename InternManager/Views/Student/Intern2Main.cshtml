@@ -1,0 +1,93 @@
+﻿@model Student
+@{
+    Layout = "_Layout";
+}
+
+@section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="@ViewData["Path"]"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>
+            @ViewData["Name"]
+        </h6>
+        <p><span class="online_animation"></span>Öğrenci</p>
+    </div>
+}
+    @section menus{
+    <li>
+        <a href="#apps" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-object-group blue2_color"></i> <span>Staj İşlemleri</span></a>
+        <ul class="collapse list-unstyled" id="apps">
+            <li><a asp-action="Intern1Main" asp-controller="Student"><span>Staj-1</span></a></li>
+            <li><a asp-action="Intern2Page" asp-controller="Student"><span>Staj-2</span></a></li>
+            <li><a asp-action="ISE" asp-controller="Student"><span>ISE</span></a></li>
+        </ul>
+    </li>
+}
+    @section pages{
+    <div class="d-flex ">
+        <div class=" col-md-5 ">
+            <div class="full counter_section margin_bottom_30">
+                <div class="couter_icon">
+                    <div>
+                        <i class="fa-regular fa-file-pdf yellow_color"></i>
+                    </div>
+                </div>
+                <div class="counter_no">
+                    <div>
+                        @if (ViewBag.stajDurum == true)
+                        {
+                            <p class="head_couter"><a asp-action="Intern1Page" asp-controller="Student" class="text-center">Staj Dosyası Doldur</a></p>
+                            @if (ViewBag.Durum == false)
+                            {
+                                <form method="post" asp-action="Intern1Main" asp-controller="Student" enctype="multipart/form-data">
+
+                                    <input type="file" placeholder="Dosya Seçin" />
+                                    <button type="submit">Güncelle</button>
+                                </form>
+                                <form method="post" asp-action="Intern1Main" asp-controller="Student" enctype="multipart/form-data">
+
+                                    <input type="file" placeholder="Dosya Seçin" />
+                                    <input type="text" name="ad" id="ad" />
+                                    <input type="text" name="soyad" id="soyad" />
+                                    <button type="submit">İndir</button>
+                                </form>
+                                <div>
+                                    <p class="head_couter bg-success text-light ">Durum: @ViewData["kabulRed"]</p>
+                                    <p class="mt-2 head_couter bg-secondary text-light ">Nedeni :@ViewData["stajDurum"]</p>
+                                    }
+                                    else{
+
+                                    }
+                                </div>
+
+                            }
+                            else
+                            {
+                                <form method="post" asp-action="Intern1Main" asp-controller="Student" enctype="multipart/form-data">
+
+                                    <input type="file" placeholder="Dosya Seçin" />
+                                    <input type="text" hidden name="myFile" value="caner" id="myFile" />
+                                    <button type="submit">Kaydet</button>
+                                </form>
+                                <div>
+                                    <p class="head_couter bg-success text-light ">Durum: ----</p>
+                                    <p class="mt-2 head_couter bg-secondary text-light ">Nedeni :----</p>
+                                </div>
+
+                            }
+                        }
+                        else
+                        {
+                            <h3 class="bg-danger text-"> Staj-1 yapılmadan Staj2 Yapılamaz </h3>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}

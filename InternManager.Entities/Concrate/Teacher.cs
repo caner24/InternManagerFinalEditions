@@ -22,10 +22,13 @@ namespace InternManager.Entities.Concrate
         [ForeignKey("PersonId")]
         public Person PersonPk { get; set; }
 
+        [Required(ErrorMessage = "Lütfen Numara Girin")]
         public string TeacherNumber { get; set; }
+        [Required(ErrorMessage = "Lütfen Şifrenizi Girin")]
         public string TeacherPassword { get; set; }
-        public bool IsBoos { get; set; }
         public bool IsFirstPassword { get; set; }
+
+        [Required(ErrorMessage = "Lütfen Öğretmen mailini Girin")]
         public string TeacherMail { get; set; }
     }
 }

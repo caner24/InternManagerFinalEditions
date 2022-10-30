@@ -32,7 +32,7 @@ namespace InternManager.DataAcces.Concrate
             context.SaveChanges();
         }
 
-        public Person Get(Expression<Func<Person, bool>> filter)
+        public  Person Get(Expression<Func<Person, bool>> filter)
         {
             return context.Set<Person>().SingleOrDefault(filter);
         }

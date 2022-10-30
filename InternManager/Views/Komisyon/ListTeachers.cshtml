@@ -1,0 +1,38 @@
+﻿@model BossModel
+
+@section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="@ViewData["Path"]"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>@ViewData["Name"]</h6>
+        <p><span class="online_animation"></span>Yönetici</p>
+    </div>
+}
+    @section pages{
+    <h3 class="bg-danger text-dark">@TempData["myError"]</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Öğrenci Numarasi</th>
+                <th scope="col">Ogrenci TelNo</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (var item in Model.TeacherList)
+            {
+                <tr>
+                    <th scope="row">1</th>
+                    <td>@item.TeacherNumber</td>
+                    <td>@item.TeacherMail</td>
+                    <td><a asp-action="Intern1" asp-controller="Boss" asp-route-id="@item.Id">Staj-1</a></td>
+                    <td><a asp-action="PersonDetails" asp-controller="Boss" asp-route-id="@item.Id">Staj-2</a></td>
+                    <td><a asp-action="PersonDetails" asp-controller="Boss" asp-route-id="@item.Id">IME</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

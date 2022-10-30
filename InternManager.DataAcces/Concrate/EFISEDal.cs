@@ -31,6 +31,11 @@ namespace InternManager.DataAcces.Concrate
             context.SaveChanges();
         }
 
+        public List<ISE> Get(Expression<Func<ISE, bool>> filter = null)
+        {
+            return context.Set<ISE>().Where(filter).ToList();
+        }
+
         public List<ISE> GetAll(Expression<Func<ISE, bool>> filter = null)
         {
             return filter == null ? context.Set<ISE>().ToList() : context.Set<ISE>().Where(filter).ToList();
@@ -47,5 +52,6 @@ namespace InternManager.DataAcces.Concrate
             addedEntity.State = EntityState.Modified;
             context.SaveChanges();
         }
+
     }
 }

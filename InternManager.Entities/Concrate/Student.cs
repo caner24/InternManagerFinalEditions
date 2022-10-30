@@ -14,23 +14,18 @@ namespace InternManager.Entities.Concrate
 
         public int FacultyId { get; set; }
 
-        [ForeignKey("FacultyId")]
         public Faculty FacultyPk { get; set; }
 
+        [Required(ErrorMessage = "Lütfen Numaranızı Girin")]
         public string StudentNumber { get; set; }
 
+        [Required(ErrorMessage = "Lütfen Şifrenizi Girin")]
         public string StudentPassword { get; set; }
+
         public bool IsFirstPassword { get; set; }
 
+        [Required(ErrorMessage = "Lütfen Mailinizi Girin")]
         public string StudentMail { get; set; }
-
-        public string Adress { get; set; }
-
-        public string City { get; set; }
-
-        public string Town { get; set; }
-
-        public string PostalCode { get; set; }
 
         public int PersonId { get; set; }
 

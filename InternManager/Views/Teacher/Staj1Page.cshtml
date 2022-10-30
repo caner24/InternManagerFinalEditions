@@ -1,0 +1,54 @@
+﻿@model StudentModel
+@{
+    Layout = "_Layout";
+}
+@section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="@ViewData["Path"]"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>@ViewData["Name"]</h6>
+        <p><span class="online_animation"></span>Komisyon</p>
+    </div>
+}
+
+@section pages{
+    <h4>SA</h4>
+    <div class="row column1">
+        <div class="col-md-6">
+            <div class="full counter_section margin_bottom_30">
+                <div class="couter_icon">
+                    <div>
+                        <i class="fa fa-clock-o blue1_color"></i>
+                    </div>
+                </div>
+                <div class="counter_no">
+                    <div>
+                        <p class="head_couter">Staj Belgesi</p>
+
+                      
+                        <form  enctype="multipart/form-data" asp-action="Intern1FileMain" asp-controller="Student" enctype="multipart/form-data">
+
+                           <input value="caner" hidden type="text" id="myFile" />
+                        <button type="submit">İndir</button>
+                        </form>
+
+                        <form enctype="multipart/form-data" asp-action="Intern1FileMain" asp-controller="Student" enctype="multipart/form-data">
+
+                            <label>Onaylanan Durumu</label>
+                            <input  type="text" id="myFile" asp-for="Intern1s.IsOk2" />
+
+                            <label>Onaylanan Gün Sayisi</label>
+                            <input value="caner" hidden type="text" asp-for="Intern1s.OkDays" />
+                            <button type="submit">İndir</button>
+                        </form>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

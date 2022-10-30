@@ -19,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using System.Linq;
 
 namespace InternManager.WebUI.Controllers
 {
@@ -27,6 +28,7 @@ namespace InternManager.WebUI.Controllers
 
         private IPersonManager _personManager;
         private ITeacherManager _teacherManager;
+        private IIntern1Manager _internManager;
         private IStudentManager _studentManager;
         private IHostingEnvironment Environment;
         private IConfiguration Configuration;
@@ -34,8 +36,12 @@ namespace InternManager.WebUI.Controllers
         public static string myPath;
         public static Person _person;
         public string[] _studentPass = new string[1];
-        public TeacherController(IHostingEnvironment _environment, IConfiguration _configuration, IStudentManager studentManager, IPersonManager personManager, ITeacherManager teacherManager)
+        public static Teacher teacher;
+        public static Teacher myTeacher;
+        public static List<Person> mPersons;
+        public TeacherController(IIntern1Manager internManager, IHostingEnvironment _environment, IConfiguration _configuration, IStudentManager studentManager, IPersonManager personManager, ITeacherManager teacherManager)
         {
+            _internManager = internManager;
             Environment = _environment;
             Configuration = _configuration;
             _studentManager = studentManager;
@@ -43,53 +49,61 @@ namespace InternManager.WebUI.Controllers
             _teacherManager = teacherManager;
         }
 
+
         [HttpGet]
-        public IActionResult Index(TeacherModel teacher)
+        public IActionResult Index(Teacher teacher)
         {
-            _person = _personManager.Get(teacher.Teacher.PersonId.ToString());
-            myPath = BossModel.ByteArrayToImageAsync(_person.Image);
-            ViewData["path"] = myPath;
-            ViewData["Name"] = _person.NameSurname;
+
+            var person = _personManager.Get(teacher.PersonId.ToString());
+            if (person.Image != null)
+            {
+                string myPath = BossModel.ByteArrayToImageAsync(person.Image);
+                ViewData["path"] = myPath;
+            }
+
+            ViewData["Name"] = person.NameSurname;
+            ViewData["Id"] = teacher.TeacherNumber;
+            myId = teacher.TeacherNumber;
+
+            var intern1Det = _internManager.GetById("Staj1");
+            var intern2Det = _internManager.GetById("Staj2");
+            var iseDET = _internManager.GetById("ISE");
+
+            myTeacher = _teacherManager.GetById(teacher.TeacherNumber.ToString());
             return View(teacher);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> IndexAsync(string number, string password, IFormFile file)
+        public async Task<IActionResult> Index(string number, string password, IFormFile file = null)
         {
-            TeacherModel tModel = new TeacherModel();
-            tModel.Teacher = _teacherManager.GetById(number);
-
-            if (file == null || file.Length == 0)
-                return Content("resim seçimi yapmadiniz");
-
-            var path = Path.Combine(
-                        Directory.GetCurrentDirectory(), "wwwroot\\img",
-                        file.FileName);
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-            var image = new Bitmap(path);
-
-            tModel.Persons = _personManager.Get(tModel.Teacher.PersonId.ToString());
-            tModel.Persons.Image = BossModel.ImageToByteArray(image);
-            _personManager.Update(tModel.Persons);
-
-            myId = tModel.Teacher.TeacherNumber;
+            var model = _teacherManager.GetById(number);
+            var persons = _personManager.Get(model.PersonId.ToString());
             MD5 md5 = new MD5CryptoServiceProvider();
             md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(password));
             byte[] result = md5.Hash;
             StringBuilder strBuilder = new StringBuilder();
-
             for (int i = 0; i < result.Length; i++)
             {
                 strBuilder.Append(result[i].ToString("x2"));
             }
 
-            tModel.Teacher.TeacherPassword = strBuilder.ToString();
-            tModel.Teacher.IsFirstPassword = true;
-
-            _teacherManager.Update(tModel.Teacher);
+            model.TeacherPassword = strBuilder.ToString();
+            model.IsFirstPassword = true;
+            if (file != null)
+            {
+                var path = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot\\img",
+                            file.FileName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                var image = new Bitmap(path);
+                persons.Image = BossModel.ImageToByteArray(image);
+            }
+            _personManager.Update(persons);
+            _teacherManager.Update(model);
 
             return RedirectToAction("TeacherLogin", "Home");
         }
@@ -110,16 +124,18 @@ namespace InternManager.WebUI.Controllers
             return View(model);
         }
 
-      
+
         [HttpGet]
-        public IActionResult ExcellToDb(IFormCollection student)
+        public IActionResult ExcellToDb(int id, IFormCollection student)
         {
-            return View(student);
+
+            return View();
         }
 
         [HttpPost]
         public IActionResult ExcellToDb(IFormFile postedFile)
         {
+            mPersons = new List<Person>();
             if (postedFile != null)
             {
                 //Create a Folder.
@@ -161,6 +177,17 @@ namespace InternManager.WebUI.Controllers
                             connExcel.Open();
                             cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
                             odaExcel.SelectCommand = cmdExcel;
+                            OleDbDataReader dr = cmdExcel.ExecuteReader();
+
+                            while (dr.Read())
+                            {
+                                Person person = new Person();
+                                person.IdentyNumber = dr["IdentyNumber"].ToString();
+                                person.NameSurname = dr["StudentMail"].ToString();
+                                person.PhoneNumber = dr["StudentNumber"].ToString();
+                                mPersons.Add(person);
+                            }
+                            dr.Close();
                             odaExcel.Fill(dt);
                             connExcel.Close();
                         }
@@ -168,7 +195,7 @@ namespace InternManager.WebUI.Controllers
                 }
 
                 //Insert the Data read from the Excel file to Database Table.
-                conString = this.Configuration.GetConnectionString("constr");
+                conString = this.Configuration.GetConnectionString("DefaultConnection");
                 using (SqlConnection con = new SqlConnection(conString))
                 {
                     using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
@@ -178,31 +205,64 @@ namespace InternManager.WebUI.Controllers
 
                         //[OPTIONAL]: Map the Excel columns with that of the database table
                         sqlBulkCopy.ColumnMappings.Add("IdentyNumber", "IdentyNumber");
+                        sqlBulkCopy.ColumnMappings.Add("Civilization", "Civilization");
                         sqlBulkCopy.ColumnMappings.Add("NameSurname", "NameSurname");
                         sqlBulkCopy.ColumnMappings.Add("Gender", "Gender");
+                        sqlBulkCopy.ColumnMappings.Add("PhoneNumber", "PhoneNumber");
+                        con.Open();
+                        sqlBulkCopy.WriteToServer(dt);
+                        con.Close();
+                    }
+                }
+                using (SqlConnection con = new SqlConnection(conString))
+                {
+                    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
+                    {
+                        //Set the database table name.
+                        sqlBulkCopy.DestinationTableName = "dbo.Students";
+
+                        //[OPTIONAL]: Map the Excel columns with that of the database table
+                        sqlBulkCopy.ColumnMappings.Add("FacultyId", "FacultyId");
+                        sqlBulkCopy.ColumnMappings.Add("StudentNumber", "StudentNumber");
+                        sqlBulkCopy.ColumnMappings.Add("StudentMail", "StudentMail");
+                        sqlBulkCopy.ColumnMappings.Add("PersonId", "PersonId");
+                        sqlBulkCopy.ColumnMappings.Add("IsFirstPassword", "IsFirstPassword");
 
                         con.Open();
                         sqlBulkCopy.WriteToServer(dt);
                         con.Close();
                     }
                 }
+                foreach (var item in mPersons)
+                {
+                    var person = _personManager.GetById(item.IdentyNumber);
+                    var student = _studentManager.GetById(item.PhoneNumber);
+                    student.StudentPassword =BossModel.SendMail(item.NameSurname);
+                    student.StudentPassword = BossModel.GetMd5(student.StudentNumber);
+                    student.PersonId = person.Id;
+                    _studentManager.Update(student);
+                }
             }
-
             return View();
         }
         [HttpGet]
-        public IActionResult ListStudents()
+        public IActionResult ListStudents(string id)
         {
             TeacherModel model = new TeacherModel();
-            var student = _studentManager.GetAll();
-            var teacher = _teacherManager.GetById(myId);
+            var internList = _internManager.Get(id);
+            model.Teacher = teacher;
+            if (internList != null)
+            {
+                foreach (var item in internList)
+                {
+                    model.StudentList.Add(_studentManager.Get(item.Student_Id.ToString()));
+                }
+            }
+
+
             ViewData["path"] = myPath;
             ViewData["Name"] = _person.NameSurname;
-            model.StudentList = student;
-            model.Teacher = teacher;
             return View(model);
         }
-
-
     }
 }

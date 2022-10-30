@@ -32,6 +32,11 @@ namespace InternManager.DataAcces.Concrate
             context.SaveChanges();
         }
 
+        public Student Get(Expression<Func<Student, bool>> filter)
+        {
+            return context.Set<Student>().SingleOrDefault(filter);
+        }
+
         public List<Student> GetAll(Expression<Func<Student, bool>> filter = null)
         {
             return filter == null ? context.Set<Student>().ToList() : context.Set<Student>().Where(filter).ToList();
@@ -40,6 +45,11 @@ namespace InternManager.DataAcces.Concrate
         public Student GetById(Expression<Func<Student, bool>> filter)
         {
             return context.Set<Student>().SingleOrDefault(filter);
+        }
+
+        public Student GetByPersonıd(string number)
+        {
+            return context.Set<Student>().SingleOrDefault(i => i.PersonId ==Convert.ToInt32(number));
         }
 
         public Student getPerson(string number, string password)

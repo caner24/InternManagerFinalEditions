@@ -39,8 +39,6 @@
             </nav>
 
 
-
-            <form class="w-100 mt-2 d-flex flex-column" method="Get" asp-controller="Student" asp-action="Intern1Page">
                 <div class="mt-2 text-center fw-bold">İLGİLİ MAKAMA</div>
 
                 <table class="w-100 table table-striped d-flex flex-column border border-dark">
@@ -79,15 +77,15 @@
                     </tr>
                     <tr class="d-flex">
                         <td class="w-50"><label for="">Adres</label> </td>
-                        <td class="w-50"><input asp-for="Students.Adress" type="text" class="form-control"></td>
+                        <td class="w-50"><input  type="text" class="form-control"></td>
                     </tr>
                     <tr class="d-flex">
                         <td class="w-25"><label for="">İl</label> </td>
-                        <td class="w-25"><input asp-for="Students.City" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                         <td class="w-25"><label for="">İlçe</label> </td>
-                        <td class="w-25"><input asp-for="Students.Town" type="text" class="form-control"></td>
+                        <td class="w-25"><input type="text" class="form-control"></td>
                         <td class="w-25"><label for="">PostaKodu</label> </td>
-                        <td class="w-25"><input asp-for="Students.PostalCode" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                     </tr>
                 </table>
 
@@ -101,19 +99,19 @@
                     </tr>
                     <tr class="d-flex">
                         <td class="w-25">BaşlamaTarihi</td>
-                        <td class="w-25"><input asp-for="Intern1s.StartDate" type="date"></td>
+                        <td class="w-25"><input  type="date"></td>
                         <td class="w-25">Bitiş Tarihi</td>
-                        <td class="w-25"><input asp-for="Intern1s.EndDate"  id="date-2"type="date"></td>
+                        <td class="w-25"><input  id="date-2"type="date"></td>
                         <td class="w-25">İş Günü</td>
-                        <td class="w-25"><input asp-for="Intern1s.TotalDays" type="text"></td>
+                        <td class="w-25"><input  type="text"></td>
                         <td class="w-25">Cumartesi Calisiyor</td>
                         <td class="w-25"><input type="checkbox"></td>
                     </tr>
 
                 </table>
                 <div class="ms-auto justify-content-center">
-                    <label for="myDate">Tarih : </label>
-                    <input class="text-center" type="text" id="myDate">
+                    <label for="myDate2">Tarih : </label>
+                    <input class="text-center" type="text" id="myDate2">
                 </div>
                 <div class="mt-2 ms-auto d-flex justify-content-center">
                     <p class="ms-auto mt-2 text-center">Ad Soyad :</p>
@@ -129,11 +127,11 @@
                     </tr>
                     <tr class="d-flex w-100">
                         <td class="w-50">Resmi Adı : </td>
-                        <td class="w-50"><input asp-for="Kurums.ResmiAd" class="w-100" type="text"></td>
+                        <td class="w-50"><input  class="w-100" type="text"></td>
                     </tr>
                     <tr class="d-flex">
                         <td class="w-50">Faaliyet Alanı : </td>
-                        <td class="w-50"><input asp-for="Kurums.FaaliyetAlani" class="w-100" type="text"></td>
+                        <td class="w-50"><input  class="w-100" type="text"></td>
                     </tr>
                     <tr class="d-flex">
                         <td class="w-50"><label for="">Adres : </label> </td>
@@ -141,26 +139,26 @@
                     </tr>
                     <tr class="d-flex">
                         <td class="w-25"><label for="">İl : </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.City" type="text" class="form-control"></td>
+                        <td class="w-25"><input type="text" class="form-control"></td>
                         <td class="w-25"><label for="">İlçe : </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.Town" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                         <td class="w-25"><label for="">PostaKodu : </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.PostalCode" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                     </tr>
                     <tr class="d-flex">
                         <td class="w-25"><label for="">İletişim Bilgieri </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.TelNo" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                         <td class="w-25"><label for="">Telefon : </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.TelNo2" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                         <td class="w-25"><label for="">Fax : </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.Fax" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                         <td class="w-25"><label for="">Eposta : </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.KurumMail" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                     </tr>
                     <tr class="d-flex">
                         <td class="w-25"><label for="">Staj Sorumulusunun Ünvanı</label> </td>
                         <td class="w-25"><input type="checkbox" name="teknik" value="teknik">Teknik Öğretmen</td>
-                        <td class="w-25"><input asp-for="Kurums.Unvan" type="checkbox" name="teknik" value="teknik">Mühendis</td>
+                        <td class="w-25"><input  type="checkbox" name="teknik" value="teknik">Mühendis</td>
                         <td class="w-25"><input type="checkbox" name="teknik" value="teknik">Hekim</td>
                     </tr>
                 </table>
@@ -205,23 +203,23 @@
                     <td class=" fw-bold">Not</td></tr></tr>
                 </table>
              
-                <button class="btn btn-primary " id="sender1" type="submit">Staj Bilgilerini Kaydet</button>
-            </form>
             <button class="btn btn-primary html2PdfConverter" id="html2btn" onclick="createPDF()">Pdf Halini Al</button>
 
         </div>
+    }
+    @section scripts{
         <script>
-            document.getElementById("date2").addEventListener('click',new function(){
-              var value1=document.getElementById("date1").value;
-              document.getElementById("date2").value=value1+30;
+            document.getElementById("date2").addEventListener('click', new function () {
+                var value1 = document.getElementById("date1").value;
+                document.getElementById("date2").value = value1 + 30;
             });
 
             var now = new Date();
             document.getElementById("myDate").value = now.toLocaleDateString();
-              document.getElementById("sender1").style.visibility="hidden";
+            document.getElementById("sender1").style.visibility = "hidden";
 
-              function createPDF() {
-                       
+            function createPDF() {
+
                 document.getElementById("html2btn").style.visibility = "hidden";
                 var element = document.getElementById('element-to-print');
                 html2pdf(element, {
@@ -235,11 +233,12 @@
                 });
                 const myTimeout = setTimeout(myGreeting, 1000);
                 function myGreeting() {
-                  document.getElementById("sender1").style.visibility="visible";
+                    document.getElementById("sender1").style.visibility = "visible";
                 }
-            };
+            }
         </script>
-    } 
+    }
+       
   
 }
 else{
@@ -276,9 +275,6 @@ else{
                 </ul>
             </nav>
 
-
-
-            <form class="w-100 mt-2 d-flex flex-column" method="post" asp-controller="Student" asp-action="Intern1Page">
                 <div class="mt-2 text-center fw-bold">İLGİLİ MAKAMA</div>
 
                 <table class="w-100 table table-striped d-flex flex-column border border-dark">
@@ -305,27 +301,27 @@ else{
                     </tr>
                     <tr class="w-100 d-flex">
                         <td class="w-25"><label for="">TcNo:</label> </td>
-                        <td class="w-25"><input asp-for="Persons.IdentyNumber" class="form-control"></td>
+                        <td class="w-25"><input  class="form-control"></td>
                         <td class="w-25"><label for="">Uyruğu:</label> </td>
-                        <td class="w-25"><input asp-for="Persons.Civilization" type="text" class="form-control"></td>
+                        <td class="w-25"><input type="text" class="form-control"></td>
                     </tr>
                     <tr class="w-100 d-flex">
                         <td class="w-25"><label for="">Ev Tel/GSM</label> </td>
-                        <td class="w-25"><input asp-for="Persons.PhoneNumber" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                         <td class="w-25"><label for="">E-Posta:</label> </td>
-                        <td class="w-25"><input asp-for="Students.StudentMail" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                     </tr>
                     <tr class="d-flex">
                         <td class="w-50"><label for="">Adres</label> </td>
-                        <td class="w-50"><input asp-for="Students.Adress" type="text" class="form-control"></td>
+                        <td class="w-50"><input  type="text" class="form-control"></td>
                     </tr>
                     <tr class="d-flex">
                         <td class="w-25"><label for="">İl</label> </td>
-                        <td class="w-25"><input asp-for="Students.City" type="text" class="form-control"></td>
+                        <td class="w-25"><input type="text" class="form-control"></td>
                         <td class="w-25"><label for="">İlçe</label> </td>
-                        <td class="w-25"><input asp-for="Students.Town" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                         <td class="w-25"><label for="">PostaKodu</label> </td>
-                        <td class="w-25"><input asp-for="Students.PostalCode" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                     </tr>
                 </table>
 
@@ -339,11 +335,11 @@ else{
                     </tr>
                     <tr class="d-flex">
                         <td class="w-25">BaşlamaTarihi</td>
-                        <td class="w-25"><input asp-for="Intern1s.StartDate" type="date"></td>
+                        <td class="w-25"><input  type="date"></td>
                         <td class="w-25">Bitiş Tarihi</td>
-                        <td class="w-25"><input asp-for="Intern1s.EndDate" type="date"></td>
+                        <td class="w-25"><input  type="date"></td>
                         <td class="w-25">İş Günü</td>
-                        <td class="w-25"><input asp-for="Intern1s.TotalDays" type="text"></td>
+                        <td class="w-25"><input  type="text"></td>
                         <td class="w-25">Cumartesi Calisiyor</td>
                         <td class="w-25"><input type="checkbox"></td>
                     </tr>
@@ -367,11 +363,11 @@ else{
                     </tr>
                     <tr class="d-flex w-100">
                         <td class="w-50">Resmi Adı : </td>
-                        <td class="w-50"><input asp-for="Kurums.ResmiAd" class="w-100" type="text"></td>
+                        <td class="w-50"><input  class="w-100" type="text"></td>
                     </tr>
                     <tr class="d-flex">
                         <td class="w-50">Faaliyet Alanı : </td>
-                        <td class="w-50"><input asp-for="Kurums.FaaliyetAlani" class="w-100" type="text"></td>
+                        <td class="w-50"><input  class="w-100" type="text"></td>
                     </tr>
                     <tr class="d-flex">
                         <td class="w-50"><label for="">Adres : </label> </td>
@@ -379,26 +375,26 @@ else{
                     </tr>
                     <tr class="d-flex">
                         <td class="w-25"><label for="">İl : </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.City" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                         <td class="w-25"><label for="">İlçe : </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.Town" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                         <td class="w-25"><label for="">PostaKodu : </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.PostalCode" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                     </tr>
                     <tr class="d-flex">
                         <td class="w-25"><label for="">İletişim Bilgieri </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.TelNo" type="text" class="form-control"></td>
+                        <td class="w-25"><input type="text" class="form-control"></td>
                         <td class="w-25"><label for="">Telefon : </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.TelNo2" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                         <td class="w-25"><label for="">Fax : </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.Fax" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                         <td class="w-25"><label for="">Eposta : </label> </td>
-                        <td class="w-25"><input asp-for="Kurums.KurumMail" type="text" class="form-control"></td>
+                        <td class="w-25"><input  type="text" class="form-control"></td>
                     </tr>
                     <tr class="d-flex">
                         <td class="w-25"><label for="">Staj Sorumulusunun Ünvanı</label> </td>
                         <td class="w-25"><input type="checkbox" name="teknik" value="teknik">Teknik Öğretmen</td>
-                        <td class="w-25"><input asp-for="Kurums.Unvan" type="checkbox" name="teknik" value="teknik">Mühendis</td>
+                        <td class="w-25"><input  type="checkbox" name="teknik" value="teknik">Mühendis</td>
                         <td class="w-25"><input type="checkbox" name="teknik" value="teknik">Hekim</td>
                     </tr>
                 </table>
@@ -443,36 +439,37 @@ else{
                     <td class=" fw-bold">Not</td></tr></tr>
                 </table>
                     <button class="btn btn-primary " id="sender2" type="submit">Staj Bilgilerini Kaydet</button>
-            </form>
         </div>
-            <script>
-                document.getElementById("date2").addEventListener('click', new function () {
-                    var value1 = document.getElementById("date1").value;
-                    document.getElementById("date2").value = value1 + 30;
+    }
+       @section scripts{
+        <script>
+            document.getElementById("date2").addEventListener('click', new function () {
+                var value1 = document.getElementById("date1").value;
+                document.getElementById("date2").value = value1 + 30;
+            });
+
+            var now = new Date();
+            document.getElementById("myDate").value = now.toLocaleDateString();
+            document.getElementById("sender1").style.visibility = "hidden";
+
+            function createPDF() {
+
+                document.getElementById("html2btn").style.visibility = "hidden";
+                var element = document.getElementById('element-to-print');
+                html2pdf(element, {
+                    margin: 1,
+                    padding: 0,
+                    filename: 'myfile.pdf',
+                    image: { type: 'jpeg', quality: 1 },
+                    html2canvas: { scale: 2, logging: true },
+                    jsPDF: { unit: 'in', format: 'A2', orientation: 'P' },
+                    class: createPDF
                 });
-
-                var now = new Date();
-                document.getElementById("myDate").value = now.toLocaleDateString();
-                document.getElementById("sender2").style.visibility = "hidden";
-
-                function createPDF() {
-
-                    document.getElementById("html2btn").style.visibility = "hidden";
-                    var element = document.getElementById('element-to-print');
-                    html2pdf(element, {
-                        margin: 1,
-                        padding: 0,
-                        filename: 'myfile.pdf',
-                        image: { type: 'jpeg', quality: 1 },
-                        html2canvas: { scale: 2, logging: true },
-                        jsPDF: { unit: 'in', format: 'A2', orientation: 'P' },
-                        class: createPDF
-                    });
-                    const myTimeout = setTimeout(myGreeting, 1000);
-                    function myGreeting() {
-                        document.getElementById("sender2").style.visibility = "visible";
-                    }
-                };
-            </script>
+                const myTimeout = setTimeout(myGreeting, 1000);
+                function myGreeting() {
+                    document.getElementById("sender1").style.visibility = "visible";
+                }
+            };
+        </script>
     }
 }

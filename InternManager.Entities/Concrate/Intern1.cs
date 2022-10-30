@@ -17,37 +17,48 @@ namespace InternManager.Entities.Concrate
         [ForeignKey("Student_Id")]
         public Student StudentPk { get; set; }
 
-
-        [Required(ErrorMessage = "Lütfen Staj Başlangıç Tarihi Seçiniz")]
-        [UIHint("Date")]
-        public DateTime StartDate { get; set; }
-
-        [Required(ErrorMessage = "Lütfen Staj Bitiş Tarihi Seçiniz")]
-        [UIHint("Date")]
-        public DateTime EndDate { get; set; }
-
-        public int KurumId { get; set; }
-
-        [ForeignKey("KurumId")]
-        public Kurum KurumPk { get; set; }
-
-
+        [Required(ErrorMessage = "Lütfen Onay Durumunu Seçiniz")]
         public bool IsOk { get; set; }
 
+        [Required(ErrorMessage = "Lütfen Onay Durumunu Seçiniz")]
+        public bool IsOk2 { get; set; }
+
+        [Required(ErrorMessage = "Lütfen Geçip Geçmediğini Yazınız (G) geçti (K) Kaldı")]
         public string Note { get; set; }
+
+        [Required(ErrorMessage = "Lütfen Belirtmek İstediğiniz Mesajı Yazınız")]
         public string Info { get; set; }
 
-        public int TotalDays { get; set; }
 
+        [Required(ErrorMessage = "Lütfen Onaylanan Günleri Giriniz")]
         public string OkDays { get; set; }
+
+
         public int InternId { get; set; }
 
         [ForeignKey("InternId")]
         public Intern InternPk { get; set; }
 
+
+        [Required(ErrorMessage = "Lütfen Staj Detay Dosyanızı Giriniz")]
         public byte[] DetailDocument { get; set; }
 
+
+        [Required(ErrorMessage = "Lütfen Staj Detay Dosyanızı Giriniz")]
+        public byte[] DetailDocument2 { get; set; }
+
+        [Required(ErrorMessage = "Lütfen İlgili Öğretmeni Seçiniz")]
+        public int TeacherId { get; set; }
+
+        public DateTime RecStart { get; set; }
         [UIHint("Date")]
-        public DateTime CreateDate { get; set; }
+        public DateTime RecEnd { get; set; }
+        [UIHint("Date")]
+        public DateTime RecFileStart { get; set; }
+        [UIHint("Date")]
+        public DateTime RecFileEnd { get; set; }
+
+
+
     }
 }

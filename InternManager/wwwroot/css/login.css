@@ -137,10 +137,32 @@ input {
     }
 
 button {
+    background-color: #b2b2b2;
+    color: black;
+    padding:1%;
+    border-radius: 5px;
     flex: 0 0 100%;
 }
 
 #login-2 {
     margin-top: 1%;
     width:50vh;
+}
+disable:hover {
+ cursor:none;
+}
+[aria-current="page"] {
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+    color: black;
+}
+a {
+    margin-top: 1%;
+    padding: 1%;
+    border-radius: 5px;
+    flex: 0 0 100%;
+    color: white;
+    background-color: #b2b2b2;
+    text-align: center;
 }

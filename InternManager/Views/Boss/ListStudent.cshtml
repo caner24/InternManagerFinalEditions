@@ -1,22 +1,60 @@
-﻿@model StudentModel
+﻿@model BossModel
 
-@section pages{
+@section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="@ViewData["Path"]"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>@ViewData["Name"]</h6>
+        <p><span class="online_animation"></span>Yönetici</p>
+    </div>
+}
+    @section menus{
+    <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        <i class="fa fa-dashboard yellow_color"></i> <span>İşlemler</span>
+    </a>
+    <ul class="collapse list-unstyled" id="dashboard">
+        <li>
+            <a asp-action="ListStudent" asp-controller="Boss">> <span>Öğrenci Listele</span></a>
+        </li>
+        <li>
+            <a asp-action="ListTeachers" asp-controller="Boss">> <span>Öğretmen Listele</span></a>
+        </li>
+        @if (ViewBag.isBoss)
+        {
+            <li>
+                <a asp-action="ListBoss" asp-controller="Boss"> <span>>Yönetici Listele</span></a>
+            </li>
+        }
+        <li>
+            <a asp-action="CreateStudent" asp-controller="Boss">> <span>>Öğrenci Ekle</span></a>
+        </li>
+        <li>
+            <a asp-action="OgrenciAktar" asp-controller="Boss">> <span>>Öğrenci Aktar</span></a>
+        </li>
+    </ul>
+}
+    @section pages{
+    <h3 class="bg-danger text-dark">@TempData["myError"]</h3>
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">AdSoyad</th>
-                <th scope="col">OgretmenNumarası</th>
-                <th scope="col">OgrenmenMaili</th>
+                <th scope="col">Öğrenci Numarasi</th>
+                <th scope="col">Ogrenci Mail Adresi</th>
+                <th scope="col">Detay</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
-            @foreach (var item in Model.StudentsList)
+            @foreach (var item in Model.StudentList)
             {
                 <tr>
-                    <th scope="row">1</th>
+                    <th scope="row">@item.Id</th>
                     <td>@item.StudentNumber</td>
                     <td>@item.StudentMail</td>
+                    <td><a class="text-info" asp-action="PersonDetails" asp-controller="Boss" asp-route-id="@item.StudentNumber">Detay</a></td>
                 </tr>
             }
         </tbody>

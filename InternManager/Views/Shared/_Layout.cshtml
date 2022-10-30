@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="~/css/bootstrap-select.css" />
     <!-- scrollbar css -->
     <link rel="stylesheet" href="~/css/perfect-scrollbar.css" />
-    <link rel="stylesheet" href="~/css/login.css" />
+    <link rel="stylesheet" href="~/css/login2.css" />
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
             async defer>
@@ -49,11 +49,7 @@
                 <div class="sidebar_blog_1">
                     <div class="sidebar-header">
                         <div class="logo_section">
-                            <a href="index.html">
-                                <img class="logo_icon img-responsive"
-                                     src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"
-                                     alt="#" />
-                            </a>
+                           @RenderSection("mainLink",false)
                         </div>
                     </div>
                     <div class="sidebar_user_info">
@@ -67,7 +63,10 @@
                     <h4>Hoşgeldiniz</h4>
                     <ul class="list-unstyled components">
                         <li class="active">
-     
+                            @if (@TempData["mError"] != null)
+                            {
+                                <div class="errorLogin"><h3>Giriş Tarihi Gecikti !.</h3></div>
+                            }
                          @RenderSection("menus",false)
                     </ul>
                 </div>
@@ -75,19 +74,17 @@
             <div id="content">
                 <!-- topbar -->
                 <div class="topbar">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <div class="full">
+                    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center align-items-center">
+                        <div class="full ">
                             <button type="button" id="sidebarCollapse" class="sidebar_toggle">
                                 <i class="fa fa-bars"></i>
                             </button>
                             <div class="logo_section">
-                                <a href="index.html">
                                     <img class="img-responsive"
                                          src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"
                                          alt="#" />
-                                </a>
                             </div>
-                          
+                            <div class="mt-2 text-center"><h3 class="text-light">Kocaeli Üniversitesi Staj Yönetimi</h3></div>
                         </div>
                     </nav>
                 </div>
@@ -108,7 +105,9 @@
             </div>
         </div>
     </div>
+      @RenderSection("myScripts",false)
     @RenderBody()
+
     <!-- jQuery -->
 
     <script type="text/javascript">

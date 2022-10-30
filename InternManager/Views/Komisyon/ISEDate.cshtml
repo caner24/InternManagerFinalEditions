@@ -1,16 +1,16 @@
-﻿@model Intern
+﻿@model BossModel
 @{
     Layout = "_Layout";
 }
 @section info{
     <div class="user_img">
         <img class="img-responsive"
-         src="https://i1.rgstatic.net/ii/profile.image/932039775760384-1599227007023_Q512/Serdar-Solak-2.jpg"
+         src="@ViewData["Path"]"
          alt="#" />
     </div>
     <div class="user_info">
-        <h6>Serdar Solak</h6>
-        <p><span class="online_animation"></span>Yönetici</p>
+        <h6>@ViewData["Name"]</h6>
+        <p><span class="online_animation"></span>Komisyon</p>
     </div>
 }
     @section menus{
@@ -33,33 +33,31 @@
 }
     @section pages{
 
-    <form asp-controller="Boss" asp-action="Intern2Det" method="post">
+    <form asp-controller="Boss" asp-action="ISE" method="post">
+
+
         <div class="form-group">
-            <label asp-for="Id"></label>
-            <input type="text" asp-for="Id" />
+            <label asp-for="Interns.RecStart"></label>
+            <input type="date" asp-for="Interns.RecStart" />
         </div>
         <div class="form-group">
-            <label asp-for="RecStart"></label>
-            <input type="date" asp-for="RecStart" />
-        </div>
-        <div class="form-group">
-            <label asp-for="RecEnd"></label>
-            <input type="date" asp-for="RecEnd" />
+            <label asp-for="Interns.RecEnd"></label>
+            <input type="date" asp-for="Interns.RecEnd" />
         </div>
 
         <div class="form-group">
-            <label asp-for="RecStart2"></label>
-            <input type="date" asp-for="RecStart2" />
+            <label asp-for="Interns.RecFileStart"></label>
+            <input type="date" asp-for="Interns.RecFileStart" />
         </div>
         <div class="form-group">
-            <label asp-for="RecEnd2"></label>
-            <input type="date" asp-for="RecEnd2" />
+            <label asp-for="Interns.RecFileEnd"></label>
+            <input type="date" asp-for="Interns.RecFileEnd" />
         </div>
         <div class="form-group">
-            <label asp-for="Type"></label>
-            <input type="text" asp-for="Type" value="Staj2" />
+            <label asp-for="Interns.Type"></label>
+            <input type="text" asp-for="Interns.Type" value="ISE" />
         </div>
-        <button type="submit" class="btn btn-primary">Staj Tarihi Güncelle</button>
+        <button type="submit" class="btn btn-primary">Staj Tarihi Kaydet</button>
     </form>
 
 }

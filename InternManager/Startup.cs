@@ -45,16 +45,17 @@ namespace InternManager
             services.AddTransient<IStudentManager, StudentManager>();
             services.AddTransient<ITeacherManager, TeacherManager>();
             services.AddTransient<IFacultyManager, FacultyManager>();
-            services.AddTransient<IKurumManager, KurumManager>();
             services.AddTransient<IInternManager, InternManagerer>();
+            services.AddTransient<IKomisyonManager, KomisyonManager>();
 
+
+            services.AddTransient<IKomisyonDal, EFKomisyonDal>();
             services.AddTransient<IBoosDal, EFBossDal>();
             services.AddTransient<IInternDal, EFInternDal>();
             services.AddTransient<IFacultyDal, EFFacultyDal>();
             services.AddTransient<IIntern1Dal, EFIntern1Dal>();
             services.AddTransient<IIntern2Dal, EFIntern2Dal>();
             services.AddTransient<IISEDal, EFISEDal>();
-            services.AddTransient<IKurumDal, EFKurumDal>();
             services.AddTransient<IPersonDal, EFPersonDal>();
             services.AddTransient<IStudentDal, EFStudentDal>();
             services.AddTransient<ITeacherDal, EFTeacherDal>();

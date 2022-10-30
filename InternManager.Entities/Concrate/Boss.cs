@@ -11,9 +11,10 @@ namespace InternManager.Entities.Concrate
     {
         [Key]
         public int Id { get; set; }
-        public bool IsSuper { get; set; }
         [Required(ErrorMessage ="Lütfen Yönetici Yapilmak İstenilen Kişiyi Seçin")]
         public int TeacherId { get; set; }
+
+        public bool IsSuper { get; set; }
 
         [ForeignKey("TeacherId")]
         public Teacher TeacherPk { get; set; }

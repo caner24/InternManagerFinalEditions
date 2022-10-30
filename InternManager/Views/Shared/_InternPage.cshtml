@@ -16,41 +16,42 @@
         }
 
         /*
-        body{
-            background-image:url("https://www.freelogovectors.net/svg05/kocaeli-universitesi-logo.svg");
-            background-repeat: no-repeat;
-            background-position:bottom;
-        }
-        */
+                body{
+                    background-image:url("https://www.freelogovectors.net/svg05/kocaeli-universitesi-logo.svg");
+                    background-repeat: no-repeat;
+                    background-position:bottom;
+                }
+                */
     </style>
 
-   @* <script>
-        function createPDF() {
-            document.getElementById("html2btn").style.visibility = "hidden";
-            var element = document.getElementById('element-to-print');
-            html2pdf(element, {
-                margin: 1,
-                padding: 0,
-                filename: 'myfile.pdf',
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: { scale: 2, logging: true },
-                jsPDF: { unit: 'in', format: 'A2', orientation: 'P' },
-                class: createPDF
-            });
-        };
+    @* <script>
+    function createPDF() {
+    document.getElementById("html2btn").style.visibility = "hidden";
+    var element = document.getElementById('element-to-print');
+    html2pdf(element, {
+    margin: 1,
+    padding: 0,
+    filename: 'myfile.pdf',
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: { scale: 2, logging: true },
+    jsPDF: { unit: 'in', format: 'A2', orientation: 'P' },
+    class: createPDF
+    });
+    };
     </script>*@
 
 </head>
 <body class="container">
     @RenderSection("internforms",false)
-   @* <button class="btn btn-primary html2PdfConverter" id="html2btn" onclick="createPDF()">Pdf Halini Al</button>*@
-    @RenderBody()
+    @* <button class="btn btn-primary html2PdfConverter" id="html2btn" onclick="createPDF()">Pdf Halini Al</button>*@
+
     <!-- <div class="content-footer">
         <button id="btn-export" onclick="exportHTML();">Export to
             word doc</button>
     </div>
     <button onclick="Export2Doc('exportContent');">Export as .doc</button> -->
-
+    @RenderSection("scripts",false);
+    @RenderBody()
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
             integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
             crossorigin="anonymous"></script>

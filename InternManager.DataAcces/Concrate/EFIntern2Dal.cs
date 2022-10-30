@@ -28,6 +28,11 @@ namespace InternManager.DataAcces.Concrate
             throw new NotImplementedException();
         }
 
+        public List<Intern2> Get(Expression<Func<Intern2, bool>> filter = null)
+        {
+            return context.Set<Intern2>().Where(filter).ToList();
+        }
+
         public List<Intern2> GetAll(Expression<Func<Intern2, bool>> filter = null)
         {
             return filter == null ? context.Set<Intern2>().ToList() : context.Set<Intern2>().Where(filter).ToList();

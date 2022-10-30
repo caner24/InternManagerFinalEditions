@@ -24,6 +24,11 @@ namespace InternManager.Business.Concrate
             _intern2Manager.Delete(entity);
         }
 
+        public List<Intern2> Get(string id)
+        {
+            return _intern2Manager.Get(i => i.TeacherId == Convert.ToInt32(id));
+        }
+
         public List<Intern2> GetAll()
         {
           return  _intern2Manager.GetAll();

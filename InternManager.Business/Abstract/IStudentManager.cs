@@ -13,5 +13,8 @@ namespace InternManager.Business.Abstract
         void Add(Student entity);
         void Delete(Student entity);
         void Update(Student entity);
+
+        Student Get(string number);
+        Student GetByPersonıd(string number);
     }
 }
