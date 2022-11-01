@@ -1,0 +1,79 @@
+﻿@model StudentModel
+@{
+    Layout = "_Layout";
+}
+
+@section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="@ViewData["Path"]"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>@ViewData["Name"]</h6>
+        <p><span class="online_animation"></span>Komisyon</p>
+    </div>
+}
+    @section menus{
+    <li>
+        <a href="#apps" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-object-group blue2_color"></i> <span>Staj İşlemleri</span></a>
+        <ul class="collapse list-unstyled" id="apps">
+            <li><a asp-action="ListStaj1" asp-controller="Teacher"><span>Staj-1</span></a></li>
+            <li><a asp-action="ListStaj2" asp-controller="Teacher"><span>Staj-2</span></a></li>
+            <li><a asp-action="ListIME" asp-controller="Teacher"><span>ISE</span></a></li>
+        </ul>
+    </li>
+
+    }
+    @section pages{
+    <div class="row column1 d-flex" style="display:flex;">
+        <div class="col-md-3" style="margin-left:2%">
+            <div class="full counter_section margin_bottom_30">
+                <div class="couter_icon">
+                    <div>
+                        <i class="fa fa-clock-o blue1_color"></i>
+                    </div>
+                </div>
+                <div class="p-5 counter_no">
+                    <div>
+
+                        @if (ViewBag.staj1Yüklendi)
+                        {
+                            if (ViewBag.Onaylandi)
+                            {
+                                <h3 class="mt-5 text-center bg-success text-dark">Staj-1 Onaylanmis</h3>
+                                @using (Html.BeginForm("downloadDefterIME", "Teacher", FormMethod.Post))
+                                {
+                                    <input type="submit" id="btnCancel" value="Indir" />
+                                }
+                            }
+                            else
+                            {
+                                @using (Html.BeginForm("downloadDefterIME", "Teacher", FormMethod.Post))
+                                {
+                                    <input type="submit" id="btnCancel" value="Indir" />
+                                }
+                                @using (Html.BeginForm("durumDegisIME", "Teacher", FormMethod.Post))
+                                {
+                                    <label>Onayla</label>
+                                    <input type="radio" asp-for="Intern1s.IsOk2" value="1" />
+                                    <label>Onaylama</label>
+                                    <input type="radio" asp-for="Intern1s.IsOk2" value="0" />
+                                    <label>Onaylandıysanız veya onaylamadıysanız nedeni </label>
+                                    <input type="text" asp-for="Intern1s.Info"  />
+                                    <label>Kabul Edilen Günler</label>
+                                    <input type="text" asp-for="Intern1s.OkDays"  />
+                                    <input type="submit" id="btnCancel" value="Indir" />
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <h3 class="mt-5 text-center bg-danger text-dark">Staj-1 Başvuru Formu Yüklenmemiş</h3>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }

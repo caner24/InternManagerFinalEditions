@@ -49,12 +49,12 @@ namespace InternManager.DataAcces.Concrate
 
         public Student GetByPersonıd(string number)
         {
-            return context.Set<Student>().SingleOrDefault(i => i.PersonId ==Convert.ToInt32(number));
+            return context.Set<Student>().SingleOrDefault(i => i.PersonId == Convert.ToInt32(number));
         }
 
         public Student getPerson(string number, string password)
         {
-            return context.Set<Student>().SingleOrDefault(i=>i.StudentNumber==number && i.StudentPassword==password);
+            return context.Set<Student>().SingleOrDefault(i => i.StudentNumber == number && i.StudentPassword == password);
         }
 
         public void Update(Student entity)

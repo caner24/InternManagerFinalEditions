@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 using System.Linq;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace InternManager.WebUI.Controllers
 {
@@ -28,19 +29,27 @@ namespace InternManager.WebUI.Controllers
 
         private IPersonManager _personManager;
         private ITeacherManager _teacherManager;
-        private IIntern1Manager _internManager;
+        private IInternManager _internManager;
+        private IIntern1Manager _intern1Manager;
+        private IIntern2Manager _intern2Manager;
+        private IISEManager _iseManager;
         private IStudentManager _studentManager;
         private IHostingEnvironment Environment;
         private IConfiguration Configuration;
         public static string myId;
         public static string myPath;
+        public static string myStudentsId;
         public static Person _person;
         public string[] _studentPass = new string[1];
         public static Teacher teacher;
         public static Teacher myTeacher;
         public static List<Person> mPersons;
-        public TeacherController(IIntern1Manager internManager, IHostingEnvironment _environment, IConfiguration _configuration, IStudentManager studentManager, IPersonManager personManager, ITeacherManager teacherManager)
+        public static Student myStudents = new Student();
+        public TeacherController(IISEManager iseManager,IIntern2Manager intern2Manager,  IIntern1Manager intern1Manager, IInternManager internManager, IHostingEnvironment _environment, IConfiguration _configuration, IStudentManager studentManager, IPersonManager personManager, ITeacherManager teacherManager)
         {
+            _iseManager = iseManager;
+            _intern2Manager = intern2Manager;
+            _intern1Manager = intern1Manager;
             _internManager = internManager;
             Environment = _environment;
             Configuration = _configuration;
@@ -55,6 +64,7 @@ namespace InternManager.WebUI.Controllers
         {
 
             var person = _personManager.Get(teacher.PersonId.ToString());
+            myTeacher = teacher;
             if (person.Image != null)
             {
                 string myPath = BossModel.ByteArrayToImageAsync(person.Image);
@@ -65,9 +75,36 @@ namespace InternManager.WebUI.Controllers
             ViewData["Id"] = teacher.TeacherNumber;
             myId = teacher.TeacherNumber;
 
+            ViewData["gDate"] = DateTime.Now.ToString("d");
+
             var intern1Det = _internManager.GetById("Staj1");
             var intern2Det = _internManager.GetById("Staj2");
             var iseDET = _internManager.GetById("ISE");
+
+            if (intern1Det != null)
+            {
+                ViewData["Staj1Type"] = intern1Det.Type;
+                ViewData["Staj1Tarih"] = intern1Det.RecStart.ToString("d");
+                ViewData["Staj1Tarih2"] = intern1Det.RecEnd.ToString("d");
+                ViewData["Staj1TarihV1"] = intern1Det.RecFileStart2.ToString("d");
+                ViewData["Staj1TarihV2"] = intern1Det.RecFileStart2.ToString("d");
+            }
+            if (intern2Det != null)
+            {
+                ViewData["Staj2Type"] = intern2Det.Type;
+                ViewData["Staj2Tarih"] = intern2Det.RecStart.ToString("d");
+                ViewData["Staj2Tarih2"] = intern2Det.RecEnd.ToString("d");
+                ViewData["Staj2Tarih2V1"] = intern2Det.RecFileStart2.ToString("d");
+                ViewData["Staj2Tarih2V2"] = intern2Det.RecFileStart2.ToString("d");
+            }
+            if (iseDET != null)
+            {
+                ViewData["IseType"] = iseDET.Type;
+                ViewData["ISE"] = iseDET.RecStart.ToString("d");
+                ViewData["ISE2"] = iseDET.RecEnd.ToString("d");
+                ViewData["ISE2V1"] = iseDET.RecFileStart2.ToString("d");
+                ViewData["ISE2V2"] = iseDET.RecFileStart2.ToString("d");
+            }
 
             myTeacher = _teacherManager.GetById(teacher.TeacherNumber.ToString());
             return View(teacher);
@@ -109,160 +146,228 @@ namespace InternManager.WebUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult StudentDetail(string Id)
+        public IActionResult ListStaj1()
         {
             TeacherModel model = new TeacherModel();
-            var student = _studentManager.GetById(Id);
-            var person = _personManager.GetById(student.PersonId.ToString());
-            ViewData["path"] = myPath;
-            ViewData["Name"] = _person.NameSurname;
-            ViewData["pathV2"] = BossModel.ByteArrayToImageAsync(person.Image);
-            ViewData["Name2"] = person.NameSurname;
-            StudentModel studentModel = new StudentModel();
-            studentModel.Students = student;
-            studentModel.Persons = person;
-            return View(model);
-        }
-
-
-        [HttpGet]
-        public IActionResult ExcellToDb(int id, IFormCollection student)
-        {
-
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult ExcellToDb(IFormFile postedFile)
-        {
-            mPersons = new List<Person>();
-            if (postedFile != null)
-            {
-                //Create a Folder.
-                string path = Path.Combine(this.Environment.WebRootPath, "Uploads");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-
-                //Save the uploaded Excel file.
-                string fileName = Path.GetFileName(postedFile.FileName);
-                string filePath = Path.Combine(path, fileName);
-                using (FileStream stream = new FileStream(filePath, FileMode.Create))
-                {
-                    postedFile.CopyTo(stream);
-                }
-
-                //Read the connection string for the Excel file.
-                string conString = this.Configuration.GetConnectionString("ExcelConString");
-                DataTable dt = new DataTable();
-                conString = string.Format(conString, filePath);
-
-                using (OleDbConnection connExcel = new OleDbConnection(conString))
-                {
-                    using (OleDbCommand cmdExcel = new OleDbCommand())
-                    {
-                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-                        {
-                            cmdExcel.Connection = connExcel;
-
-                            //Get the name of First Sheet.
-                            connExcel.Open();
-                            DataTable dtExcelSchema;
-                            dtExcelSchema = connExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                            connExcel.Close();
-
-                            //Read Data from First Sheet.
-                            connExcel.Open();
-                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                            odaExcel.SelectCommand = cmdExcel;
-                            OleDbDataReader dr = cmdExcel.ExecuteReader();
-
-                            while (dr.Read())
-                            {
-                                Person person = new Person();
-                                person.IdentyNumber = dr["IdentyNumber"].ToString();
-                                person.NameSurname = dr["StudentMail"].ToString();
-                                person.PhoneNumber = dr["StudentNumber"].ToString();
-                                mPersons.Add(person);
-                            }
-                            dr.Close();
-                            odaExcel.Fill(dt);
-                            connExcel.Close();
-                        }
-                    }
-                }
-
-                //Insert the Data read from the Excel file to Database Table.
-                conString = this.Configuration.GetConnectionString("DefaultConnection");
-                using (SqlConnection con = new SqlConnection(conString))
-                {
-                    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
-                    {
-                        //Set the database table name.
-                        sqlBulkCopy.DestinationTableName = "dbo.Persons";
-
-                        //[OPTIONAL]: Map the Excel columns with that of the database table
-                        sqlBulkCopy.ColumnMappings.Add("IdentyNumber", "IdentyNumber");
-                        sqlBulkCopy.ColumnMappings.Add("Civilization", "Civilization");
-                        sqlBulkCopy.ColumnMappings.Add("NameSurname", "NameSurname");
-                        sqlBulkCopy.ColumnMappings.Add("Gender", "Gender");
-                        sqlBulkCopy.ColumnMappings.Add("PhoneNumber", "PhoneNumber");
-                        con.Open();
-                        sqlBulkCopy.WriteToServer(dt);
-                        con.Close();
-                    }
-                }
-                using (SqlConnection con = new SqlConnection(conString))
-                {
-                    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
-                    {
-                        //Set the database table name.
-                        sqlBulkCopy.DestinationTableName = "dbo.Students";
-
-                        //[OPTIONAL]: Map the Excel columns with that of the database table
-                        sqlBulkCopy.ColumnMappings.Add("FacultyId", "FacultyId");
-                        sqlBulkCopy.ColumnMappings.Add("StudentNumber", "StudentNumber");
-                        sqlBulkCopy.ColumnMappings.Add("StudentMail", "StudentMail");
-                        sqlBulkCopy.ColumnMappings.Add("PersonId", "PersonId");
-                        sqlBulkCopy.ColumnMappings.Add("IsFirstPassword", "IsFirstPassword");
-
-                        con.Open();
-                        sqlBulkCopy.WriteToServer(dt);
-                        con.Close();
-                    }
-                }
-                foreach (var item in mPersons)
-                {
-                    var person = _personManager.GetById(item.IdentyNumber);
-                    var student = _studentManager.GetById(item.PhoneNumber);
-                    student.StudentPassword =BossModel.SendMail(item.NameSurname);
-                    student.StudentPassword = BossModel.GetMd5(student.StudentNumber);
-                    student.PersonId = person.Id;
-                    _studentManager.Update(student);
-                }
-            }
-            return View();
-        }
-        [HttpGet]
-        public IActionResult ListStudents(string id)
-        {
-            TeacherModel model = new TeacherModel();
-            var internList = _internManager.Get(id);
+            var internList = _intern1Manager.GetAll();
             model.Teacher = teacher;
+            List<Student> tempList = new List<Student>();
             if (internList != null)
             {
                 foreach (var item in internList)
                 {
-                    model.StudentList.Add(_studentManager.Get(item.Student_Id.ToString()));
+                    if (item.TeacherId == myTeacher.Id)
+                    {
+                        tempList.Add(_studentManager.Get(item.Student_Id.ToString()));
+                    }
                 }
             }
-
-
+            model.StudentList = tempList;
             ViewData["path"] = myPath;
             ViewData["Name"] = _person.NameSurname;
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Staj1Detail(string id)
+        {
+            myStudentsId = id;
+            TeacherModel model = new TeacherModel();
+            var internList = _intern1Manager.GetById(id);
+            myStudents = _studentManager.GetById(id);
+            if (internList.DetailDocument2!=null)
+            {
+                ViewBag.staj1Yüklendi = true;
+                if (internList.IsOk==true)
+                {
+                    ViewBag.Onaylandi = true;
+                }
+                else
+                {
+                    ViewBag.Onaylandi = false;
+                }
+            }
+            ViewData["path"] = myPath;
+            ViewData["Name"] = _person.NameSurname;
+            return View();
+
+        }
+
+        [HttpGet]
+        public IActionResult Staj2Detail(string id)
+        {
+            myStudentsId = id;
+            TeacherModel model = new TeacherModel();
+            var internList = _intern2Manager.GetById(id);
+            myStudents = _studentManager.GetById(id);
+            if (internList.DetailDocument2 != null)
+            {
+                ViewBag.staj1Yüklendi = true;
+                if (internList.IsOk == true)
+                {
+                    ViewBag.Onaylandi = true;
+                }
+                else
+                {
+                    ViewBag.Onaylandi = false;
+                }
+            }
+            ViewData["path"] = myPath;
+            ViewData["Name"] = _person.NameSurname;
+            return View();
+
+        }
+        [HttpGet]
+        public IActionResult IMEDetails(string id)
+        {
+            myStudentsId = id;
+            TeacherModel model = new TeacherModel();
+            var internList = _iseManager.GetById(id);
+            myStudents = _studentManager.GetById(id);
+            if (internList.DetailDocument2 != null)
+            {
+                ViewBag.staj1Yüklendi = true;
+                if (internList.IsOk == true)
+                {
+                    ViewBag.Onaylandi = true;
+                }
+                else
+                {
+                    ViewBag.Onaylandi = false;
+                }
+            }
+            ViewData["path"] = myPath;
+            ViewData["Name"] = _person.NameSurname;
+            return View();
+
+        }
+
+        [HttpPost]
+        public IActionResult downloadDefterStaj1(string myFileseas)
+        {
+            var mIntern = _intern1Manager.GetById(myStudents.Id.ToString());
+            var getStudent = _studentManager.Get(myStudents.Id.ToString());
+            if (mIntern.DetailDocument != null)
+            {
+                byte[] byteArr = mIntern.DetailDocument;
+                string namePipe = "application/pdf";
+                return new FileContentResult(byteArr, namePipe)
+                {
+                    FileDownloadName = $"{myStudents.StudentNumber}_StajDefteri(Staj1).pdf"
+                };
+            }
+            return RedirectToAction("Intern1Main", "Boss", myStudentsId);
+        }
+        [HttpPost]
+        public IActionResult downloadDefterStaj2(string myFileseas)
+        {
+            var mIntern = _intern2Manager.GetById(myStudents.Id.ToString());
+            var getStudent = _studentManager.Get(myStudents.Id.ToString());
+            if (mIntern.DetailDocument != null)
+            {
+                byte[] byteArr = mIntern.DetailDocument;
+                string namePipe = "application/pdf";
+                return new FileContentResult(byteArr, namePipe)
+                {
+                    FileDownloadName = $"{myStudents.StudentNumber}_StajDefteri(Staj2).pdf"
+                };
+            }
+            return RedirectToAction("Intern1Main", "Boss", myStudentsId);
+        }
+        [HttpPost]
+        public IActionResult durumDegis(BossModel model)
+        {
+            var mIntern = _intern1Manager.GetById(myStudents.Id.ToString());
+            var getStudent = _studentManager.Get(myStudents.Id.ToString());
+
+            if (model.Staj1.IsOk2==true)
+            {
+                mIntern.IsOk2 = true;
+            }
+            else
+            {
+                mIntern.IsOk2 = false;
+            }
+            mIntern.OkDays = model.Staj1.OkDays;
+            mIntern.Info = model.Staj1.Info;
+
+            _intern1Manager.Update(mIntern);
+
+            BossModel.SendMail2("Staj defterinizde değişiklik meydana geldi Lütfen Sisteme Giriş Yapip Kontrol Edin", getStudent.StudentMail);
+
+            return RedirectToAction("Index", "Teacher", myStudents);
+        }
+
+        [HttpPost]
+        public IActionResult durumDegisStaj2(BossModel model)
+        {
+            var mIntern = _intern2Manager.GetById(myStudents.Id.ToString());
+            var getStudent = _studentManager.Get(myStudents.Id.ToString());
+
+            if (model.Staj1.IsOk2 == true)
+            {
+                mIntern.IsOk2 = true;
+            }
+            else
+            {
+                mIntern.IsOk2 = false;
+            }
+            mIntern.OkDays = model.Staj1.OkDays;
+            mIntern.Info = model.Staj1.Info;
+
+            _intern2Manager.Update(mIntern);
+
+            BossModel.SendMail2("Staj defterinizde değişiklik meydana geldi Lütfen Sisteme Giriş Yapip Kontrol Edin", getStudent.StudentMail);
+
+            return RedirectToAction("Index", "Teacher", myStudents);
+        }
+
+        [HttpPost]
+        public IActionResult durumDegisIme(BossModel model)
+        {
+            var mIntern = _iseManager.GetById(myStudents.Id.ToString());
+            var getStudent = _studentManager.Get(myStudents.Id.ToString());
+
+            if (model.Staj1.IsOk2 == true)
+            {
+                mIntern.IsOk2 = true;
+            }
+            else
+            {
+                mIntern.IsOk2 = false;
+            }
+            mIntern.OkDays = model.Staj1.OkDays;
+            mIntern.Info = model.Staj1.Info;
+
+            _iseManager.Update(mIntern);
+
+            BossModel.SendMail2("Staj defterinizde değişiklik meydana geldi Lütfen Sisteme Giriş Yapip Kontrol Edin", getStudent.StudentMail);
+
+            return RedirectToAction("Index", "Teacher", myStudents);
+        }
+
+        [HttpPost]
+        public IActionResult downloadDefterIME(BossModel model)
+        {
+            var mIntern = _iseManager.GetById(myStudents.Id.ToString());
+            var getStudent = _studentManager.Get(myStudents.Id.ToString());
+
+            if (model.Staj1.IsOk2 == true)
+            {
+                mIntern.IsOk2 = true;
+            }
+            else
+            {
+                mIntern.IsOk2 = false;
+            }
+            mIntern.OkDays = model.Staj1.OkDays;
+            mIntern.Info = model.Staj1.Info;
+
+            _iseManager.Update(mIntern);
+
+            BossModel.SendMail2("Staj defterinizde değişiklik meydana geldi Lütfen Sisteme Giriş Yapip Kontrol Edin", getStudent.StudentMail);
+
+            return RedirectToAction("IMEDetails", "Teacher", myStudentsId);
         }
     }
 }

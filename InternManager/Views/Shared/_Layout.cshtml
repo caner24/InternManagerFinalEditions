@@ -27,6 +27,9 @@
     <link rel="stylesheet" href="~/css/bootstrap-select.css" />
     <!-- scrollbar css -->
     <link rel="stylesheet" href="~/css/perfect-scrollbar.css" />
+
+
+
     <link rel="stylesheet" href="~/css/login2.css" />
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
@@ -49,7 +52,7 @@
                 <div class="sidebar_blog_1">
                     <div class="sidebar-header">
                         <div class="logo_section">
-                           @RenderSection("mainLink",false)
+                            @RenderSection("mainLink",false)
                         </div>
                     </div>
                     <div class="sidebar_user_info">
@@ -67,7 +70,7 @@
                             {
                                 <div class="errorLogin"><h3>Giriş Tarihi Gecikti !.</h3></div>
                             }
-                         @RenderSection("menus",false)
+                            @RenderSection("menus",false)
                     </ul>
                 </div>
             </nav>
@@ -80,9 +83,9 @@
                                 <i class="fa fa-bars"></i>
                             </button>
                             <div class="logo_section">
-                                    <img class="img-responsive"
-                                         src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"
-                                         alt="#" />
+                                <img class="img-responsive"
+                                     src="https://seeklogo.com/images/K/kocaeli___niversitesi-logo-440B62032E-seeklogo.com.png"
+                                     alt="#" />
                             </div>
                             <div class="mt-2 text-center"><h3 class="text-light">Kocaeli Üniversitesi Staj Yönetimi</h3></div>
                         </div>
@@ -101,11 +104,11 @@
                         @RenderSection("pages",false)
                     </div>
                 </div>
-               
+
             </div>
         </div>
     </div>
-      @RenderSection("myScripts",false)
+    @RenderSection("scripts",false)
     @RenderBody()
 
     <!-- jQuery -->
@@ -119,23 +122,25 @@
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/popper.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
-    <!-- wow animation -->
     <script src="~/js/animate.js"></script>
-    <!-- select country -->
     <script src="~/js/bootstrap-select.js"></script>
-    <!-- owl carousel -->
     <script src="~/js/owl.carousel.js"></script>
-    <!-- chart js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
     <script src="~/js/Chart.min.js"></script>
     <script src="~/js/Chart.bundle.min.js"></script>
     <script src="~/js/utils.js"></script>
     <script src="~/js/analyser.js"></script>
-    <!-- nice scrollbar -->
     <script src="~/js/perfect-scrollbar.min.js"></script>
     <script>
         var ps = new PerfectScrollbar('#sidebar');
     </script>
-    <!-- custom js -->
     <script src="~/js/custom.js"></script>
     <script src="~/js/chart_custom_style1.js"></script>
 </body>

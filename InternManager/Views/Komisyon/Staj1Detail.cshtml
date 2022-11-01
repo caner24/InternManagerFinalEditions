@@ -33,44 +33,83 @@
 
             @if (ViewBag.Staj1 != false)
             {
-                if (ViewBag.Durum == false)
+                if (ViewBag.tarihOk == true)
                 {
-                    @if (ViewBag.tarihOk==true)
+                    if (ViewBag.Durum == true)
                     {
-                     <form enctype="multipart/form-data" asp-action="Intern1FileMain" asp-controller="Student" enctype="multipart/form-data">
-                        <input value="caner" hidden type="text" id="myFile" />
-                        <input value="studentId" value="@Model.Student.Id" hidden type="text" name="studentId" id="studentId" />
-                        <button type="submit">Staj-1 İndir</button>
-                    </form>
-
-                    <form enctype="multipart/form-data" asp-action="Intern1FileMain" asp-controller="Student" enctype="multipart/form-data">
-                        <input value="studentId" value="@Model.Student.Id" hidden type="text" name="studentId" id="studentId" />
-
-
-                        <label for="onay">Onay Durumları</label>
-                        <input type="radio" asp-for="@Model.Staj1.IsOk" value="1">Onayla
-                        <input type="radio" asp-for="@Model.Staj1.IsOk" value="0">Reddet
-
-                        <input type="text" asp-for="@Model.Staj1.Info" value="0">Reddet
-                        <button type="submit">Kaydet</button>
-                    </form>
-                      }
-                      else
-                    {
-                     <h3 class="text-danger">TARİH GECİKTİ !.</h3>
+                        <h3>Staj Belgesi Onaylanmış !.</h3>
+                        @using (Html.BeginForm("download", "Komisyon", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <input type="submit" id="btnCancel" value="İndir" />
+                        }
+                        @using (Html.BeginForm("imeSec", "Komisyon", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <LABEL for="Staj1.Info">GÜZ</LABEL>
+                            <input type="radio" asp-for="IME.Dönem" value="Güz">
+                            <LABEL for="Staj1.Info">BAHAR</LABEL>
+                            <input type="radio" asp-for="IME.Dönem" value="Bahar">
+                            <input type="submit" id="btnCancel" value="IMESEC" />
+                        }
                     }
-                }
-                   
+                    else
+                    {
+                        <h3>Başvuru Formu İndir</h3>
+                        @using (Html.BeginForm("download", "Komisyon", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <input type="submit" id="btnCancel" value="İndir" />
+                        }
+                        @using (Html.BeginForm("change", "Komisyon", FormMethod.Post))
+                        {
+                            <label for="onay">Onay Durumları</label>
+                            <div class="form-group">
+                                <LABEL>Onayla</LABEL>
+                                <input type="radio" asp-for="Staj1.IsOk" value="1">
+                            </div>
+
+                            <div class="form-group">
+                                <LABEL>Reddet</LABEL>
+                                <input type="radio" asp-for="Staj1.IsOk" value="0">
+                            </div>
+
+                            <div class="form-group">
+                                <LABEL for="Staj1.Info">Redse Neden Red ?</LABEL>
+                                <input type="text" asp-for="Staj1.Info">
+                            </div>
+
+
+                            <input type="submit" id="btnCancel" value="İndir" />
+                        }
+                    }
                 }
                 else
                 {
-                    <h3 class="text-success">STAJ1 ONAYLANMIŞ</h3>
+                    if (ViewBag.Durum == true)
+                    {
+                        <h3>Staj Belgesi Onaylanmış !.</h3>
+                        @using (Html.BeginForm("download", "Komisyon", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <input type="submit" id="btnCancel" value="İndir" />
+                        }
+                        @using (Html.BeginForm("imeSec", "Komisyon", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <LABEL for="Staj1.Info">GÜZ</LABEL>
+                            <input type="radio" asp-for="IME.Dönem" value="Güz">
+                            <LABEL for="Staj1.Info">BAHAR</LABEL>
+                            <input type="radio" asp-for="IME.Dönem" value="Bahar">
+                            <input type="submit" id="btnCancel" value="IMESEC" />
+                        }
+                    }
+                    else
+                    {
+                        <h3 class="bg-danger text-dark">Süre geçmiş ve belge yüklenmemiş !.</h3>
+                    }
                 }
             }
             else
             {
                 <h3 class="text-danger">HERHANGİ BİR BELGE YÜKLENMEMİŞ !.</h3>
             }
+
 
 
         </div>

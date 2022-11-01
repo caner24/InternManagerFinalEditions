@@ -1,4 +1,4 @@
-﻿ @model BossModel
+﻿@model BossModel
 
 @section info{
     <div class="user_img">
@@ -10,6 +10,19 @@
         <h6>@ViewData["Name"]</h6>
         <p><span class="online_animation"></span>Komisyon</p>
     </div>
+}
+    @section menus{
+    <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        <i class="fa fa-dashboard yellow_color"></i> <span>İşlemler</span>
+    </a>
+    <ul class="collapse list-unstyled" id="dashboard">
+        <li>
+            <a asp-action="ListTeachers" asp-controller="Komisyon">> <span>Öğretmen Listele</span></a>
+        </li>
+        <li>
+            <a asp-action="ListStudents" asp-controller="Komisyon">> <span>Öğrenci Listele</span></a>
+        </li>
+    </ul>
 }
     @section pages{
     <h3 class="bg-danger text-dark">@TempData["myError"]</h3>
@@ -28,9 +41,10 @@
                     <th scope="row">1</th>
                     <td>@item.StudentNumber</td>
                     <td>@item.StudentMail</td>
-                    <td><a asp-action="Staj1Detail" asp-controller="Boss" asp-route-id="@item.Id">Staj-1</a></td>
-                    <td><a asp-action="Staj2Detail" asp-controller="Boss" asp-route-id="@item.Id">Staj-2</a></td>
-                    <td><a asp-action="IMEDetail" asp-controller="Boss" asp-route-id="@item.Id">ISE</a></td>
+                    <td><a class="text-info" asp-action="Staj1Detail" asp-controller="Komisyon" asp-route-id="@item.StudentNumber">STAJ-1</a></td>
+                    <td><a class="text-info" asp-action="Staj2Detail" asp-controller="Komisyon" asp-route-id="@item.StudentNumber">STAJ-2</a></td>
+                    <td><a class="text-info" asp-action="IMEDetail" asp-controller="Komisyon" asp-route-id="@item.StudentNumber">IME</a></td>
+
                 </tr>
             }
         </tbody>

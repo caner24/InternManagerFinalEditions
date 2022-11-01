@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Formatters.Internal;
 
 namespace InternManager.WebUI.Controllers
 {
@@ -40,7 +41,9 @@ namespace InternManager.WebUI.Controllers
         private static Teacher myTeacher;
         private static int _studentId;
         private static string _nameSurname;
+        private Student selectedStudent = new Student();
         private static BossModel myBoss = new BossModel();
+        public static Student DetailStudent = new Student();
 
         public KomisyonController(IHostingEnvironment _environmentIConfiguration, IConfiguration _configuration, IIntern1Manager intern1Manager, IIntern2Manager intern2Manager, IISEManager iseManager, IKomisyonManager komisyonManager, IInternManager internManager, IFacultyManager facultyManager, IBossManager boss, ITeacherManager teacher, IPersonManager personManager, IStudentManager studentManager)
         {
@@ -83,21 +86,22 @@ namespace InternManager.WebUI.Controllers
         [HttpGet]
         public IActionResult TeacherDetails(string id)
         {
-            var student = _intern1Manager.GetAll();
-            List<Student> myStudentList = new List<Student>();
+            var student = _studentManager.GetAll();
+            var yetkiliOgretmen = _teacherManager.GetById(id);
+
+            List<Student> myStudent = new List<Student>();
             foreach (var item in student)
             {
-                if (_intern1Manager.Get(myTeacher.Id.ToString()) == null)
+                if (_intern1Manager.GetById(item.Id.ToString()) == null)
                 {
-                    myStudentList.Add(_studentManager.Get(_intern1Manager.GetById(item.Student_Id.ToString()).Student_Id.ToString()));
+                    myStudent.Add(item);
                 }
             }
-            ViewBag.Students = new SelectList(myStudentList, "Id", "FacultyName");
+            ViewBag.Students = new SelectList(myStudent, "Id", "StudentNumber");
             ViewBag.Categories = new SelectList(_facultyManager.GetAll(), "Id", "FacultyName");
             BossModel model = new BossModel();
-            var myStudent = _teacherManager.GetById(id);
-            model.Teacher = myStudent;
-            model.Persons = _personManager.Get(myStudent.PersonId.ToString());
+            model.Teacher = yetkiliOgretmen;
+            model.Persons = _personManager.Get(yetkiliOgretmen.PersonId.ToString());
             ViewData["StudentPath"] = myPath;
             ViewData["Name"] = _nameSurname;
             ViewBag.isSuperBoss = _bossManager.GetById(myTeacher.Id.ToString()).IsSuper == true ? true : false;
@@ -115,15 +119,146 @@ namespace InternManager.WebUI.Controllers
         }
 
         [HttpPost]
-        public  IActionResult TeacherDetails(BossModel model)
+        public IActionResult TeacherDetails(BossModel model)
         {
 
-            var myStaj1 = _intern1Manager.GetById(model.Student.Id.ToString());
-            myStaj1.TeacherId = model.Teacher.Id;
-            _intern1Manager.Update(myStaj1);
-
+            selectedStudent = _studentManager.Get(model.Student.Id.ToString());
+            if (_intern1Manager.GetById(model.Student.Id.ToString()) != null)
+            {
+                var myStaj1 = _intern1Manager.GetById(model.Student.Id.ToString());
+                myStaj1.TeacherId = model.Teacher.Id;
+                _intern1Manager.Update(myStaj1);
+            }
+            else
+            {
+                Intern1 myStajSelect = new Intern1();
+                myStajSelect.Student_Id = model.Student.Id;
+                myStajSelect.TeacherId = model.Teacher.Id;
+                myStajSelect.InternId = _internManager.GetById("Staj1").Id;
+                _intern1Manager.Add(myStajSelect);
+            }
+            BossModel.SendMail2(selectedStudent.StudentMail, "Öğretmen Ataması Yapıldı Sunum Yapacağınız Öğretmen : " + _personManager.Get(myTeacher.PersonId.ToString()).NameSurname);
             TempData["Eklendi"] = "Öğrenci-Öğretmen Atandı";
-            return RedirectToAction("TeacherList", "Komisyon", model.Teacher.Id);
+            return RedirectToAction("ListTeachers", "Komisyon", model.Teacher.Id);
+        }
+
+        [HttpGet]
+        public IActionResult TeacherDetailsIme(string id)
+        {
+            var student = _studentManager.GetAll();
+            var yetkiliOgretmen = _teacherManager.GetById(id);
+
+            List<Student> myStudent = new List<Student>();
+            foreach (var item in student)
+            {
+                if (_iseManager.GetById(item.Id.ToString()) == null)
+                {
+                    myStudent.Add(item);
+                }
+            }
+            ViewBag.Students = new SelectList(myStudent, "Id", "StudentNumber");
+            ViewBag.Categories = new SelectList(_facultyManager.GetAll(), "Id", "FacultyName");
+            BossModel model = new BossModel();
+            model.Teacher = yetkiliOgretmen;
+            model.Persons = _personManager.Get(yetkiliOgretmen.PersonId.ToString());
+            ViewData["StudentPath"] = myPath;
+            ViewData["Name"] = _nameSurname;
+            ViewBag.isSuperBoss = _bossManager.GetById(myTeacher.Id.ToString()).IsSuper == true ? true : false;
+            if (model.Persons.Image != null)
+            {
+                myPath2 = BossModel.ByteArrayToImageAsync(model.Persons.Image);
+                ViewData["Path"] = myPath2;
+            }
+            else
+            {
+                ViewData["path"] = " ";
+            }
+
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult TeacherDetailsIme(BossModel model)
+        {
+
+            selectedStudent = _studentManager.Get(model.Student.Id.ToString());
+            if (_iseManager.GetById(model.Student.Id.ToString()) != null)
+            {
+                var myStaj1 = _iseManager.GetById(model.Student.Id.ToString());
+                myStaj1.TeacherId = model.Teacher.Id;
+                _iseManager.Update(myStaj1);
+            }
+            else
+            {
+                ISE myStajSelect = new ISE();
+                myStajSelect.Student_Id = model.Student.Id;
+                myStajSelect.TeacherId = model.Teacher.Id;
+                myStajSelect.IsOk = false;
+                myStajSelect.IsOk2 = false;
+                myStajSelect.InternId = _internManager.GetById("ISE").Id;
+                _iseManager.Add(myStajSelect);
+            }
+            BossModel.SendMail2(selectedStudent.StudentMail, "Öğretmen Ataması Yapıldı Sunum Yapacağınız Öğretmen : " + _personManager.Get(myTeacher.PersonId.ToString()).NameSurname);
+            TempData["Eklendi"] = "Öğrenci-Öğretmen Atandı";
+            return RedirectToAction("ListTeachers", "Komisyon", model.Teacher.Id);
+        }
+
+
+        [HttpGet]
+        public IActionResult TeacherDetailsStaj2(string id)
+        {
+            var student = _studentManager.GetAll();
+            var yetkiliOgretmen = _teacherManager.GetById(id);
+
+            List<Student> myStudent = new List<Student>();
+            foreach (var item in student)
+            {
+                if (_intern2Manager.GetById(item.Id.ToString()) == null)
+                {
+                    myStudent.Add(item);
+                }
+            }
+            ViewBag.Students = new SelectList(myStudent, "Id", "StudentNumber");
+            ViewBag.Categories = new SelectList(_facultyManager.GetAll(), "Id", "FacultyName");
+            BossModel model = new BossModel();
+            model.Teacher = yetkiliOgretmen;
+            model.Persons = _personManager.Get(yetkiliOgretmen.PersonId.ToString());
+            ViewData["StudentPath"] = myPath;
+            ViewData["Name"] = _nameSurname;
+            ViewBag.isSuperBoss = _bossManager.GetById(myTeacher.Id.ToString()).IsSuper == true ? true : false;
+            if (model.Persons.Image != null)
+            {
+                myPath2 = BossModel.ByteArrayToImageAsync(model.Persons.Image);
+                ViewData["Path"] = myPath2;
+            }
+            else
+            {
+                ViewData["path"] = " ";
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult TeacherDetailsStaj2(BossModel model)
+        {
+            selectedStudent = _studentManager.Get(model.Student.Id.ToString());
+            if (_intern2Manager.GetById(model.Student.Id.ToString()) != null)
+            {
+                var myStaj1 = _intern2Manager.GetById(model.Student.Id.ToString());
+                myStaj1.TeacherId = model.Teacher.Id;
+                _intern2Manager.Update(myStaj1);
+            }
+            else
+            {
+                Intern2 myStajSelect = new Intern2();
+                myStajSelect.Student_Id = model.Student.Id;
+                myStajSelect.TeacherId = model.Teacher.Id;
+                myStajSelect.InternId = _internManager.GetById("Staj2").Id;
+                _intern2Manager.Add(myStajSelect);
+            }
+            BossModel.SendMail2(selectedStudent.StudentMail, "Öğretmen Ataması Yapıldı Sunum Yapacağınız Öğretmen : " + _personManager.Get(myTeacher.PersonId.ToString()).NameSurname);
+            TempData["Eklendi"] = "Öğrenci-Öğretmen Atandı";
+            return RedirectToAction("ListTeachers", "Komisyon", model.Teacher.Id);
         }
 
         [HttpGet]
@@ -246,8 +381,14 @@ namespace InternManager.WebUI.Controllers
             var myModel = _internManager.GetById("Staj1");
             if (myModel != null)
             {
-                model.Interns.Dönem = "Yaz";
-                _internManager.Update(model.Interns);
+                myModel.RecStart = model.Interns.RecStart;
+                myModel.RecEnd = model.Interns.RecEnd;
+                myModel.RecFileStart = model.Interns.RecFileStart;
+                myModel.RecFileEnd = model.Interns.RecFileEnd;
+                myModel.RecFileStart2 = model.Interns.RecFileStart2;
+                myModel.RecFileEnd2 = model.Interns.RecFileEnd2;
+
+                _internManager.Update(myModel);
                 return RedirectToAction("Index", "Komisyon", myTeacher);
             }
             else
@@ -276,11 +417,18 @@ namespace InternManager.WebUI.Controllers
         [HttpPost]
         public IActionResult Staj2Date(BossModel model)
         {
-            var myModel = _internManager.GetById("Staj1");
+            var myModel = _internManager.GetById("Staj2");
             if (myModel != null)
             {
                 model.Interns.Dönem = "Yaz";
-                _internManager.Update(model.Interns);
+                myModel.RecStart = model.Interns.RecStart;
+                myModel.RecEnd = model.Interns.RecEnd;
+                myModel.RecFileStart = model.Interns.RecFileStart;
+                myModel.RecFileEnd = model.Interns.RecFileEnd;
+                myModel.RecFileStart2 = model.Interns.RecFileStart2;
+                myModel.RecFileEnd2 = model.Interns.RecFileEnd2;
+
+                _internManager.Update(myModel);
                 return RedirectToAction("Index", "Komisyon", myTeacher);
             }
             else
@@ -319,7 +467,7 @@ namespace InternManager.WebUI.Controllers
             BossModel myModel = new BossModel();
             ViewData["path"] = myPath;
             ViewData["Name"] = _nameSurname;
-            var model = _internManager.GetById("ISE");
+            var model = _internManager.GetById("IME");
             if (model != null)
             {
                 myModel.Interns = model;
@@ -331,11 +479,25 @@ namespace InternManager.WebUI.Controllers
         [HttpPost]
         public IActionResult ISEDate(BossModel model)
         {
-            var myModel = _internManager.GetById("Staj1");
+            var myModel = _internManager.GetById("IME");
             if (myModel != null)
             {
-                model.Interns.Dönem = "Yaz";
-                _internManager.Update(model.Interns);
+                if (model.IME.Dönem == "Güz")
+                {
+                    model.Interns.Dönem = "Güz";
+                }
+                else
+                {
+                    model.Interns.Dönem = "Bahar";
+                }
+                myModel.RecStart = model.Interns.RecStart;
+                myModel.RecEnd = model.Interns.RecEnd;
+                myModel.RecFileStart = model.Interns.RecFileStart;
+                myModel.RecFileEnd = model.Interns.RecFileEnd;
+                myModel.RecFileStart2 = model.Interns.RecFileStart2;
+                myModel.RecFileEnd2 = model.Interns.RecFileEnd2;
+
+                _internManager.Update(myModel);
                 return RedirectToAction("Index", "Komisyon", myTeacher);
             }
             else
@@ -369,76 +531,288 @@ namespace InternManager.WebUI.Controllers
         [HttpGet]
         public IActionResult Staj1Detail(int id)
         {
+            DetailStudent = _studentManager.GetById(id.ToString());
+            var myIntern = _intern1Manager.GetById(DetailStudent.Id.ToString());
             var intern = _internManager.GetById("Staj1");
-            var myIntern = _intern1Manager.GetById(id.ToString());
 
             ViewData["path"] = myPath;
             ViewData["Name"] = myBoss.Persons.NameSurname;
-            ViewBag.Staj1 = myIntern == null ? false : true;
 
             if (myIntern != null)
             {
-                if (DateTime.Now >= intern.RecFileStart && DateTime.Now <= intern.RecFileEnd)
+                ViewBag.Staj1 = myIntern.DetailDocument == null ? false : true;
+                DateTime fileStart = intern.RecFileStart;
+                DateTime fileEnd = intern.RecFileEnd;
+
+                DateTime fileStart2 = intern.RecFileStart;
+                DateTime fileEnd2 = intern.RecFileEnd;
+
+                if (DateTime.Now >= fileStart && DateTime.Now <= fileEnd)
                 {
                     ViewBag.tarihOk = true;
-                    ViewBag.Durum = myIntern.IsOk;
-                    var student = _studentManager.Get(id.ToString());
-                    BossModel model = new BossModel();
-                    model.Student = student;
-                    model.Staj1 = myIntern;
-                    return View(myIntern);
                 }
                 else
                 {
                     ViewBag.tarihOk = false;
                 }
+
+                if (myIntern.IsOk == true)
+                {
+                    ViewBag.Durum = true;
+                }
+                else
+                {
+                    ViewBag.Durum = false;
+                }
+                ViewBag.Durum = myIntern.IsOk;
+                var student = _studentManager.Get(id.ToString());
+                BossModel model = new BossModel();
+                model.Student = student;
+                model.Staj1 = myIntern;
+
+
+                return View(model);
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Staj2Detail(int id)
+        {
+            DetailStudent = _studentManager.GetById(id.ToString());
+            var myIntern = _intern2Manager.GetById(DetailStudent.Id.ToString());
+            var intern = _internManager.GetById("Staj2");
+
+            ViewData["path"] = myPath;
+            ViewData["Name"] = myBoss.Persons.NameSurname;
+
+            if (myIntern != null)
+            {
+                ViewBag.Staj1 = myIntern.DetailDocument == null ? false : true;
+                DateTime fileStart = intern.RecFileStart;
+                DateTime fileEnd = intern.RecFileEnd;
+
+                DateTime fileStart2 = intern.RecFileStart;
+                DateTime fileEnd2 = intern.RecFileEnd;
+
+                if (DateTime.Now >= fileStart && DateTime.Now <= fileEnd)
+                {
+                    ViewBag.tarihOk = true;
+                }
+                else
+                {
+                    ViewBag.tarihOk = false;
+                }
+
+                if (myIntern.IsOk == true)
+                {
+                    ViewBag.Durum = true;
+                }
+                else
+                {
+                    ViewBag.Durum = false;
+                }
+                ViewBag.Durum = myIntern.IsOk;
+                var student = _studentManager.Get(id.ToString());
+                BossModel model = new BossModel();
+                model.Student = student;
+                model.Staj2 = myIntern;
+
+
+                return View(model);
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult IMEDetail(int id)
+        {
+            DetailStudent = _studentManager.GetById(id.ToString());
+            var myIntern = _iseManager.GetById(DetailStudent.Id.ToString());
+            var intern = _internManager.GetById("IME");
+
+            ViewData["path"] = myPath;
+            ViewData["Name"] = myBoss.Persons.NameSurname;
+
+            if (myIntern != null)
+            {
+                ViewBag.Staj1 = myIntern.DetailDocument == null ? false : true;
+                DateTime fileStart = intern.RecFileStart;
+                DateTime fileEnd = intern.RecFileEnd;
+
+                DateTime fileStart2 = intern.RecFileStart;
+                DateTime fileEnd2 = intern.RecFileEnd;
+
+                if (DateTime.Now >= fileStart && DateTime.Now <= fileEnd)
+                {
+                    ViewBag.tarihOk = true;
+                }
+                else
+                {
+                    ViewBag.tarihOk = false;
+                }
+
+                if (myIntern.IsOk == true)
+                {
+                    ViewBag.Durum = true;
+                }
+                else
+                {
+                    ViewBag.Durum = false;
+                }
+                ViewBag.Durum = myIntern.IsOk;
+                var student = _studentManager.Get(id.ToString());
+                BossModel model = new BossModel();
+                model.Student = student;
+                model.IME = myIntern;
+
+
+                return View(model);
             }
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult Staj1Detail(string myFile, string studentId)
+        public IActionResult download(string myFileseas)
         {
-
-            var mIntern = _intern1Manager.GetById(studentId.ToString());
-            var myStudents = _studentManager.Get(studentId.ToString());
+            var mIntern = _intern1Manager.GetById(DetailStudent.Id.ToString());
+            var getStudent = DetailStudent;
             if (mIntern.DetailDocument != null)
             {
                 byte[] byteArr = mIntern.DetailDocument;
                 string namePipe = "application/pdf";
                 return new FileContentResult(byteArr, namePipe)
                 {
-                    FileDownloadName = $"{myStudents.StudentNumber}_Staj(1)Dosyası.pdf"
+                    FileDownloadName = $"{DetailStudent.StudentNumber}_StajBaşvuruFormu(Staj1).pdf"
                 };
             }
-            else
+            return RedirectToAction("Intern1Main", "Boss", DetailStudent);
+        }
+        [HttpPost]
+        public IActionResult downloadStaj2(string myFileseas)
+        {
+            var mIntern = _intern2Manager.GetById(DetailStudent.Id.ToString());
+            var getStudent = _studentManager.Get(DetailStudent.Id.ToString());
+            if (mIntern.DetailDocument != null)
             {
-                return View();
+                byte[] byteArr = mIntern.DetailDocument;
+                string namePipe = "application/pdf";
+                return new FileContentResult(byteArr, namePipe)
+                {
+                    FileDownloadName = $"{DetailStudent.StudentNumber}_StajBaşvuruFormu(Staj2).pdf"
+                };
             }
-
+            return RedirectToAction("Intern1Main", "Boss", DetailStudent);
+        }
+        [HttpPost]
+        public IActionResult downloadIme(string myFileseas)
+        {
+            var mIntern = _iseManager.GetById(DetailStudent.Id.ToString());
+            var getStudent = _studentManager.Get(DetailStudent.Id.ToString());
+            if (mIntern.DetailDocument != null)
+            {
+                byte[] byteArr = mIntern.DetailDocument;
+                string namePipe = "application/pdf";
+                return new FileContentResult(byteArr, namePipe)
+                {
+                    FileDownloadName = $"{DetailStudent.StudentNumber}_StajBaşvuruFormu(Staj2).pdf"
+                };
+            }
+            return RedirectToAction("Intern1Main", "Boss", DetailStudent);
+        }
+        [HttpPost]
+        public IActionResult change(BossModel model)
+        {
+            var mIntern = _intern1Manager.GetById(DetailStudent.Id.ToString());
+            var getStudent = _studentManager.Get(DetailStudent.Id.ToString());
+            mIntern.IsOk = model.Staj1.IsOk;
+            if (model.Staj1.Info != null)
+            {
+                mIntern.Info = model.Staj1.Info;
+                BossModel.SendMail2(getStudent.StudentMail, "Staj Dosyalarinizda Bir Değişiklik Meydana Geldi");
+            }
+            _intern1Manager.Update(mIntern);
+            return RedirectToAction("Index", "Komisyon", myTeacher);
+        }
+        [HttpPost]
+        public IActionResult changeStaj2(BossModel model)
+        {
+            var mIntern = _intern2Manager.GetById(DetailStudent.Id.ToString());
+            var getStudent = _studentManager.Get(DetailStudent.Id.ToString());
+            mIntern.IsOk = model.Staj1.IsOk;
+            if (model.Staj1.Info != null)
+            {
+                mIntern.Info = model.Staj1.Info;
+                BossModel.SendMail2(getStudent.StudentMail, "Staj Dosyalarinizda Bir Değişiklik Meydana Geldi");
+            }
+            _intern2Manager.Update(mIntern);
+            return RedirectToAction("Index", "Komisyon", myTeacher);
+        }
+        [HttpPost]
+        public IActionResult changeIme(BossModel model)
+        {
+            var mIntern = _intern2Manager.GetById(DetailStudent.Id.ToString());
+            var getStudent = _studentManager.Get(DetailStudent.Id.ToString());
+            mIntern.IsOk = model.Staj1.IsOk;
+            if (model.Staj1.Info != null)
+            {
+                mIntern.Info = model.Staj1.Info;
+                BossModel.SendMail2(getStudent.StudentMail, "Staj Dosyalarinizda Bir Değişiklik Meydana Geldi");
+            }
+            _intern2Manager.Update(mIntern);
+            return RedirectToAction("Index", "Komisyon", myTeacher);
         }
 
         [HttpPost]
-        public IActionResult Staj1Detail(string studentId, BossModel model)
+        public IActionResult imeSec(BossModel model)
         {
 
-            var mIntern = _intern1Manager.GetById(studentId.ToString());
-            var myStudents = _studentManager.Get(studentId.ToString());
-            if (mIntern.DetailDocument != null)
+            var myIses = _internManager.GetById("IME");
+            var mIntern = _iseManager.GetById(DetailStudent.Id.ToString());
+            var getStudent = _studentManager.Get(DetailStudent.Id.ToString());
+            if (mIntern == null)
             {
-                mIntern.IsOk = model.Staj1.IsOk;
-                mIntern.Info = model.Staj1.Info;
-                BossModel.SendMail2(myStudents.StudentMail, "Staj1 Dosyanızda bir değişiklik olmuştur sisteme girerek kontrol ediniz !.");
-                return RedirectToAction("ListStudents", "Komisyon");
+
+                ISE myTempIse = new ISE();
+                myTempIse.Student_Id = model.Student.Id;
+                myTempIse.TeacherId = model.Teacher.Id;
+                myTempIse.IsOk = false;
+                myTempIse.IsOk2 = false;
+                myTempIse.InternId = _internManager.GetById("ISE").Id;
+                _iseManager.Add(myTempIse);
+
+                if (model.IME.Dönem == "Güz")
+                {
+                    myTempIse.Dönem = "Güz";
+                    BossModel.SendMail2(getStudent.StudentMail, "İmeye Seçildiniz !. Döneminiz : " + model.IME.Dönem);
+                }
+                else
+                {
+                    myTempIse.Dönem = "Bahar";
+                    BossModel.SendMail2(getStudent.StudentMail, "İmeye Seçildiniz !. Döneminiz : " + model.IME.Dönem);
+                }
+                _iseManager.Update(myTempIse);
             }
             else
             {
-                return View();
+                if (model.IME.Dönem == "Güz")
+                {
+                    mIntern.Dönem = "Güz";
+                    BossModel.SendMail2(getStudent.StudentMail, "İmeye Seçildiniz !. Döneminiz : " + model.IME.Dönem);
+                }
+                else
+                {
+                    mIntern.Dönem = "Bahar";
+                    BossModel.SendMail2(getStudent.StudentMail, "İmeye Seçildiniz !. Döneminiz : " + model.IME.Dönem);
+                }
+                _iseManager.Update(mIntern);
             }
 
+            return RedirectToAction("Index", "Komisyon", myTeacher);
         }
-
 
         [HttpGet]
         public IActionResult StudentDetail(string Id)
@@ -520,10 +894,6 @@ namespace InternManager.WebUI.Controllers
             studentModel.Students = student;
             studentModel.Persons = person;
             return RedirectToAction("StudentDetail", "Komisyon", _studentId);
-
         }
-
-
-
     }
 }

@@ -193,6 +193,8 @@ namespace InternManager.WebUI.Controllers
             model.Students.StudentPassword = BossModel.GetMd5(model.Students.StudentPassword);
             model.Students.PersonId = model.Persons.Id;
 
+
+
             _studentManager.Add(model.Students);
             return RedirectToAction("Index", "Boss", myTeacher);
         }
@@ -739,6 +741,9 @@ namespace InternManager.WebUI.Controllers
                     student.StudentPassword = BossModel.SendMail(item.NameSurname);
                     student.StudentPassword = BossModel.GetMd5(student.StudentPassword);
                     student.PersonId = person.Id;
+
+
+
                     _studentManager.Update(student);
                 }
             }

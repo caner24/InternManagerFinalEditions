@@ -43,6 +43,7 @@ namespace InternManager.WebUI.Controllers
             _facultyManager = facultyManager;
             _internManager = internManager;
             _intern1Manager = intern1Manager;
+            _intern2Manager = intern2Manager;
             _personManager = personManager;
             _studentManager = studentManager;
             Environment = _environment;
@@ -76,18 +77,24 @@ namespace InternManager.WebUI.Controllers
                 ViewData["Staj1Type"] = intern1Det.Type;
                 ViewData["Staj1Tarih"] = intern1Det.RecStart.ToString("d");
                 ViewData["Staj1Tarih2"] = intern1Det.RecEnd.ToString("d");
+                ViewData["Staj1TarihV1"] = intern1Det.RecFileStart2.ToString("d");
+                ViewData["Staj1TarihV2"] = intern1Det.RecFileStart2.ToString("d");
             }
             if (intern2Det != null)
             {
                 ViewData["Staj2Type"] = intern2Det.Type;
                 ViewData["Staj2Tarih"] = intern2Det.RecStart.ToString("d");
                 ViewData["Staj2Tarih2"] = intern2Det.RecEnd.ToString("d");
+                ViewData["Staj2Tarih2V1"] = intern2Det.RecFileStart2.ToString("d");
+                ViewData["Staj2Tarih2V2"] = intern2Det.RecFileStart2.ToString("d");
             }
             if (iseDET != null)
             {
                 ViewData["IseType"] = iseDET.Type;
                 ViewData["ISE"] = iseDET.RecStart.ToString("d");
                 ViewData["ISE2"] = iseDET.RecEnd.ToString("d");
+                ViewData["ISE2V1"] = iseDET.RecFileStart2.ToString("d");
+                ViewData["ISE2V2"] = iseDET.RecFileStart2.ToString("d");
             }
 
             myStudents = _studentManager.GetById(student.StudentNumber.ToString());
@@ -143,6 +150,41 @@ namespace InternManager.WebUI.Controllers
             {
                 StudentModel newModel = new StudentModel();
 
+                if (_internManager.GetById("Staj1") != null)
+                {
+                    var myTimes = _internManager.GetById("Staj1");
+                    ViewData["StartDate"] = myTimes.RecStart;
+                    ViewData["FinishDate"] = myTimes.RecEnd;
+                }
+                newModel.Students = myStudents;
+                ViewData["FacultyNumber"] = newModel.Students.FacultyId;
+                newModel.Persons = _personManager.Get(newModel.Students.PersonId.ToString());
+                ViewData["IdentyNumber"] = newModel.Persons.IdentyNumber;
+                ViewData["NameSurname"] = newModel.Persons.NameSurname;
+                ViewData["StudentMail"] = newModel.Students.StudentMail;
+                ViewData["PhoneNumber"] = newModel.Persons.PhoneNumber;
+                ViewData["OgrNumber"] = newModel.Students.StudentNumber;
+                newModel.Faculties = _facultyManager.GetById(newModel.Students.FacultyId.ToString());
+                ViewData["Bölüm"] = newModel.Faculties.FacultyName;
+                ViewData["Uyruk"] = newModel.Persons.Civilization;
+
+                return View(newModel);
+            }
+            else
+            {
+                return View();
+            }
+
+        }
+
+
+        [HttpGet]
+        public IActionResult ISEPage()
+        {
+            if (myId != null)
+            {
+                StudentModel newModel = new StudentModel();
+
                 newModel.Students = myStudents;
                 ViewData["FacultyNumber"] = newModel.Students.FacultyId;
                 newModel.Persons = _personManager.Get(newModel.Students.PersonId.ToString());
@@ -170,23 +212,6 @@ namespace InternManager.WebUI.Controllers
                 return View();
             }
 
-        }
-
-        [HttpPost]
-        public IActionResult Intern1Page(StudentModel model)
-        {
-            var interns = _internManager.GetById("Staj1");
-            if (interns.RecStart < model.Intern1s.RecStart && interns.RecFileEnd < model.Intern1s.RecFileEnd)
-            {
-                TempData["myError"] = "Staj Başlangıç Bİtiş Tarihlerini Doğru Giriniz";
-                return View();
-            }
-            else
-            {
-                _intern1Manager.Add(model.Intern1s);
-            }
-
-            return View();
         }
 
         [HttpPost]
@@ -245,63 +270,9 @@ namespace InternManager.WebUI.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult Intern1FileMain()
-        {
-            var person = _personManager.Get(myStudents.PersonId.ToString());
-            string myPath = BossModel.ByteArrayToImageAsync(person.Image);
-            ViewData["path"] = myPath;
-            ViewData["Name"] = person.NameSurname;
-            ViewData["Id"] = myStudents.StudentNumber;
-            ViewBag.documents = _intern1Manager.GetById(myStudents.Id.ToString()).DetailDocument == null ? false : true;
-            ViewBag.durum = _intern1Manager.GetById(myStudents.Id.ToString()).IsOk == true ? true : false;
-            ViewBag.stajTakip = true;
-            myId = myStudents.StudentNumber;
-            sModel.Students = myStudents;
-            return View(sModel);
-        }
-
+        // -------------------------------------------------------- STAJ 1 --------------------------------------------------- // 
         [HttpPost]
-        public IActionResult Intern1Main(IFormFile file)
-        {
-            var mIntern = _internManager.GetById("Staj1");
-            if (file != null)
-            {
-                var intern1 = _intern1Manager.GetById(myStudents.Id.ToString());
-
-                using (var target = new MemoryStream())
-                {
-                    file.CopyTo(target);
-                    intern1.DetailDocument = target.ToArray();
-
-                }
-                _intern1Manager.Update(intern1);
-            }
-
-            return RedirectToAction("Intern1Main", "Boss", myStudents);
-        }
-        [HttpPost]
-        public IActionResult Intern1Main(string fakeNumber, IFormFile file)
-        {
-            var mIntern = _internManager.GetById("Staj1");
-            if (file != null)
-            {
-                var intern1 = _intern1Manager.GetById(myStudents.Id.ToString());
-
-                using (var target = new MemoryStream())
-                {
-                    file.CopyTo(target);
-                    intern1.DetailDocument = target.ToArray();
-
-                }
-                _intern1Manager.Add(intern1);
-            }
-
-            return RedirectToAction("Intern1Main", "Boss", myStudents);
-        }
-
-        [HttpPost]
-        public IActionResult Intern1Main(string myFile)
+        public IActionResult download(string myFileseas)
         {
             var mIntern = _intern1Manager.GetById(myStudents.Id.ToString());
             var getStudent = _studentManager.Get(myStudents.Id.ToString());
@@ -311,14 +282,31 @@ namespace InternManager.WebUI.Controllers
                 string namePipe = "application/pdf";
                 return new FileContentResult(byteArr, namePipe)
                 {
-                    FileDownloadName = $"{myStudents.StudentNumber}_StajDosyası(Staj1).pdf"
+                    FileDownloadName = $"{myStudents.StudentNumber}_StajBaşvuruFormu(Staj1).pdf"
                 };
             }
             return RedirectToAction("Intern1Main", "Boss", myStudents);
         }
 
         [HttpPost]
-        public IActionResult Intern1Main(IFormFile file, string myFile)
+        public IActionResult downloadDefter(string myFileseas)
+        {
+            var mIntern = _intern1Manager.GetById(myStudents.Id.ToString());
+            var getStudent = _studentManager.Get(myStudents.Id.ToString());
+            if (mIntern.DetailDocument2 != null)
+            {
+                byte[] byteArr = mIntern.DetailDocument2;
+                string namePipe = "application/pdf";
+                return new FileContentResult(byteArr, namePipe)
+                {
+                    FileDownloadName = $"{myStudents.StudentNumber}_StajDefteri(Staj1).pdf"
+                };
+            }
+            return RedirectToAction("Intern1Main", "Boss", myStudents);
+        }
+
+        [HttpPost]
+        public IActionResult upload(IFormFile file)
         {
 
             if (_internManager.GetById("Staj1").RecStart >= Convert.ToDateTime(DateTime.Now.ToString("d")) && _internManager.GetById("Staj1").RecEnd <= Convert.ToDateTime(DateTime.Now.ToString("d")))
@@ -339,133 +327,48 @@ namespace InternManager.WebUI.Controllers
                     }
                     _intern1Manager.Update(intern1);
                 }
-            }
-            return RedirectToAction("Intern1Main", "Boss", myStudents);
-        }
-
-        [HttpGet]
-        public IActionResult Intern1Main()
-        {
-
-            if (_internManager.GetById("Staj1").RecFileStart <= DateTime.Now && _internManager.GetById("Staj1").RecFileEnd >= DateTime.Now)
-            {
-                ViewBag.isOk = true;
-            }
-            else
-            {
-                ViewBag.isOk = false;
-            }
-
-            if (_internManager.GetById("Staj1").RecFileStart2 <= DateTime.Now && _internManager.GetById("Staj1").RecFileEnd2 >= DateTime.Now)
-            {
-                ViewBag.isOk2 = true;
-            }
-            else
-            {
-                ViewBag.isOk2 = false;
-            }
-
-            var student = _studentManager.GetById(myId);
-            var person = _personManager.Get(student.PersonId.ToString());
-            string myPath = BossModel.ByteArrayToImageAsync(person.Image);
-            ViewData["path"] = myPath;
-            ViewData["Name"] = person.NameSurname;
-            ViewData["Id"] = student.StudentNumber;
-            var mInterns1 = _intern1Manager.GetById(myStudents.StudentNumber);
-            if (mInterns1 != null)
-            {
-                if (mInterns1.DetailDocument != null)
+                else
                 {
-                    ViewBag.documents = true;
-                    if (mInterns1.IsOk == false)
-                    {
-                        ViewBag.info = mInterns1.Info;
-                    }
-                    else
-                    {
-
-                        ViewBag.Durum2 = true;
-                        if (mInterns1.DetailDocument2 != null)
-                        {
-                            ViewBag.documents2 = true;
-                            if (mInterns1.IsOk2 == false)
-                            {
-                                ViewBag.info = mInterns1.Info;
-                            }
-                            else
-                            {
-
-                            }
-                        }
-                    }
+                    _intern1Manager.Add(intern1);
                 }
             }
-
-            myId = student.StudentNumber;
-            return View(student);
-        }
-
-
-
-
-        [HttpPost]
-        public IActionResult Intern2Main(IFormFile file)
-        {
-
-            if (_internManager.GetById("Staj2").RecStart > Convert.ToDateTime(DateTime.Now.ToString("d")) && _internManager.GetById("Staj2").RecEnd < Convert.ToDateTime(DateTime.Now.ToString("d")))
-            {
-                TempData["mError"] = "Giriş Tarihi Geçti !.";
-                return RedirectToAction("Intern2Main", "Boss", sModel);
-            }
-            else
-            {
-                var mIntern = _internManager.GetById("Staj2");
-                if (file != null)
-                {
-                    var intern1 = new Intern2();
-                    intern1.Student_Id = myStudents.Id;
-                    intern1.InternId = mIntern.Id;
-
-                    using (var target = new MemoryStream())
-                    {
-                        file.CopyTo(target);
-                        intern1.DetailDocument = target.ToArray();
-
-                    }
-                    _intern2Manager.Add(intern1);
-                }
-            }
-            return RedirectToAction("Intern2Main", "Boss", myStudents);
+            return RedirectToAction("Intern1Main", "Student", myStudents);
         }
 
         [HttpPost]
-        public IActionResult Intern2Main(IFormFile file, string myFile)
+        public IActionResult uploadDefter(IFormFile file)
         {
 
-            if (_internManager.GetById("Staj2").RecStart > Convert.ToDateTime(DateTime.Now.ToString("d")) && _internManager.GetById("Staj2").RecEnd < Convert.ToDateTime(DateTime.Now.ToString("d")))
+            if (_internManager.GetById("Staj1").RecStart >= Convert.ToDateTime(DateTime.Now.ToString("d")) && _internManager.GetById("Staj1").RecEnd <= Convert.ToDateTime(DateTime.Now.ToString("d")))
             {
                 TempData["mError"] = "Giriş Tarihi Geçti !.";
-                return RedirectToAction("Intern2Main", "Boss", sModel);
+                return RedirectToAction("Intern1Main", "Boss", sModel);
             }
             else
             {
-                var mIntern = _internManager.GetById("Staj2");
-                var intern1 = _intern2Manager.GetById(myStudents.Id.ToString());
+                var mIntern = _internManager.GetById("Staj1");
+                var intern1 = _intern1Manager.GetById(myStudents.Id.ToString());
                 if (file != null)
                 {
                     using (var target = new MemoryStream())
                     {
                         file.CopyTo(target);
-                        intern1.DetailDocument = target.ToArray();
+                        intern1.DetailDocument2 = target.ToArray();
                     }
-                    _intern2Manager.Update(intern1);
+                    _intern1Manager.Update(intern1);
                 }
             }
-            return RedirectToAction("Intern2Main", "Boss", myStudents);
+            return RedirectToAction("Intern1Main", "Student", myStudents);
         }
 
+        // -------------------------------------------------------- STAJ 1 --------------------------------------------------- // 
+
+
+
+        // -------------------------------------------------------- STAJ 2 --------------------------------------------------- // 
+
         [HttpPost]
-        public IActionResult Intern2Main(string myFile)
+        public IActionResult downloadStaj2(string myFileseas)
         {
             var mIntern = _intern2Manager.GetById(myStudents.Id.ToString());
             var getStudent = _studentManager.Get(myStudents.Id.ToString());
@@ -475,101 +378,77 @@ namespace InternManager.WebUI.Controllers
                 string namePipe = "application/pdf";
                 return new FileContentResult(byteArr, namePipe)
                 {
-                    FileDownloadName = $"{myStudents.StudentNumber}_StajDosyası(Staj2).pdf"
+                    FileDownloadName = $"{myStudents.StudentNumber}_StajBaşvuruFormu(Staj2).pdf"
                 };
             }
             return RedirectToAction("Intern2Main", "Boss", myStudents);
         }
 
-        [HttpGet]
-        public IActionResult Intern2Main()
+        [HttpPost]
+        public IActionResult downloadDefterStaj2(string myFileseas)
         {
-            var student = _studentManager.GetById(myId);
-            var person = _personManager.Get(student.PersonId.ToString());
-            string myPath = BossModel.ByteArrayToImageAsync(person.Image);
-            ViewData["path"] = myPath;
-            ViewData["Name"] = person.NameSurname;
-            ViewData["Id"] = student.StudentNumber;
-            var mInterns1 = _intern2Manager.GetById(myStudents.StudentNumber);
-            if (mInterns1.DetailDocument != null)
+            var mIntern = _intern2Manager.GetById(myStudents.Id.ToString());
+            var getStudent = _studentManager.Get(myStudents.Id.ToString());
+            if (mIntern.DetailDocument2 != null)
             {
-                ViewBag.Durum = true;
-                if (mInterns1.IsOk == false)
+                byte[] byteArr = mIntern.DetailDocument2;
+                string namePipe = "application/pdf";
+                return new FileContentResult(byteArr, namePipe)
                 {
-                    ViewData["kabulRed"] = "Onaylandı";
-                    ViewData["stajDurum"] = mInterns1.Info;
-                }
-                else
-                {
-                    ViewData["kabulRed"] = "Onaylanmadi";
-                    ViewData["stajDurum"] = mInterns1.Info;
-                }
+                    FileDownloadName = $"{myStudents.StudentNumber}_StajDefteri(Staj2).pdf"
+                };
             }
-            myId = student.StudentNumber;
-            return View(student);
+            return RedirectToAction("Intern2Main", "Boss", myStudents);
         }
 
-
-
         [HttpPost]
-        public IActionResult ISEMAIN(IFormFile file)
+        public IActionResult uploadStaj2(IFormFile file)
         {
 
-            if (_internManager.GetById("ISE").RecStart > Convert.ToDateTime(DateTime.Now.ToString("d")) && _internManager.GetById("ISE").RecEnd < Convert.ToDateTime(DateTime.Now.ToString("d")))
+            var mIntern = _internManager.GetById("Staj2");
+            var intern1 = _intern2Manager.GetById(myStudents.Id.ToString());
+            if (file != null)
             {
-                TempData["mError"] = "Giriş Tarihi Geçti !.";
-                return RedirectToAction("Intern2Main", "Boss", sModel);
+                using (var target = new MemoryStream())
+                {
+                    file.CopyTo(target);
+                    intern1.DetailDocument = target.ToArray();
+                }
+                _intern2Manager.Update(intern1);
             }
             else
             {
-                var mIntern = _internManager.GetById("Staj2");
-                if (file != null)
-                {
-                    var intern1 = new ISE();
-                    intern1.Student_Id = myStudents.Id;
-                    intern1.InternId = mIntern.Id;
-
-                    using (var target = new MemoryStream())
-                    {
-                        file.CopyTo(target);
-                        intern1.DetailDocument = target.ToArray();
-
-                    }
-                    _iseManager.Add(intern1);
-                }
+                _intern2Manager.Add(intern1);
             }
-
-            return RedirectToAction("ISEMAIN", "Boss", myStudents);
+            return RedirectToAction("Intern2Main", "Student", myStudents);
         }
 
+
         [HttpPost]
-        public IActionResult ISEMAIN(IFormFile file, string myFile)
+        public IActionResult uploadDefterStaj2(IFormFile file)
         {
 
-            if (_internManager.GetById("ISE").RecStart > Convert.ToDateTime(DateTime.Now.ToString("d")) && _internManager.GetById("ISE").RecEnd < Convert.ToDateTime(DateTime.Now.ToString("d")))
+            var mIntern = _internManager.GetById("Staj2");
+            var intern1 = _intern2Manager.GetById(myStudents.Id.ToString());
+            if (file != null)
             {
-                TempData["mError"] = "Giriş Tarihi Geçti !.";
-                return RedirectToAction("ISEMAIN", "Boss", sModel);
-            }
-            else
-            {
-                var mIntern = _internManager.GetById("Staj2");
-                var intern1 = _iseManager.GetById(myStudents.Id.ToString());
-                if (file != null)
+                using (var target = new MemoryStream())
                 {
-                    using (var target = new MemoryStream())
-                    {
-                        file.CopyTo(target);
-                        intern1.DetailDocument = target.ToArray();
-                    }
-                    _iseManager.Update(intern1);
+                    file.CopyTo(target);
+                    intern1.DetailDocument2 = target.ToArray();
                 }
+                _intern2Manager.Update(intern1);
             }
-            return RedirectToAction("ISEMAIN", "Boss", myStudents);
+            return RedirectToAction("Intern1Main", "Student", myStudents);
         }
 
+
+        // -------------------------------------------------------- STAJ 2 --------------------------------------------------- // 
+
+        // -------------------------------------------------------- IME --------------------------------------------------- // 
+
         [HttpPost]
-        public IActionResult ISEMAIN(string myFile)
+        public IActionResult downloaStajIME(string myFileseas)
         {
             var mIntern = _iseManager.GetById(myStudents.Id.ToString());
             var getStudent = _studentManager.Get(myStudents.Id.ToString());
@@ -579,39 +458,337 @@ namespace InternManager.WebUI.Controllers
                 string namePipe = "application/pdf";
                 return new FileContentResult(byteArr, namePipe)
                 {
-                    FileDownloadName = $"{myStudents.StudentNumber}_StajDosyası(Staj2).pdf"
+                    FileDownloadName = $"{myStudents.StudentNumber}_StajBaşvuruFormu(IME).pdf"
                 };
             }
             return RedirectToAction("ISEMAIN", "Boss", myStudents);
         }
 
-        [HttpGet]
-        public IActionResult ISEMAIN()
+        [HttpPost]
+        public IActionResult downloadDefterIME(string myFileseas)
         {
+            var mIntern = _iseManager.GetById(myStudents.Id.ToString());
+            var getStudent = _studentManager.Get(myStudents.Id.ToString());
+            if (mIntern.DetailDocument2 != null)
+            {
+                byte[] byteArr = mIntern.DetailDocument2;
+                string namePipe = "application/pdf";
+                return new FileContentResult(byteArr, namePipe)
+                {
+                    FileDownloadName = $"{myStudents.StudentNumber}_StajDefteri(IME).pdf"
+                };
+            }
+            return RedirectToAction("ISEMAIN", "Boss", myStudents);
+        }
+
+        [HttpPost]
+        public IActionResult uploadIME(IFormFile file)
+        {
+
+            var mIntern = _internManager.GetById("IME");
+            var intern1 = _iseManager.GetById(myStudents.Id.ToString());
+            if (file != null)
+            {
+                using (var target = new MemoryStream())
+                {
+                    file.CopyTo(target);
+                    intern1.DetailDocument = target.ToArray();
+                }
+                _iseManager.Update(intern1);
+            }
+            else
+            {
+                _iseManager.Add(intern1);
+            }
+            return RedirectToAction("ISEMAIN", "Student", myStudents);
+        }
+
+
+        [HttpPost]
+        public IActionResult uploadDefterIME(IFormFile file)
+        {
+
+
+            var mIntern = _internManager.GetById("IME");
+            var intern1 = _iseManager.GetById(myStudents.Id.ToString());
+            if (file != null)
+            {
+                using (var target = new MemoryStream())
+                {
+                    file.CopyTo(target);
+                    intern1.DetailDocument = target.ToArray();
+                }
+                _iseManager.Update(intern1);
+            }
+            return RedirectToAction("ISEMAIN", "Student", myStudents);
+        }
+
+
+        // -------------------------------------------------------- IME --------------------------------------------------- // 
+        [HttpGet]
+        public IActionResult Intern1Main()
+        {
+            var datesHere = _internManager.GetById("Staj1");
             var student = _studentManager.GetById(myId);
+            var mInterns1 = _intern1Manager.GetById(myStudents.Id.ToString());
             var person = _personManager.Get(student.PersonId.ToString());
+
+
             string myPath = BossModel.ByteArrayToImageAsync(person.Image);
             ViewData["path"] = myPath;
             ViewData["Name"] = person.NameSurname;
             ViewData["Id"] = student.StudentNumber;
-            var mInterns1 = _iseManager.GetById(myStudents.StudentNumber);
-            if (mInterns1.DetailDocument != null)
+
+
+            if (mInterns1 != null)
             {
-                ViewBag.Durum = true;
-                if (mInterns1.IsOk == false)
+
+                DateTime fileStart = datesHere.RecFileStart;
+                DateTime fileEnd = datesHere.RecFileEnd;
+
+                DateTime fileStart2 = datesHere.RecFileStart;
+                DateTime fileEnd2 = datesHere.RecFileEnd;
+
+                if (DateTime.Now >= fileStart && DateTime.Now <= fileEnd)
                 {
-                    ViewData["kabulRed"] = "Onaylandı";
-                    ViewData["stajDurum"] = mInterns1.Info;
+                    ViewBag.tarihOkey = true;
                 }
                 else
                 {
-                    ViewData["kabulRed"] = "Onaylanmadi";
-                    ViewData["stajDurum"] = mInterns1.Info;
+                    ViewBag.tarihOkey = false;
+                }
+
+                if (DateTime.Now >= fileStart2 && DateTime.Now <= fileEnd2)
+                {
+                    ViewBag.tarihOkey2 = true;
+                }
+
+                else
+                {
+                    ViewBag.tarihOkey2 = false;
+                }
+                if (mInterns1.DetailDocument != null)
+                {
+                    ViewBag.documents = true;
+                    if (mInterns1.Info != null)
+                    {
+                        ViewData["myError"] = mInterns1.Info;
+                    }
+                    if (mInterns1.DetailDocument2 != null)
+                    {
+                        ViewBag.documents2 = true;
+                        if (mInterns1.IsOk2 == true)
+                        {
+                            ViewBag.defterOnay = true;
+                            ViewData["DaysOk"] = mInterns1.OkDays;
+                        }
+                        else
+                        {
+                            ViewBag.defterOnay = false;
+                        }
+                    }
+                }
+                if (mInterns1.IsOk)
+                {
+                    ViewBag.isOkeyTrue = true;
                 }
             }
+            else
+            {
+                return Content("Hoca ataması yapılmamış !. Atama yapılana kadar bekleyin.");
+            }
             myId = student.StudentNumber;
-            return View(student);
+            StudentModel model = new StudentModel();
+            model.Students = student;
+            return View(model);
         }
 
+        [HttpGet]
+        public IActionResult Intern2Main()
+        {
+            var datesHere = _internManager.GetById("Staj2");
+            var student = _studentManager.GetById(myId);
+            var yapildiMi = _intern1Manager.GetById(myStudents.Id.ToString());
+            var person = _personManager.Get(student.PersonId.ToString());
+
+            string myPath = BossModel.ByteArrayToImageAsync(person.Image);
+
+            ViewData["path"] = myPath;
+            ViewData["Name"] = person.NameSurname;
+            ViewData["Id"] = student.StudentNumber;
+
+            if (yapildiMi != null)
+            {
+                if (yapildiMi.IsOk == true)
+                {
+
+                    if (_intern2Manager.GetById(myStudents.Id.ToString()) != null)
+                    {
+                        ViewBag.stajTamamlandi = true;
+                        var mInterns1 = _intern2Manager.GetById(myStudents.Id.ToString());
+                        DateTime fileStart = datesHere.RecFileStart;
+                        DateTime fileEnd = datesHere.RecFileEnd;
+
+                        DateTime fileStart2 = datesHere.RecFileStart;
+                        DateTime fileEnd2 = datesHere.RecFileEnd;
+
+                        if (DateTime.Now >= fileStart && DateTime.Now <= fileEnd)
+                        {
+                            ViewBag.tarihOkey = true;
+                        }
+                        else
+                        {
+                            ViewBag.tarihOkey = false;
+                        }
+
+                        if (DateTime.Now >= fileStart2 && DateTime.Now <= fileEnd2)
+                        {
+                            ViewBag.tarihOkey2 = true;
+                        }
+
+                        else
+                        {
+                            ViewBag.tarihOkey2 = false;
+                        }
+                        if (mInterns1.DetailDocument != null)
+                        {
+                            ViewBag.documents = true;
+                            if (mInterns1.Info != null)
+                            {
+                                ViewData["myError"] = mInterns1.Info;
+                            }
+                            if (mInterns1.DetailDocument2 != null)
+                            {
+                                ViewBag.documents2 = true;
+                                if (mInterns1.IsOk2 == true)
+                                {
+                                    ViewBag.defterOnay = true;
+                                    ViewData["DaysOk"] = mInterns1.OkDays;
+                                }
+                                else
+                                {
+                                    ViewBag.defterOnay = false;
+                                }
+                            }
+                        }
+                        if (mInterns1.IsOk)
+                        {
+                            ViewBag.isOkeyTrue = true;
+                        }
+
+                    }
+                }
+                else
+                {
+                    return Content("Öğretmen Atamasi Yapilmamiş lütfen mailinizi kontrol edin !.");
+                }
+            }
+            else
+            {
+                ViewBag.stajTamamlandi = false;
+            }
+
+            myId = student.StudentNumber;
+            StudentModel model = new StudentModel();
+            model.Students = student;
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ISEMAIN(IFormFile file, string myFile)
+        {
+
+            var datesHere = _internManager.GetById("IME");
+            var student = _studentManager.GetById(myId);
+            var yapildiMi = _intern1Manager.GetById(myStudents.Id.ToString());
+            var mInterns1 = _iseManager.GetById(myStudents.Id.ToString());
+            var person = _personManager.Get(student.PersonId.ToString());
+
+            string myPath = BossModel.ByteArrayToImageAsync(person.Image);
+
+            ViewData["path"] = myPath;
+            ViewData["Name"] = person.NameSurname;
+            ViewData["Id"] = student.StudentNumber;
+
+            if (yapildiMi != null)
+            {
+                if (yapildiMi.OkDays == "30")
+                {
+                    ViewBag.stajTamamlandi = true;
+                    if (mInterns1 != null)
+                    {
+                        DateTime fileStart = datesHere.RecFileStart;
+                        DateTime fileEnd = datesHere.RecFileEnd;
+
+                        DateTime fileStart2 = datesHere.RecFileStart;
+                        DateTime fileEnd2 = datesHere.RecFileEnd;
+
+                        if (DateTime.Now >= fileStart && DateTime.Now <= fileEnd)
+                        {
+                            ViewBag.tarihOkey = true;
+                        }
+                        else
+                        {
+                            ViewBag.tarihOkey = false;
+                        }
+
+                        if (DateTime.Now >= fileStart2 && DateTime.Now <= fileEnd2)
+                        {
+                            ViewBag.tarihOkey2 = true;
+                        }
+
+                        else
+                        {
+                            ViewBag.tarihOkey2 = false;
+                        }
+                        if (mInterns1.DetailDocument != null)
+                        {
+                            ViewBag.documents = true;
+                            if (mInterns1.Info != null)
+                            {
+                                ViewData["myError"] = mInterns1.Info;
+                            }
+                            if (mInterns1.DetailDocument2 != null)
+                            {
+                                ViewBag.documents2 = true;
+                                if (mInterns1.IsOk2 == true)
+                                {
+                                    ViewBag.defterOnay = true;
+                                    ViewData["DaysOk"] = mInterns1.OkDays;
+                                }
+                                else
+                                {
+                                    ViewBag.defterOnay = false;
+                                }
+                            }
+                        }
+                        if (mInterns1.IsOk)
+                        {
+                            ViewBag.isOkeyTrue = true;
+                        }
+                    }
+                    else
+                    {
+                        return Content("Hoca ataması yapılmamış !. Atama yapılana kadar bekleyin.");
+                    }
+                }
+                else
+                {
+                    ViewBag.stajTamamlandi = false;
+                }
+            }
+            else
+            {
+                ViewBag.stajTamamlandi = false;
+            }
+
+            myId = student.StudentNumber;
+            StudentModel model = new StudentModel();
+            model.Students = student;
+            return View(model);
+        }
+
+
     }
+
 }

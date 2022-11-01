@@ -11,7 +11,7 @@
         <p><span class="online_animation"></span>Komisyon</p>
     </div>
 }
-@section pages{
+    @section pages{
     <table class="table">
         <thead>
             <tr>
@@ -27,7 +27,7 @@
                     <th scope="row">1</th>
                     <td>@item.StudentNumber</td>
                     <td>@item.StudentMail</td>
-                    <td><a asp-action="PersonDetails" asp-controller="Boss" asp-route-id="@item.StudentNumber">Detay</a></td>
+                    <td><a asp-action="IMEDetails" asp-controller="Teacher" asp-route-id="@item.StudentNumber">Detay</a></td>
                 </tr>
             }
         </tbody>

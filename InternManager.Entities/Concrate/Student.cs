@@ -27,6 +27,7 @@ namespace InternManager.Entities.Concrate
         [Required(ErrorMessage = "Lütfen Mailinizi Girin")]
         public string StudentMail { get; set; }
 
+        public bool IMEOK { get; set; }
         public int PersonId { get; set; }
 
         [ForeignKey("PersonId")]

@@ -1,4 +1,4 @@
-﻿@model Student
+﻿@model StudentModel
 @{
     Layout = "_Layout";
 }
@@ -27,67 +27,126 @@
     </li>
 }
     @section pages{
-    <div class="d-flex ">
-        <div class=" col-md-5 ">
+
+
+    <div class="row column1 d-flex" style="display:flex;">
+        <div class="col-md-3" style="margin-left:2%">
             <div class="full counter_section margin_bottom_30">
                 <div class="couter_icon">
                     <div>
-                        <i class="fa-regular fa-file-pdf yellow_color"></i>
+                        <i class="fa fa-clock-o blue1_color"></i>
                     </div>
                 </div>
-                <div class="counter_no">
+                <div class="p-5 counter_no">
                     <div>
-                        @if (ViewBag.stajDurum == true)
+                        @if (ViewBag.stajTamamlandi)
                         {
-                            <p class="head_couter"><a asp-action="Intern1Page" asp-controller="Student" class="text-center">Staj Dosyası Doldur</a></p>
-                            @if (ViewBag.Durum == false)
+
+                            if (ViewBag.documents == true)
                             {
-                                <form method="post" asp-action="Intern1Main" asp-controller="Student" enctype="multipart/form-data">
+                                if (ViewBag.isOkeyTrue == true)
+                                {
+                                    if (ViewBag.tarihOkey2 == true)
+                                    {
+                                        if (ViewBag.documents2 == true)
+                                        {
+                                            if (ViewBag.defterOnay == true)
+                                            {
+                                                <h3 class="mt-5 text-center bg-success text-dark">Staj Defteri Onaylandı !.</h3>
+                                                <h3 class="mt-5 text-center bg-info text-secondary">Onaylanan Günler :<span class="text-light">@ViewData["DaysOk"]<span></span></h3>
+                                            }
+                                            else
+                                            {
+                                                @using (Html.BeginForm("downloadDefterStaj2", "Student", FormMethod.Post))
+                                                {
+                                                    <input type="submit" id="btnCancel" value="Indir" />
+                                                }
+                                                <h3>Dosya Seç Ve Güncelle</h3>
+                                                @using (Html.BeginForm("uploadDefterStaj2", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                {
+                                                    <input type="file" id="file" name="file" />
 
-                                    <input type="file" placeholder="Dosya Seçin" />
-                                    <button type="submit">Güncelle</button>
-                                </form>
-                                <form method="post" asp-action="Intern1Main" asp-controller="Student" enctype="multipart/form-data">
+                                                    <input type="submit" id="btnCancel" value="Güncelle" />
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <h3 class="mt-5 text-center bg-success text-dark">Staj Başvuru Formu Onaylandı !.</h3>
+                                            <h3>Staj Defterini Yükle</h3>
+                                            @using (Html.BeginForm("uploadDefterStaj2", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                            {
+                                                <input type="file" id="file" name="file" />
 
-                                    <input type="file" placeholder="Dosya Seçin" />
-                                    <input type="text" name="ad" id="ad" />
-                                    <input type="text" name="soyad" id="soyad" />
-                                    <button type="submit">İndir</button>
-                                </form>
-                                <div>
-                                    <p class="head_couter bg-success text-light ">Durum: @ViewData["kabulRed"]</p>
-                                    <p class="mt-2 head_couter bg-secondary text-light ">Nedeni :@ViewData["stajDurum"]</p>
+                                                <input type="submit" id="btnCancel" value="Kaydet" />
+                                            }
+                                        }
                                     }
-                                    else{
-
+                                    else
+                                    {
+                                        <h3 class="mt-5 text-center bg-danger text-dark">Staj Defteri Yükleme Süresi Daha Yayınlanmadı veya Süresi Geçti</h3>
+                                        <h3 class="mt-5 text-center bg-danger text-dark">Anasayfadaki Tarihleri Kontrol Edin !.</h3>
                                     }
-                                </div>
+                                }
+                                else
+                                {
 
+                                    if (ViewBag.tarihOkey == true)
+                                    {
+                                        <a class="text-info text-xl" asp-action="Intern1Page" asp-controller="Student"><span>Dosya Yarat</span></a>
+                                        <h3>Staj Başvuru Formunu İndir</h3>
+                                        @using (Html.BeginForm("downloadStaj2", "Student", FormMethod.Post))
+                                        {
+                                            <input type="submit" id="btnCancel" value="Indir" />
+                                        }
+                                        if (ViewData["myError"] != null)
+                                        {
+                                            <h3 class="mt-5 text-center bg-danger text-dark">@ViewData["myError"]</h3>
+                                        }
+
+                                        <h3>Dosya Seç Ve Güncelle</h3>
+                                        @using (Html.BeginForm("uploadStaj2", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            <input type="file" id="file" name="file" />
+
+                                            <input type="submit" id="btnCancel" value="Güncelle" />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <h3 class="mt-5 text-center bg-danger text-dark">Staj Başvuru Güncelleme için Ayrılan Süre Zarfi Gecikti !.</h3>
+                                    }
+                                }
                             }
                             else
                             {
-                                <form method="post" asp-action="Intern1Main" asp-controller="Student" enctype="multipart/form-data">
+                                if (ViewBag.tarihOkey == true)
+                                {
+                                    <a class="text-info" asp-action="Intern1Page" asp-controller="Student"><span>Dosya Yarat</span></a>
+                                    <h3>Sisteme Dosya Yükle</h3>
+                                    @using (Html.BeginForm("uploadStaj2", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+                                        <label asp-for="Intern1s.DetailDocument"></label>
+                                        <input type="file" id="file" name="file" />
 
-                                    <input type="file" placeholder="Dosya Seçin" />
-                                    <input type="text" hidden name="myFile" value="caner" id="myFile" />
-                                    <button type="submit">Kaydet</button>
-                                </form>
-                                <div>
-                                    <p class="head_couter bg-success text-light ">Durum: ----</p>
-                                    <p class="mt-2 head_couter bg-secondary text-light ">Nedeni :----</p>
-                                </div>
-
+                                        <input type="submit" id="btnCancel" value="Olustur" />
+                                    }
+                                }
+                                else
+                                {
+                                    <h3 class="mt-5 text-center bg-danger text-dark">Staj Başvuru Yükleme Süresi Daha Yayınlanmadı veya Süresi Geçti</h3>
+                                    <h3 class="mt-5 text-center bg-danger text-dark">Anasayfadaki Tarihleri Kontrol Edin !.</h3>
+                                }
                             }
+
                         }
                         else
                         {
-                            <h3 class="bg-danger text-"> Staj-1 yapılmadan Staj2 Yapılamaz </h3>
+                            <h3 class="mt-5 text-center bg-danger text-dark">Staj-1 Tamamlanmadan Staj-2 Yapilamaz</h3>
                         }
-
+                    }
                     </div>
                 </div>
             </div>
         </div>
-
-    </div>
-}
+    </div>            

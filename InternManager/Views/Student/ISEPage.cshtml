@@ -18,7 +18,7 @@
                             <li>T.C</li>
                             <li>KOCAELİ UNİVERSİTESİ</li>
                             <li>TEKNOLOJİ FAKÜLTESİ </li>
-                            <li>(Staj Başvuru Ve Kabul Formu)</li>
+                            <li>(İşletmede Mesleki Eğitim Başvuru ve Kabul formu)</li>
                         </ul>
                     </li>
                     <li class="ms-auto">
@@ -67,8 +67,6 @@
                     <tr class="w-100 d-flex">
                         <td class="w-25"><label for="">TcNo:</label> </td>
                         <td class="w-25"><input asp-for="Persons.IdentyNumber" class="form-control"></td>
-                        <td class="w-25"><label for="">Uyruğu:</label> </td>
-                        <td class="w-25"><input asp-for="Persons.Civilization" type="text" class="form-control"></td>
                     </tr>
                     <tr class="w-100 d-flex">
                         <td class="w-25"><label for="">Ev Tel/GSM</label> </td>
@@ -92,7 +90,7 @@
 
                 <table class="table table-striped border border-dark d-flex flex-column">
                     <tr class="w-100 d-flex">
-                        <td class="w-100 text-center">Staj Bilgileri ***</td>
+                        <td class="w-100 text-center">IME Bilgileri ***</td>
                     </tr>
                     <tr class="text-center w-100 d-flex">
                         <td class="w-50"><input type="checkbox" name="STAJ1" id="STAGE1">Staj-1</td>
@@ -105,8 +103,22 @@
                         <td class="w-25"><input  type="date"></td>
                         <td class="w-25">İş Günü</td>
                         <td class="w-25"><input  type="text"></td>
-                        <td class="w-25">Cumartesi Calisiyor</td>
-                        <td class="w-25"><input type="checkbox"></td>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="w-50">Ailemden, Kendimden veya Anne-Baba Üzarinden Genel Sağlık Sigortası Kapsamında
+                            Sağlık Hizmeti Alıyorum</td>
+                        <td class="w-25"><input  type="checkbox">Evet</td>
+                        <td class="w-25"><input  type="checkbox">Hayır</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="w-50">Genel Sağlık Sigortası (GSS) (Gelir Testi Yaptırdım Pirim Ödüyorum) </td>
+                        <td class="w-25"><input  type="checkbox">Evet</td>
+                        <td class="w-25"><input  type="checkbox">Hayır</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="w-50">25 Yaşını Doldurdum</td>
+                        <td class="w-25"><input  type="checkbox">Evet</td>
+                        <td class="w-25"><input  type="checkbox">Hayır</td>
                     </tr>
 
                 </table>
@@ -124,7 +136,7 @@
                 </div>
                 <table class="table table-striped border border-dark d-flex flex-column">
                     <tr class="w-100 d-flex">
-                        <td class="w-100 text-center">Staj Yapılacak Kurum Bilgileri</td>
+                        <td class="w-100 text-center">İşletmede Mesleki Eğitim Yapılacak Kurum Bilgileri</td>
                     </tr>
                     <tr class="d-flex w-100">
                         <td class="w-50">Resmi Adı : </td>
@@ -226,7 +238,7 @@ else{
                             <li>T.C</li>
                             <li>KOCAELİ UNİVERSİTESİ</li>
                             <li>TEKNOLOJİ FAKÜLTESİ </li>
-                            <li>(Staj Başvuru Ve Kabul Formu)</li>
+                            <li>(İşletmede Mesleki Eğitim Başvuru ve Kabul formu)</li>
                         </ul>
                     </li>
                     <li class="ms-auto">
@@ -275,8 +287,6 @@ else{
                     <tr class="w-100 d-flex">
                         <td class="w-25"><label for="">TcNo:</label> </td>
                         <td class="w-25"><input asp-for="Persons.IdentyNumber" class="form-control"></td>
-                        <td class="w-25"><label for="">Uyruğu:</label> </td>
-                        <td class="w-25"><input asp-for="Persons.Civilization" type="text" class="form-control"></td>
                     </tr>
                     <tr class="w-100 d-flex">
                         <td class="w-25"><label for="">Ev Tel/GSM</label> </td>
@@ -298,9 +308,9 @@ else{
                     </tr>
                 </table>
 
-                <table class="table table-striped border border-dark d-flex flex-column">
+                             <table class="table table-striped border border-dark d-flex flex-column">
                     <tr class="w-100 d-flex">
-                        <td class="w-100 text-center">Staj Bilgileri ***</td>
+                        <td class="w-100 text-center">IME Bilgileri ***</td>
                     </tr>
                     <tr class="text-center w-100 d-flex">
                         <td class="w-50"><input type="checkbox" name="STAJ1" id="STAGE1">Staj-1</td>
@@ -313,8 +323,22 @@ else{
                         <td class="w-25"><input  type="date"></td>
                         <td class="w-25">İş Günü</td>
                         <td class="w-25"><input  type="text"></td>
-                        <td class="w-25">Cumartesi Calisiyor</td>
-                        <td class="w-25"><input type="checkbox"></td>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="w-50">Ailemden, Kendimden veya Anne-Baba Üzarinden Genel Sağlık Sigortası Kapsamında
+                            Sağlık Hizmeti Alıyorum</td>
+                        <td class="w-25"><input  type="checkbox">Evet</td>
+                        <td class="w-25"><input  type="checkbox">Hayır</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="w-50">Genel Sağlık Sigortası (GSS) (Gelir Testi Yaptırdım Pirim Ödüyorum) </td>
+                        <td class="w-25"><input  type="checkbox">Evet</td>
+                        <td class="w-25"><input  type="checkbox">Hayır</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="w-50">25 Yaşını Doldurdum</td>
+                        <td class="w-25"><input  type="checkbox">Evet</td>
+                        <td class="w-25"><input  type="checkbox">Hayır</td>
                     </tr>
 
                 </table>

@@ -1,0 +1,89 @@
+﻿@model BossModel
+@{
+    Layout = "_Layout";
+}
+@section info{
+    <div class="user_img">
+        <img class="img-responsive"
+         src="@ViewData["Path"]"
+         alt="#" />
+    </div>
+    <div class="user_info">
+        <h6>@ViewData["Name"]</h6>
+        <p><span class="online_animation"></span>Komisyon</p>
+    </div>
+}
+    @section menus{
+    <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        <i class="fa fa-dashboard yellow_color"></i> <span>İşlemler</span>
+    </a>
+    <ul class="collapse list-unstyled" id="dashboard">
+        <li>
+            <a asp-action="ListTeacher" asp-controller="Komisyon">> <span>Öğretmen Listele</span></a>
+        </li>
+        <li>
+            <a asp-action="ListStudent" asp-controller="Komisyon">> <span>Öğrenci Listele</span></a>
+        </li>
+    </ul>
+}
+    @section pages{
+    <div class="login">
+
+        <div class="login-header">
+
+            @if (ViewBag.Staj1 != false)
+            {
+                if (ViewBag.Durum == false)
+                {
+                    if (ViewBag.tarihOk == true)
+                    {
+                        if (ViewBag.Durum == true)
+                        {
+                            <h3>Staj Belgesi Onaylanmış !.</h3>
+                            @using (Html.BeginForm("downloadıME", "Komisyon", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <input type="submit" id="btnCancel" value="İndir" />
+                            }
+                        }
+                        else
+                        {
+                            <h3>Başvuru Formu İndir</h3>
+                            @using (Html.BeginForm("downloadIME", "Komisyon", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <input type="submit" id="btnCancel" value="İndir" />
+                            }
+                            @using (Html.BeginForm("changeIME", "Komisyon", FormMethod.Post))
+                            {
+                                <label for="onay">Onay Durumları</label>
+                                <div class="form-group">
+                                    <LABEL>Onayla</LABEL>
+                                    <input type="radio" asp-for="IME.IsOk" value="1">
+                                </div>
+
+                                <div class="form-group">
+                                    <LABEL>Reddet</LABEL>
+                                    <input type="radio" asp-for="IME.IsOk" value="0">
+                                </div>
+
+                                <div class="form-group">
+                                    <LABEL for="Staj1.Info">Redse Neden Red ?</LABEL>
+                                    <input type="text" asp-for="IME.Info">
+                                </div>
+
+                                <input type="submit" id="btnCancel" value="İndir" />
+                            }
+                        }
+
+                    }
+                }
+            }
+            else
+            {
+                <h3 class="text-danger">HERHANGİ BİR BELGE YÜKLENMEMİŞ !.</h3>
+            }
+
+
+
+        </div>
+    </div>
+}

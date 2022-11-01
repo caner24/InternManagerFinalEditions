@@ -24,7 +24,7 @@
             <a asp-action="ListTeachers" asp-controller="Komisyon">> <span>Öğretmen Listele</span></a>
         </li>
         <li>
-            <a asp-action="ListStudent" asp-controller="Komisyon">> <span>Öğrenci Listele</span></a>
+            <a asp-action="ListStudents" asp-controller="Komisyon">> <span>Öğrenci Listele</span></a>
         </li>
     </ul>
 }
@@ -146,14 +146,14 @@
                                     <a asp-controller="Komisyon" asp-action="Staj2Date" asp-route-type="@ViewData["Staj2Type"]">Staj-2</a><br><strong>
                                         @ViewData["Staj2Tarih"] /  @ViewData["Staj2Tarih2"]
                                         Or
-                                        @ViewData["Staj2TarihV1"] /  @ViewData["Staj2TarihV2"]
+                                        @ViewData["Staj2Tarih2V1"] /  @ViewData["Staj2Tarih2V2"]
                                     </strong>
                                 </li>
                                 <li>
                                     <a asp-controller="Komisyon" asp-action="ISEDate" asp-route-type="@ViewData["IseType"]">İşyerinde Mesleki Eğitim</a><br><strong>
                                         @ViewData["ISE"] /  @ViewData["ISE2"]
                                         Or
-                                        @ViewData["ISEV1"] /  @ViewData["ISEV2"]
+                                        @ViewData["ISE2V1"] /  @ViewData["ISE2V2"]
                                     </strong>
                                 </li>
 

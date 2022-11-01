@@ -4,14 +4,16 @@ using InternManager.Entities.Concrate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InternManager.WebUI.Migrations
 {
     [DbContext(typeof(InternContext))]
-    partial class InternContextModelSnapshot : ModelSnapshot
+    [Migration("20221030151123_added some db tables in my migrations")]
+    partial class addedsomedbtablesinmymigrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,6 +109,14 @@ namespace InternManager.WebUI.Migrations
                     b.Property<string>("OkDays")
                         .IsRequired();
 
+                    b.Property<DateTime>("RecEnd");
+
+                    b.Property<DateTime>("RecFileEnd");
+
+                    b.Property<DateTime>("RecFileStart");
+
+                    b.Property<DateTime>("RecStart");
+
                     b.Property<int>("Student_Id");
 
                     b.Property<int>("TeacherId");
@@ -146,6 +156,14 @@ namespace InternManager.WebUI.Migrations
 
                     b.Property<string>("OkDays")
                         .IsRequired();
+
+                    b.Property<DateTime>("RecEnd");
+
+                    b.Property<DateTime>("RecFileEnd");
+
+                    b.Property<DateTime>("RecFileStart");
+
+                    b.Property<DateTime>("RecStart");
 
                     b.Property<int>("Student_Id");
 
@@ -188,6 +206,14 @@ namespace InternManager.WebUI.Migrations
 
                     b.Property<string>("OkDays")
                         .IsRequired();
+
+                    b.Property<DateTime>("RecEnd");
+
+                    b.Property<DateTime>("RecFileEnd");
+
+                    b.Property<DateTime>("RecFileStart");
+
+                    b.Property<DateTime>("RecStart");
 
                     b.Property<int>("Student_Id");
 

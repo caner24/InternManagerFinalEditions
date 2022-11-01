@@ -19,9 +19,6 @@
     </a>
     <ul class="collapse list-unstyled" id="dashboard">
         <li>
-            <a asp-controller="Boss" asp-action="CreateTeacher"> <span>Komisyon İşlemleri</span></a>
-        </li>
-        <li>
             <a href="#apps" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-object-group blue2_color"></i> <span>Staj İşlemleri</span></a>
             <ul class="collapse list-unstyled" id="apps">
                 <li><a asp-action="Intern1Page" asp-controller="Student"><span>Staj-1</span></a></li>
@@ -33,7 +30,7 @@
 }
     @section pages{
 
-    <form asp-controller="Boss" asp-action="ISE" method="post">
+    <form asp-controller="Komisyon" asp-action="ISEDate" method="post">
 
 
         <div class="form-group">
@@ -54,8 +51,16 @@
             <input type="date" asp-for="Interns.RecFileEnd" />
         </div>
         <div class="form-group">
+            <label asp-for="Interns.RecFileStart2"></label>
+            <input required type="date" asp-for="Interns.RecFileStart2" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Interns.RecFileEnd2"></label>
+            <input required type="date" asp-for="Interns.RecFileEnd2" />
+        </div>
+        <div class="form-group">
             <label asp-for="Interns.Type"></label>
-            <input type="text" asp-for="Interns.Type" value="ISE" />
+            <input type="text" asp-for="Interns.Type" value="IME" />
         </div>
         <button type="submit" class="btn btn-primary">Staj Tarihi Kaydet</button>
     </form>

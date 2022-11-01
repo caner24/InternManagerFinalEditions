@@ -49,15 +49,6 @@ namespace InternManager.Entities.Concrate
 
         [Required(ErrorMessage = "Lütfen Öğretmen Seçimi Yapiniz")]
         public int TeacherId { get; set; }
-
-        public DateTime RecStart { get; set; }
-        [UIHint("Date")]
-        public DateTime RecEnd { get; set; }
-        [UIHint("Date")]
-        public DateTime RecFileStart { get; set; }
-        [UIHint("Date")]
-        public DateTime RecFileEnd { get; set; }
-
     }
 
 }

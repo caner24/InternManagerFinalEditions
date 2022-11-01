@@ -40,21 +40,12 @@ namespace InternManager.Entities.Concrate
         [Required(ErrorMessage = "Lütfen Belirtmek istediğiniz şeyleri yazınız")]
         public string Info { get; set; }
 
-
         [Required(ErrorMessage = "Lütfen onaylanan günleri yazınız ")]
         public string OkDays { get; set; }
         public int InternId { get; set; }
-
         [ForeignKey("InternId")]
         public Intern InternPk { get; set; }
         public int TeacherId { get; set; }
-
-        public DateTime RecStart { get; set; }
-        [UIHint("Date")]
-        public DateTime RecEnd { get; set; }
-        [UIHint("Date")]
-        public DateTime RecFileStart { get; set; }
-        [UIHint("Date")]
-        public DateTime RecFileEnd { get; set; }
+        public string Dönem { get; set; }
     }
 }

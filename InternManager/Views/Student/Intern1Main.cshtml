@@ -21,8 +21,8 @@
         <a href="#apps" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-object-group blue2_color"></i> <span>Staj İşlemleri</span></a>
         <ul class="collapse list-unstyled" id="apps">
             <li><a asp-action="Intern1Main" asp-controller="Student"><span>Staj-1</span></a></li>
-            <li><a asp-action="Intern2Page" asp-controller="Student"><span>Staj-2</span></a></li>
-            <li><a asp-action="ISE" asp-controller="Student"><span>ISE</span></a></li>
+            <li><a asp-action="Intern2Main" asp-controller="Student"><span>Staj-2</span></a></li>
+            <li><a asp-action="ISEMAIN" asp-controller="Student"><span>ISE</span></a></li>
         </ul>
     </li>
 }
@@ -37,107 +37,109 @@
                         <i class="fa fa-clock-o blue1_color"></i>
                     </div>
                 </div>
-                <div class="counter_no">
+                <div class="p-5 counter_no">
                     <div>
-                        @if (ViewBag.isOk)
+                        @if (ViewBag.documents == true)
                         {
-                            @if (ViewBag.documents == true)
+                            if (ViewBag.isOkeyTrue == true)
                             {
-                                if (ViewBag.Durum == false)
+                                if (ViewBag.tarihOkey2 == true)
                                 {
-                                    <h3>İndir</h3>
-                                    <form enctype="multipart/form-data" asp-action="Intern1Main" asp-controller="Student" enctype="multipart/form-data">
-
-                                        <input value="caner" hidden type="text" id="myFile" />
-                                        <button type="submit">İndir</button>
-
-                                    </form>
-
-                                    <h3>Güncelle</h3>
-                                    <form>
-                                        <div class="form-group">
-                                            <label asp-for="@Model.Intern1s.DetailDocument"></label>
-                                            <input type="file" asp-for="Intern1s.DetailDocument" />
-                                            <button type="submit">Güncelle</button>
-                                        </div>
-                                    </form>
-
-                                    <h3 class="bg-danger">@ViewBag.info</h3>
-                                }
-                                else
-                                {
-                                    if (ViewBag.isOk2)
+                                    if (ViewBag.documents2 == true)
                                     {
-                                        @if (ViewBag.documents2 == true)
+                                        if (ViewBag.defterOnay == true)
                                         {
-                                            if (ViewBag.Durum2 == false)
-                                            {
-                                                <h3>İndir</h3>
-                                                <form enctype="multipart/form-data" asp-action="Intern1Main" asp-controller="Student" enctype="multipart/form-data">
-
-                                                    <input value="caner" hidden type="text" id="myFile" />
-                                                    <button type="submit">İndir</button>
-
-                                                </form>
-
-                                                <h3>Güncelle</h3>
-                                                <form>
-                                                    <div class="form-group">
-                                                        <label asp-for="@Model.Intern1s.DetailDocument"></label>
-                                                        <input type="file" asp-for="Intern1s.DetailDocument" />
-                                                        <button type="submit">Güncelle</button>
-                                                    </div>
-                                                </form>
-
-                                                <h3 class="bg-danger">@ViewBag.info</h3>
-                                            }
-                                            else
-                                            {
-                                                <h3 class="bg-danger">Stajınız başarılı bir şekilde kabul edilmiştir:</h3>
-                                                <h3 class="bg-danger">Kabul edilen Günler Aşağıda Verilmiştir ; </h3>
-                                                <h3 class="bg-danger">@ViewBag.OkDays</h3>
-                                            }
+                                            <h3 class="mt-5 text-center bg-success text-dark">Staj Defteri Onaylandı !.</h3>
+                                            <h3 class="mt-5 text-center bg-info text-secondary">Onaylanan Günler :<span class="text-light">@ViewData["DaysOk"]<span></span></h3>
                                         }
                                         else
                                         {
-                                            <h3>Sisteme Dosya Yükle</h3>
-                                            <form>
-                                                <div class="form-group">
-                                                    <input hidden type="text" id="fakeNumber" name="fakeNumber" value="1" />
-                                                    <label asp-for="@Model.Intern1s.DetailDocument"></label>
-                                                    <input type="file" asp-for="Intern1s.DetailDocument" />
-                                                    <button type="submit">Gönder</button>
-                                                </div>
-                                            </form>
+                                            @using (Html.BeginForm("downloadDefter", "Student", FormMethod.Post))
+                                            {
+                                                <input type="submit" id="btnCancel" value="Indir" />
+                                            }
+                                            <h3>Dosya Seç Ve Güncelle</h3>
+                                            @using (Html.BeginForm("uploadDefter", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                            {
+                                                <input type="file" id="file" name="file" />
+
+                                                <input type="submit" id="btnCancel" value="Güncelle" />
+                                            }
                                         }
                                     }
                                     else
                                     {
-                                        <h3 class="text-danger bg-info">STAJ DEFTERİ SİSTEME YÜKLENME SÜRESİ GEÇTİ !.</h3>
+                                        <h3 class="mt-5 text-center bg-success text-dark">Staj Başvuru Formu Onaylandı !.</h3>
+                                        <h3>Staj Defterini Yükle</h3>
+                                        @using (Html.BeginForm("uploadDefter", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            <input type="file" id="file" name="file" />
+
+                                            <input type="submit" id="btnCancel" value="Kaydet" />
+                                        }
                                     }
                                 }
-
+                                else
+                                {
+                                    <h3 class="mt-5 text-center bg-danger text-dark">Staj Defteri Yükleme Süresi Daha Yayınlanmadı veya Süresi Geçti</h3>
+                                    <h3 class="mt-5 text-center bg-danger text-dark">Anasayfadaki Tarihleri Kontrol Edin !.</h3>
+                                }
                             }
                             else
                             {
-                                <h3>Sisteme Dosya Yükle</h3>
-                                <form>
-                                    <div class="form-group">
-                                        <input hidden type="text" id="fakeNumber" name="fakeNumber" value="1" />
-                                        <label asp-for="@Model.Intern1s.DetailDocument"></label>
-                                        <input type="file" asp-for="Intern1s.DetailDocument" />
-                                        <button type="submit">Gönder</button>
-                                    </div>
-                                </form>
+
+                                if (ViewBag.tarihOkey == true)
+                                {
+                                    <a class="text-info text-xl" asp-action="Intern1Page" asp-controller="Student"><span>Dosya Yarat</span></a>
+                                    <h3>Staj Başvuru Formunu İndir</h3>
+                                    @using (Html.BeginForm("download", "Student", FormMethod.Post))
+                                    {
+                                        <input type="submit" id="btnCancel" value="Indir" />
+                                    }
+                                    if (ViewData["myError"] != null)
+                                    {
+                                        <h3 class="mt-5 text-center bg-danger text-dark">@ViewData["myError"]</h3>
+                                    }
+
+                                    <h3>Dosya Seç Ve Güncelle</h3>
+                                    @using (Html.BeginForm("upload", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+                                        <input type="file" id="file" name="file" />
+
+                                        <input type="submit" id="btnCancel" value="Güncelle" />
+                                    }
+                                }
+                                else
+                                {
+                                    <h3 class="mt-5 text-center bg-danger text-dark">Staj Başvuru Güncelleme için Ayrılan Süre Zarfi Gecikti !.</h3>
+                                }
                             }
                         }
                         else
                         {
-                            <h3 class="text-danger bg-info">STAJ BAŞVURU FORMU SİSTEME YÜKLENME SÜRESİ GEÇTİ !.</h3>
+                            if (ViewBag.tarihOkey == true)
+                            {
+                                <a class="text-info" asp-action="Intern1Page" asp-controller="Student"><span>Dosya Yarat</span></a>
+                                <h3>Sisteme Dosya Yükle</h3>
+                                @using (Html.BeginForm("upload", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    <label asp-for="Intern1s.DetailDocument"></label>
+                                    <input type="file" id="file" name="file" />
+
+                                    <input type="submit" id="btnCancel" value="Cancel" />
+                                }
+                                <a asp-action="Intern1Page" asp-controller="Student"><span>Dosya Yarat</span></a>
+                            }
+                            else
+                            {
+                                <h3 class="mt-5 text-center bg-danger text-dark">Staj Başvuru Yükleme Süresi Daha Yayınlanmadı veya Süresi Geçti</h3>
+                                <h3 class="mt-5 text-center bg-danger text-dark">Anasayfadaki Tarihleri Kontrol Edin !.</h3>
+                            }
                         }
+
+                    }
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    }
+</div>            
