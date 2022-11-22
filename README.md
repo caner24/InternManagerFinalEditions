@@ -24,22 +24,18 @@ InternManagerFinal.Editions.Collaborators by ; Caner Ay Celep, Eyüp Ayaz , İsa
 <img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/boss-1.png">
 </li>
 </br>
-<li>Komisyon
-</br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/KOM-1.png">
-</li>
 <li>Komisyon Main
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/KOM-1.png">
+<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/Kom-1.png">
 </li>
 </br>
 <li>Komisyon List Teachers
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/KOM-2.png">
+<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/Kom-2.png">
 </li>
 <li>Komisyon Add Teachers To Students
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/KOM-3.png">
+<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/Kom-3.png">
 </li>
 </br>
 <li>Mail Students - 1
